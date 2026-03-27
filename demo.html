@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMMAND — MVP Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b11;--bg2:#0c1018;--bg3:#10141f;
+  --surf:#151c2c;--surf2:#1a2235;--surf3:#1e2840;
+  --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.11);--brd3:rgba(255,255,255,0.18);
+  --amber:#f0a030;--amber2:rgba(240,160,48,0.12);--amber3:rgba(240,160,48,0.06);
+  --teal:#1fd4a0;--teal2:rgba(31,212,160,0.12);
+  --red:#e85050;--red2:rgba(232,80,80,0.12);
+  --blue:#4a9eff;--blue2:rgba(74,158,255,0.12);
+  --tx:#eceef4;--tx2:#7a8099;--tx3:#404660;--tx4:#2a2f45;
+  --mono:'Space Mono',monospace;
+  --display:'Syne',sans-serif;
+  --sans:'DM Sans',sans-serif;
+  --radius:6px;--radius-lg:10px;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(240,160,48,.6)}50%{box-shadow:0 0 0 5px rgba(240,160,48,0)}}
+@keyframes beatteal{0%,100%{box-shadow:0 0 0 0 rgba(31,212,160,.5)}50%{box-shadow:0 0 0 4px rgba(31,212,160,0)}}
+@keyframes beatred{0%,100%{box-shadow:0 0 0 0 rgba(232,80,80,.5)}50%{box-shadow:0 0 0 4px rgba(232,80,80,0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slidein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes progfill{from{width:0}to{width:var(--w)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pulse-glow{0%,100%{opacity:.4}50%{opacity:.9}}
+
+/* ── SCANLINES ── */
+.scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.018;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
+
+/* ── SHELL ── */
+.app{display:grid;grid-template-rows:48px 1fr;height:100vh}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--bg3);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:16px;z-index:50}
+.tb-logo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;margin-right:8px}
+.tb-pulse{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:beat 2.2s infinite}
+.tb-nav{display:flex;gap:2px;flex:1}
+.tb-btn{background:none;border:none;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--tx3);padding:6px 14px;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:all .15s;position:relative}
+.tb-btn:hover{background:rgba(255,255,255,.04);color:var(--tx2)}
+.tb-btn.active{background:var(--amber2);color:var(--amber)}
+.tb-btn .badge{position:absolute;top:3px;right:6px;background:var(--amber);color:#080b11;font-size:7px;font-weight:700;padding:1px 4px;border-radius:2px;font-family:var(--mono)}
+.tb-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.tb-workspace{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.08em;border:1px solid var(--brd);padding:4px 10px;border-radius:3px}
+.tb-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--teal);letter-spacing:.06em}
+.tb-statusdot{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:beatteal 2s infinite}
+.tb-clock{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.06em}
+
+/* ── MAIN AREA ── */
+.main{display:grid;grid-template-columns:200px 1fr;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--bg2);border-right:1px solid var(--brd);display:flex;flex-direction:column;overflow-y:auto}
+.sb-section{padding:14px 0 6px}
+.sb-label{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--tx4);text-transform:uppercase;padding:0 14px 6px;display:block}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:12px;color:var(--tx2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;position:relative}
+.sb-item:hover{background:rgba(255,255,255,.03);color:var(--tx)}
+.sb-item.active{background:var(--amber3);color:var(--amber);border-left-color:var(--amber)}
+.sb-item svg{flex-shrink:0;opacity:.6}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:var(--amber);color:#080b11;font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 5px;border-radius:2px}
+.sb-badge.teal{background:var(--teal);color:#080b11}
+.sb-badge.red{background:var(--red)}
+.sb-div{height:1px;background:var(--brd);margin:6px 12px}
+.sb-agent{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;transition:background .15s}
+.sb-agent:hover{background:rgba(255,255,255,.03)}
+.sb-adot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sb-aname{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--tx2);flex:1}
+.sb-astatus{font-family:var(--mono);font-size:7px;letter-spacing:.06em}
+
+/* ── CONTENT PANEL ── */
+.panel{overflow-y:auto;background:var(--bg);display:none}
+.panel.active{display:flex;flex-direction:column}
+
+/* ── PANEL HEADER ── */
+.ph{padding:18px 24px 14px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ph-left{}
+.ph-eye{font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.ph-eye::before{content:'';display:inline-block;width:12px;height:1px;background:var(--amber)}
+.ph-title{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.02em}
+.ph-sub{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em;margin-top:3px}
+.ph-right{display:flex;gap:8px;align-items:center}
+.ph-btn{background:var(--surf);border:1px solid var(--brd2);color:var(--tx2);font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:7px 14px;border-radius:4px;cursor:pointer;transition:all .15s;text-transform:uppercase}
+.ph-btn:hover{border-color:var(--brd3);color:var(--tx)}
+.ph-btn.primary{background:var(--amber);color:#080b11;border-color:var(--amber);font-weight:700}
+.ph-btn.primary:hover{background:#f5b84a}
+
+/* ── STAT ROW ── */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 24px;flex-shrink:0}
+.stat{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius);padding:14px 16px}
+.stat-label{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:var(--display);font-size:26px;font-weight:700;line-height:1;margin-bottom:3px}
+.stat-meta{font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.06em}
+
+/* ── AGENT TABLE ── */
+.section-wrap{padding:0 24px 20px;flex:1}
+.section-title{font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.agent-table{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.at-head{display:grid;grid-template-columns:1.4fr 1fr 1.8fr .8fr .6fr;padding:9px 16px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase}
+.at-row{display:grid;grid-template-columns:1.4fr 1fr 1.8fr .8fr .6fr;padding:12px 16px;border-bottom:1px solid var(--brd);align-items:center;cursor:pointer;transition:background .12s;animation:slidein .3s ease both}
+.at-row:last-child{border-bottom:none}
+.at-row:hover{background:rgba(255,255,255,.025)}
+.at-row.selected{background:var(--amber3)}
+.agent-name{font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-on{background:var(--teal);animation:beatteal 2s infinite}
+.dot-warn{background:var(--amber);animation:beat 1.4s infinite}
+.dot-off{background:var(--tx4)}
+.dot-err{background:var(--red);animation:beatred 1.4s infinite}
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:7px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.07em;text-transform:uppercase}
+.pill-on{background:var(--teal2);color:var(--teal)}
+.pill-warn{background:var(--amber2);color:var(--amber)}
+.pill-off{background:rgba(64,70,96,.2);color:var(--tx3)}
+.pill-err{background:var(--red2);color:var(--red)}
+.at-task{font-size:11px;color:var(--tx2)}
+.prog-wrap{display:flex;flex-direction:column;gap:3px}
+.prog-bar{height:3px;background:var(--surf2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+.prog-pct{font-family:var(--mono);font-size:7px;color:var(--tx3)}
+.at-time{font-family:var(--mono);font-size:8px;color:var(--tx3)}
+
+/* ── LOG ── */
+.log-wrap{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden}
+.log-head{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase}
+.log-live{display:flex;align-items:center;gap:5px;color:var(--teal)}
+.log-entry{display:flex;gap:10px;padding:9px 14px;border-bottom:1px solid var(--brd);font-size:11px;align-items:flex-start;animation:slidein .25s ease both}
+.log-entry:last-child{border-bottom:none}
+.log-time{font-family:var(--mono);font-size:8px;color:var(--tx3);white-space:nowrap;min-width:48px;padding-top:1px;flex-shrink:0}
+.log-body{flex:1}
+.log-msg{color:var(--tx2);line-height:1.4;margin-bottom:3px}
+.log-tag{display:inline-block;font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:.07em;text-transform:uppercase}
+.tag-handoff{background:rgba(240,160,48,.15);color:var(--amber)}
+.tag-warn{background:var(--red2);color:var(--red)}
+.tag-routed{background:var(--teal2);color:var(--teal)}
+.tag-info{background:var(--blue2);color:var(--blue)}
+.tag-complete{background:var(--teal2);color:var(--teal)}
+
+/* ── AGENT DETAIL DRAWER ── */
+.drawer{position:absolute;right:0;top:0;bottom:0;width:320px;background:var(--bg2);border-left:1px solid var(--brd2);z-index:20;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .22s ease;pointer-events:none}
+.drawer.open{transform:translateX(0);pointer-events:all}
+.drawer-head{padding:16px 18px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.drawer-title{font-family:var(--display);font-size:15px;font-weight:700}
+.drawer-close{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:18px;padding:2px 6px;border-radius:3px;transition:all .15s}
+.drawer-close:hover{background:rgba(255,255,255,.06);color:var(--tx)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px}
+.drow{margin-bottom:14px}
+.drow-label{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:5px}
+.drow-val{font-size:12px;color:var(--tx2);line-height:1.5}
+.drow-val.mono{font-family:var(--mono);font-size:10px;color:var(--amber)}
+.drawer-actions{padding:14px 18px;border-top:1px solid var(--brd);display:flex;gap:8px}
+.da-btn{flex:1;padding:9px;border-radius:4px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;border:1px solid var(--brd2);background:var(--surf);color:var(--tx2)}
+.da-btn:hover{border-color:var(--brd3);color:var(--tx)}
+.da-btn.amber{background:var(--amber);color:#080b11;border-color:var(--amber);font-weight:700}
+.da-btn.amber:hover{background:#f5b84a}
+
+/* ── TASK ROUTER PANEL ── */
+.router-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;padding:16px 24px;flex:1;overflow:hidden}
+.router-left{display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.router-right{display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.compose-box{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden}
+.cb-head{padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase}
+.cb-body{padding:16px}
+.cb-label{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase;margin-bottom:6px}
+.cb-textarea{width:100%;background:var(--bg2);border:1px solid var(--brd2);border-radius:4px;padding:12px 14px;font-family:var(--sans);font-size:13px;color:var(--tx);outline:none;resize:none;transition:border-color .2s;line-height:1.6}
+.cb-textarea:focus{border-color:rgba(240,160,48,.4)}
+.cb-textarea::placeholder{color:var(--tx3)}
+.cb-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cb-select{width:100%;background:var(--bg2);border:1px solid var(--brd2);border-radius:4px;padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--tx2);outline:none;cursor:pointer;transition:border-color .2s}
+.cb-select:focus{border-color:rgba(240,160,48,.4)}
+.cb-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.queue-box{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden}
+.queue-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .12s;animation:slidein .25s ease both}
+.queue-item:last-child{border-bottom:none}
+.queue-item:hover{background:rgba(255,255,255,.02)}
+.queue-item.active-task{background:var(--amber3);border-left:2px solid var(--amber)}
+.qi-icon{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
+.qi-body{flex:1;min-width:0}
+.qi-title{font-size:12px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qi-meta{font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.06em;display:flex;gap:8px;flex-wrap:wrap}
+.qi-status{font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;margin-left:auto;flex-shrink:0;align-self:flex-start;margin-top:2px}
+.routing-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);padding:16px}
+.rc-title{font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:12px}
+.rc-agent{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius);border:1px solid var(--brd);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.rc-agent:hover{border-color:var(--brd2);background:rgba(255,255,255,.02)}
+.rc-agent.selected{border-color:rgba(240,160,48,.4);background:var(--amber3)}
+.rc-adot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rc-info{flex:1}
+.rc-aname{font-size:12px;font-weight:500;margin-bottom:2px}
+.rc-acap{font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.04em}
+.rc-load{font-family:var(--mono);font-size:8px;color:var(--tx3);text-align:right}
+
+/* ── CONTEXT BRIDGE PANEL ── */
+.bridge-wrap{padding:16px 24px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.bridge-flow{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden}
+.bf-head{padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
+.transfer-row{display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:stretch}
+.transfer-agent{padding:20px 20px;display:flex;flex-direction:column;gap:8px}
+.ta-label{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:4px}
+.ta-name{font-family:var(--display);font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ta-items{display:flex;flex-direction:column;gap:4px}
+.ta-item{background:var(--bg2);border:1px solid var(--brd);border-radius:4px;padding:7px 10px;font-size:11px;color:var(--tx2);display:flex;align-items:center;gap:6px}
+.ta-item.transferred{border-color:rgba(31,212,160,.3);background:rgba(31,212,160,.05)}
+.ta-item.transferring{border-color:rgba(240,160,48,.3);background:rgba(240,160,48,.05);animation:pulse-glow 1s infinite}
+.transfer-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--brd);border-right:1px solid var(--brd);background:var(--bg3);gap:8px;padding:16px 8px}
+.arrow-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.transfer-arrow{font-size:22px;color:var(--amber)}
+.transfer-pct{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:700}
+.transfer-lbl{font-family:var(--mono);font-size:7px;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase;text-align:center}
+.ctx-items-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 16px;border-top:1px solid var(--brd)}
+.ctx-item{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius);padding:12px 14px}
+.ctx-item.done{border-color:rgba(31,212,160,.25);background:rgba(31,212,160,.04)}
+.ctx-item.pending{border-color:rgba(240,160,48,.2);background:rgba(240,160,48,.03)}
+.ctx-item-label{font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.ctx-item-val{font-size:11px;color:var(--tx2);line-height:1.5}
+.ctx-check{color:var(--teal);font-size:10px}
+.ctx-pend{color:var(--amber);font-size:10px}
+.bridge-controls{display:flex;gap:10px;align-items:center;padding:14px 16px;border-top:1px solid var(--brd);background:var(--bg3)}
+.bridge-progress{flex:1;height:4px;background:var(--surf2);border-radius:2px;overflow:hidden}
+.bridge-prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--teal));border-radius:2px;transition:width .4s ease}
+.bridge-pct-label{font-family:var(--mono);font-size:9px;color:var(--amber);min-width:32px;text-align:right}
+
+/* ── APPROVAL QUEUE ── */
+.aq-wrap{padding:16px 24px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.aq-item{background:var(--surf);border:1px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden;animation:slidein .3s ease both}
+.aq-head{padding:12px 16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:12px}
+.aq-num{font-family:var(--mono);font-size:8px;font-weight:700;color:var(--amber);letter-spacing:.1em;background:var(--amber2);padding:3px 8px;border-radius:3px}
+.aq-title{font-size:13px;font-weight:500;flex:1}
+.aq-priority{font-family:var(--mono);font-size:7px;font-weight:700;padding:3px 7px;border-radius:3px;letter-spacing:.08em;text-transform:uppercase}
+.aq-priority.high{background:var(--red2);color:var(--red)}
+.aq-priority.med{background:var(--amber2);color:var(--amber)}
+.aq-body{padding:12px 16px}
+.aq-desc{font-size:12px;color:var(--tx2);line-height:1.65;margin-bottom:10px}
+.aq-deadline{font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.06em;margin-bottom:12px}
+.aq-actions{display:flex;gap:8px}
+.aq-btn{padding:8px 20px;border-radius:4px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;font-weight:700}
+.aq-btn.approve{background:var(--teal);color:#080b11;border:none}
+.aq-btn.approve:hover{background:#2ae8b0}
+.aq-btn.defer{background:transparent;color:var(--tx3);border:1px solid var(--brd2)}
+.aq-btn.defer:hover{border-color:var(--brd3);color:var(--tx2)}
+.aq-btn.decline{background:transparent;color:var(--red);border:1px solid rgba(232,80,80,.2)}
+.aq-btn.decline:hover{background:var(--red2)}
+.aq-approved{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--teal);padding:8px 12px;background:var(--teal2);border-radius:4px;letter-spacing:.06em}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surf2);border:1px solid var(--brd2);border-radius:var(--radius);padding:12px 18px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--tx);z-index:1000;display:flex;align-items:center;gap:10px;animation:slidein .25s ease;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.toast-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.toast.hidden{display:none}
+
+/* ── EMPTY STATE ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;opacity:.4;padding:40px}
+.empty-icon{font-size:32px}
+.empty-title{font-family:var(--display);font-size:14px;font-weight:600}
+.empty-sub{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--tx3);text-align:center}
+
+/* ── ROUTING ANIMATION ── */
+.routing-indicator{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:.06em}
+.routing-spinner{width:10px;height:10px;border:1.5px solid var(--amber2);border-top-color:var(--amber);border-radius:50%;animation:spin .6s linear infinite}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surf2);border-radius:2px}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="tb-logo"><div class="tb-pulse"></div>COMMAND</div>
+    <div class="tb-nav">
+      <button class="tb-btn active" onclick="switchPanel('dashboard')">&#9632; Agent Status</button>
+      <button class="tb-btn" onclick="switchPanel('router')">&#8644; Task Router <span class="badge" id="router-badge">3</span></button>
+      <button class="tb-btn" onclick="switchPanel('bridge')">&#8660; Context Bridge</button>
+      <button class="tb-btn" onclick="switchPanel('approvals')">&#9998; Approvals <span class="badge" id="aq-badge" style="background:var(--red)">2</span></button>
+    </div>
+    <div class="tb-right">
+      <div class="tb-workspace">GL / COMMAND</div>
+      <div class="tb-status"><div class="tb-statusdot"></div>System Nominal</div>
+      <div class="tb-clock" id="main-clock">--:--:--</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" style="position:relative">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sb-section">
+        <span class="sb-label">Navigation</span>
+        <div class="sb-item active" onclick="switchPanel('dashboard')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="7" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="7" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+          Agent Status
+        </div>
+        <div class="sb-item" onclick="switchPanel('router')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 4h9M2 9h9M8 2l3 2-3 2M5 7l-3 2 3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Task Router <span class="sb-badge" id="sb-router-badge">3</span>
+        </div>
+        <div class="sb-item" onclick="switchPanel('bridge')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M6.5 2l4.5 4.5L6.5 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Context Bridge
+        </div>
+        <div class="sb-item" onclick="switchPanel('approvals')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M10 4L5.5 8.5 3 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/></svg>
+          Approvals <span class="sb-badge red" id="sb-aq-badge">2</span>
+        </div>
+      </div>
+      <div class="sb-div"></div>
+      <div class="sb-section">
+        <span class="sb-label">Agents</span>
+        <div class="sb-agent" onclick="openDrawer('COMMAND-0','Active','Gap audit · Phase 0 close','78','Senior Manager Agent','Strategic ops, gap audits, digest generation, task dispatch')">
+          <div class="sb-adot dot-on"></div>
+          <div class="sb-aname">COMMAND-0</div>
+          <div class="sb-astatus" style="color:var(--teal)">78%</div>
+        </div>
+        <div class="sb-agent" onclick="openDrawer('FORGE-1','Active','Repo scaffold · Next.js init','45','Build Execution Agent','Code scaffolds, technical specs, SOPs, architecture docs')">
+          <div class="sb-adot dot-on"></div>
+          <div class="sb-aname">FORGE-1</div>
+          <div class="sb-astatus" style="color:var(--teal)">45%</div>
+        </div>
+        <div class="sb-agent" onclick="openDrawer('RECON-1','Stalled','ICP research · Rate limited','33','Research & Intelligence Agent','ICP profiling, competitor monitoring, market signals, intel briefs')">
+          <div class="sb-adot dot-warn"></div>
+          <div class="sb-aname">RECON-1</div>
+          <div class="sb-astatus" style="color:var(--amber)">Stalled</div>
+        </div>
+        <div class="sb-agent" onclick="openDrawer('SIGNAL-1','Idle','Awaiting task dispatch','0','GTM Execution Agent','Copy drafts, email sequences, social content, pitch deck text')">
+          <div class="sb-adot dot-off"></div>
+          <div class="sb-aname">SIGNAL-1</div>
+          <div class="sb-astatus" style="color:var(--tx3)">Idle</div>
+        </div>
+      </div>
+      <div class="sb-div"></div>
+      <div class="sb-section">
+        <span class="sb-label">System</span>
+        <div class="sb-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 4v3l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Activity Log
+        </div>
+        <div class="sb-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M2 11c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Settings
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PANEL 1: DASHBOARD ══════════════ -->
+    <div class="panel active" id="panel-dashboard" style="position:relative">
+      <div class="ph">
+        <div class="ph-left">
+          <div class="ph-eye">Agent Status Dashboard</div>
+          <div class="ph-title">Operations Overview</div>
+          <div class="ph-sub" id="dash-sub">GL / COMMAND &middot; 4 agents &middot; 2 active &middot; 1 warning &middot; last sync just now</div>
+        </div>
+        <div class="ph-right">
+          <button class="ph-btn" onclick="refreshDash()">&#8635; Refresh</button>
+          <button class="ph-btn primary" onclick="switchPanel('router')">+ New Task</button>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-label">Active Agents</div>
+          <div class="stat-val" style="color:var(--teal)">2</div>
+          <div class="stat-meta">of 4 total</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Queued Tasks</div>
+          <div class="stat-val" style="color:var(--amber)" id="stat-queued">3</div>
+          <div class="stat-meta">pending dispatch</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Handoffs Today</div>
+          <div class="stat-val" id="stat-handoffs">7</div>
+          <div class="stat-meta">context preserved</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Warnings</div>
+          <div class="stat-val" style="color:var(--amber)">1</div>
+          <div class="stat-meta">RECON-1 stalled</div>
+        </div>
+      </div>
+
+      <div class="section-wrap">
+        <div class="section-title">
+          <span>Agent Roster</span>
+          <span style="font-weight:400;color:var(--tx3)">Click any row for details</span>
+        </div>
+        <div class="agent-table">
+          <div class="at-head"><div>Agent</div><div>Status</div><div>Current Task</div><div>Progress</div><div>Updated</div></div>
+          <div class="at-row" onclick="openDrawer('COMMAND-0','Active','Gap audit · Phase 0 close','78','Senior Manager Agent','Strategic ops, gap audits, digest generation, task dispatch')" id="row-cmd0">
+            <div class="agent-name"><div class="adot dot-on"></div>COMMAND-0</div>
+            <div><span class="status-pill pill-on">&#9679; Active</span></div>
+            <div class="at-task">Gap audit · Phase 0 close</div>
+            <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" id="pf-cmd0" style="width:0%;background:var(--teal)"></div></div><div class="prog-pct">78%</div></div>
+            <div class="at-time" id="t-cmd0">--:--</div>
+          </div>
+          <div class="at-row" onclick="openDrawer('FORGE-1','Active','Repo scaffold · Next.js init','45','Build Execution Agent','Code scaffolds, technical specs, SOPs, architecture docs')" id="row-forge1">
+            <div class="agent-name"><div class="adot dot-on"></div>FORGE-1</div>
+            <div><span class="status-pill pill-on">&#9679; Active</span></div>
+            <div class="at-task">Repo scaffold · Next.js init</div>
+            <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" id="pf-forge1" style="width:0%;background:var(--teal)"></div></div><div class="prog-pct">45%</div></div>
+            <div class="at-time" id="t-forge1">--:--</div>
+          </div>
+          <div class="at-row" onclick="openDrawer('RECON-1','Stalled','ICP research · Rate limited','33','Research & Intelligence Agent','ICP profiling, competitor monitoring, market signals, intel briefs')" id="row-recon1">
+            <div class="agent-name"><div class="adot dot-warn"></div>RECON-1</div>
+            <div><span class="status-pill pill-warn">&#9888; Stalled</span></div>
+            <div class="at-task">ICP research · Rate limited</div>
+            <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" id="pf-recon1" style="width:0%;background:var(--amber)"></div></div><div class="prog-pct">33%</div></div>
+            <div class="at-time" id="t-recon1">--:--</div>
+          </div>
+          <div class="at-row" onclick="openDrawer('SIGNAL-1','Idle','Awaiting task dispatch','0','GTM Execution Agent','Copy drafts, email sequences, social content, pitch deck text')" id="row-signal1">
+            <div class="agent-name"><div class="adot dot-off"></div>SIGNAL-1</div>
+            <div><span class="status-pill pill-off">&mdash; Idle</span></div>
+            <div class="at-task" style="color:var(--tx3)">Awaiting task dispatch</div>
+            <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div><div class="prog-pct">&mdash;</div></div>
+            <div class="at-time" id="t-signal1">--:--</div>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:16px"><span>Context Handoff Log</span><span class="log-live"><span style="width:5px;height:5px;border-radius:50%;background:var(--teal);animation:beatteal 1.5s infinite;display:inline-block"></span>Live</span></div>
+        <div class="log-wrap" id="main-log">
+          <div class="log-entry">
+            <div class="log-time" id="log-t1">--:--:--</div>
+            <div class="log-body"><div class="log-msg">COMMAND-0 → FORGE-1 context bundle dispatched · 14 keys preserved</div><span class="log-tag tag-handoff">Handoff</span></div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time" id="log-t2">--:--:--</div>
+            <div class="log-body"><div class="log-msg">RECON-1 stall detected — rate limit hit · context snapshot saved</div><span class="log-tag tag-warn">Warning</span></div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time" id="log-t3">--:--:--</div>
+            <div class="log-body"><div class="log-msg">AQ-004 routed to approval queue · awaiting Jason decision</div><span class="log-tag tag-routed">Routed</span></div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time" id="log-t4">--:--:--</div>
+            <div class="log-body"><div class="log-msg">FORGE-1 output deposited → /COMMAND/Build/ · repo scaffold v1</div><span class="log-tag tag-complete">Complete</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENT DETAIL DRAWER -->
+      <div class="drawer" id="agent-drawer">
+        <div class="drawer-head">
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:4px" id="dr-role">Role</div>
+            <div class="drawer-title" id="dr-name">Agent</div>
+          </div>
+          <button class="drawer-close" onclick="closeDrawer()">&#10005;</button>
+        </div>
+        <div class="drawer-body">
+          <div class="drow"><div class="drow-label">Status</div><div class="drow-val" id="dr-status">—</div></div>
+          <div class="drow"><div class="drow-label">Current Task</div><div class="drow-val" id="dr-task">—</div></div>
+          <div class="drow"><div class="drow-label">Capabilities</div><div class="drow-val" id="dr-caps">—</div></div>
+          <div class="drow"><div class="drow-label">Progress</div>
+            <div class="prog-wrap" style="margin-top:4px">
+              <div class="prog-bar" style="height:5px"><div class="prog-fill" id="dr-prog" style="width:0%;background:var(--teal);transition:width .6s ease"></div></div>
+              <div class="prog-pct" id="dr-pct" style="margin-top:3px">—</div>
+            </div>
+          </div>
+          <div class="drow"><div class="drow-label">Output Directory</div><div class="drow-val mono" id="dr-dir">—</div></div>
+          <div class="drow"><div class="drow-label">Webhook Path</div><div class="drow-val mono" id="dr-webhook">—</div></div>
+        </div>
+        <div class="drawer-actions">
+          <button class="da-btn" id="dr-restart-btn" onclick="restartAgent()">&#8635; Restart</button>
+          <button class="da-btn" onclick="switchPanel('router');closeDrawer()">+ Assign Task</button>
+          <button class="da-btn amber" id="dr-primary-btn">View Outputs</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PANEL 2: TASK ROUTER ══════════════ -->
+    <div class="panel" id="panel-router">
+      <div class="ph">
+        <div class="ph-left">
+          <div class="ph-eye">Task Router</div>
+          <div class="ph-title">Route &amp; Dispatch</div>
+          <div class="ph-sub">Assign tasks to agents · COMMAND handles the handoff</div>
+        </div>
+        <div class="ph-right">
+          <button class="ph-btn primary" onclick="clearCompose()">+ New Task</button>
+        </div>
+      </div>
+
+      <div class="router-grid">
+        <div class="router-left">
+          <!-- COMPOSE -->
+          <div class="compose-box">
+            <div class="cb-head">New Task</div>
+            <div class="cb-body">
+              <div class="cb-label">Task Description</div>
+              <textarea class="cb-textarea" id="task-input" rows="4" placeholder="Describe what needs to be done&#10;&#10;e.g. Research the top 10 boutique AI consulting firms in the US that match our ICP and compile contact info..."></textarea>
+              <div class="cb-row">
+                <div>
+                  <div class="cb-label">Priority</div>
+                  <select class="cb-select" id="task-priority">
+                    <option>High</option>
+                    <option selected>Normal</option>
+                    <option>Low</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="cb-label">Route to</div>
+                  <select class="cb-select" id="task-agent">
+                    <option value="">Auto-route</option>
+                    <option value="COMMAND-0">COMMAND-0</option>
+                    <option value="FORGE-1">FORGE-1</option>
+                    <option value="RECON-1">RECON-1</option>
+                    <option value="SIGNAL-1">SIGNAL-1</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cb-actions">
+                <button class="ph-btn" onclick="clearCompose()">Clear</button>
+                <button class="ph-btn primary" onclick="dispatchTask()">&#9658; Dispatch Task</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROUTING SUGGESTION -->
+          <div class="routing-card" id="routing-suggestion" style="display:none">
+            <div class="rc-title">Smart Route Suggestion</div>
+            <div id="rc-agents"></div>
+            <div style="font-family:var(--mono);font-size:8px;color:var(--tx3);margin-top:8px;letter-spacing:.04em" id="rc-reason"></div>
+          </div>
+        </div>
+
+        <div class="router-right">
+          <div class="queue-box">
+            <div class="log-head">
+              Task Queue
+              <span style="font-family:var(--mono);font-size:8px;color:var(--tx3)" id="queue-count">3 tasks</span>
+            </div>
+            <div id="task-queue">
+              <div class="queue-item" onclick="selectTask(this,'Compile ICP research list — 10 boutique consulting firms matching COMMAND target profile','RECON-1','Research','Normal')">
+                <div class="qi-icon" style="background:var(--teal2)">🔍</div>
+                <div class="qi-body">
+                  <div class="qi-title">ICP Research List — 10 targets</div>
+                  <div class="qi-meta"><span>RECON-1</span><span>Research</span><span>Normal</span></div>
+                </div>
+                <div class="qi-status pill-warn">Queued</div>
+              </div>
+              <div class="queue-item" onclick="selectTask(this,'Draft 3-touch cold outreach email sequence for Founding Member program targeting boutique consulting operators','SIGNAL-1','GTM','High')">
+                <div class="qi-icon" style="background:var(--amber2)">✉️</div>
+                <div class="qi-body">
+                  <div class="qi-title">Founding Member Outreach Sequence</div>
+                  <div class="qi-meta"><span>SIGNAL-1</span><span>GTM</span><span>High</span></div>
+                </div>
+                <div class="qi-status pill-warn">Queued</div>
+              </div>
+              <div class="queue-item" onclick="selectTask(this,'Scaffold Next.js 16 project with Tailwind 4, shadcn/ui, Zustand, and Dexie — command-app repo','FORGE-1','Build','High')">
+                <div class="qi-icon" style="background:var(--blue2)">🏗️</div>
+                <div class="qi-body">
+                  <div class="qi-title">Next.js App Scaffold — command-app</div>
+                  <div class="qi-meta"><span>FORGE-1</span><span>Build</span><span>High</span></div>
+                </div>
+                <div class="qi-status pill-on" style="background:var(--teal2);color:var(--teal)">Active</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PANEL 3: CONTEXT BRIDGE ══════════════ -->
+    <div class="panel" id="panel-bridge">
+      <div class="ph">
+        <div class="ph-left">
+          <div class="ph-eye">Context Bridge</div>
+          <div class="ph-title">Handoff &amp; Context Transfer</div>
+          <div class="ph-sub">Full context preserved · No dropped state · No copy-paste</div>
+        </div>
+        <div class="ph-right">
+          <button class="ph-btn" onclick="resetBridge()">&#8635; Reset Demo</button>
+          <button class="ph-btn primary" onclick="startBridge()">&#9658; Initiate Transfer</button>
+        </div>
+      </div>
+
+      <div class="bridge-wrap">
+        <div class="bridge-flow">
+          <div class="bf-head">
+            <span>Active Transfer — COMMAND-0 → FORGE-1</span>
+            <span id="bridge-status-label" style="color:var(--teal)">Ready</span>
+          </div>
+
+          <div class="transfer-row">
+            <div class="transfer-agent">
+              <div class="ta-label">Source Agent</div>
+              <div class="ta-name"><div class="adot dot-on" style="width:8px;height:8px"></div>COMMAND-0</div>
+              <div class="ta-items" id="source-items">
+                <div class="ta-item transferred"><span>📋</span> Gap audit results — v1.0</div>
+                <div class="ta-item transferred"><span>🎯</span> Phase 1 deliverable list</div>
+                <div class="ta-item transferred"><span>🔑</span> Project context · 4,200 tokens</div>
+                <div class="ta-item" id="si-4"><span>⚙️</span> Approval queue · AQ-001–005</div>
+                <div class="ta-item" id="si-5"><span>📅</span> Hard schedule · Mar 22–Apr 1</div>
+              </div>
+            </div>
+
+            <div class="transfer-mid">
+              <div class="arrow-wrap">
+                <div class="transfer-arrow">→</div>
+                <div class="transfer-pct" id="bridge-pct">0%</div>
+                <div class="transfer-lbl">Context<br>Bundle</div>
+              </div>
+            </div>
+
+            <div class="transfer-agent">
+              <div class="ta-label">Target Agent</div>
+              <div class="ta-name"><div class="adot dot-on" style="width:8px;height:8px;background:var(--teal)"></div>FORGE-1</div>
+              <div class="ta-items" id="target-items">
+                <div class="ta-item" id="ti-1" style="opacity:.3"><span>📋</span> Gap audit results — awaiting</div>
+                <div class="ta-item" id="ti-2" style="opacity:.3"><span>🎯</span> Phase 1 deliverables — awaiting</div>
+                <div class="ta-item" id="ti-3" style="opacity:.3"><span>🔑</span> Project context — awaiting</div>
+                <div class="ta-item" id="ti-4" style="opacity:.3"><span>⚙️</span> Approval queue — awaiting</div>
+                <div class="ta-item" id="ti-5" style="opacity:.3"><span>📅</span> Hard schedule — awaiting</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bridge-controls">
+            <div style="font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.06em;min-width:140px" id="bridge-ctrl-label">Click "Initiate Transfer" →</div>
+            <div class="bridge-progress"><div class="bridge-prog-fill" id="bridge-bar" style="width:0%"></div></div>
+            <div class="bridge-pct-label" id="bridge-bar-pct">0%</div>
+          </div>
+        </div>
+
+        <div class="ctx-items-grid">
+          <div class="ctx-item" id="ctx-1">
+            <div class="ctx-item-label">Context Keys<span class="ctx-pend" id="ctx-check-1">○</span></div>
+            <div class="ctx-item-val">14 keys · project state, phase, deliverables, AQ items, schedule, hard rules, entity config</div>
+          </div>
+          <div class="ctx-item" id="ctx-2">
+            <div class="ctx-item-label">Token Count<span class="ctx-pend" id="ctx-check-2">○</span></div>
+            <div class="ctx-item-val">4,200 tokens · within model context window · no truncation required</div>
+          </div>
+          <div class="ctx-item" id="ctx-3">
+            <div class="ctx-item-label">State Integrity<span class="ctx-pend" id="ctx-check-3">○</span></div>
+            <div class="ctx-item-val">Checksum verified · no dropped state · FORGE-1 will resume from exact handoff point</div>
+          </div>
+          <div class="ctx-item" id="ctx-4">
+            <div class="ctx-item-label">Handoff Complete<span class="ctx-pend" id="ctx-check-4">○</span></div>
+            <div class="ctx-item-val">Awaiting transfer · FORGE-1 ready to receive · no manual copy-paste required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PANEL 4: APPROVALS ══════════════ -->
+    <div class="panel" id="panel-approvals">
+      <div class="ph">
+        <div class="ph-left">
+          <div class="ph-eye">Approval Queue</div>
+          <div class="ph-title">Pending Decisions</div>
+          <div class="ph-sub" id="aq-sub">2 items require your decision · Re-notified every 72 hours</div>
+        </div>
+      </div>
+
+      <div class="aq-wrap" id="aq-list">
+        <div class="aq-item" id="aq-003">
+          <div class="aq-head">
+            <div class="aq-num">AQ-003</div>
+            <div class="aq-title">Stripe Subscription Configuration — $149/month + 14-day trial</div>
+            <div class="aq-priority high">Critical Path</div>
+          </div>
+          <div class="aq-body">
+            <div class="aq-desc">First customer cannot pay without a payment link. Stripe setup is free. Required before any beta conversation goes live. Product: COMMAND Pro · $149/month recurring · 14-day free trial · no credit card required.</div>
+            <div class="aq-deadline">⏱ Decision deadline: March 26, 2026 · 0 additional spend</div>
+            <div class="aq-actions" id="aq-003-actions">
+              <button class="aq-btn approve" onclick="approveAQ('003')">✓ Approve</button>
+              <button class="aq-btn defer" onclick="deferAQ('003')">↷ Defer 72h</button>
+              <button class="aq-btn decline" onclick="declineAQ('003')">✕ Decline</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="aq-item" id="aq-004">
+          <div class="aq-head">
+            <div class="aq-num">AQ-004</div>
+            <div class="aq-title">Beta Outreach Email Sequence — 10 ICP Targets</div>
+            <div class="aq-priority med">Revenue</div>
+          </div>
+          <div class="aq-body">
+            <div class="aq-desc">First paying customer by June 1 requires pipeline now. 3-touch sequence drafted for review. Research-framed, zero-pitch. Primary ask: 20-minute discovery call. Outreach list of 10 boutique consulting firms matching ICP profile — pending RECON-1 completion.</div>
+            <div class="aq-deadline">⏱ Decision deadline: March 28, 2026 · 0 additional spend</div>
+            <div class="aq-actions" id="aq-004-actions">
+              <button class="aq-btn approve" onclick="approveAQ('004')">✓ Approve</button>
+              <button class="aq-btn defer" onclick="deferAQ('004')">↷ Defer 72h</button>
+              <button class="aq-btn decline" onclick="declineAQ('004')">✕ Decline</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- TOAST -->
+<div class="toast hidden" id="toast">
+  <div class="toast-dot" id="toast-dot"></div>
+  <span id="toast-msg">—</span>
+</div>
+
+<script>
+// ── CLOCK ──
+function updateClock(){
+  var n=new Date();
+  var pad=function(x){return String(x).padStart(2,'0')};
+  var t=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
+  var el=document.getElementById('main-clock');
+  if(el)el.textContent=t+' EST';
+  var fmt=function(d){return pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())};
+  var offsets=[[120000,'log-t1'],[300000,'log-t2'],[660000,'log-t3'],[1200000,'log-t4']];
+  offsets.forEach(function(o){var el=document.getElementById(o[1]);if(el)el.textContent=fmt(new Date(n-o[0]))});
+  var ts=[['t-cmd0',180000],['t-forge1',420000],['t-recon1',780000],['t-signal1',3600000]];
+  ts.forEach(function(o){var el=document.getElementById(o[0]);if(el)el.textContent=fmt(new Date(n-o[1]))});
+}
+updateClock();setInterval(updateClock,1000);
+
+// ── PROGRESS BARS ──
+setTimeout(function(){
+  [['pf-cmd0','78%','var(--teal)'],['pf-forge1','45%','var(--teal)'],['pf-recon1','33%','var(--amber)']].forEach(function(b){
+    var el=document.getElementById(b[0]);
+    if(el){el.style.transition='width 1.4s ease';el.style.background=b[2];el.style.width=b[1]}
+  });
+},400);
+
+// ── PANEL SWITCHING ──
+function switchPanel(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.tb-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.sb-item').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('panel-'+id).classList.add('active');
+  var map={dashboard:0,router:1,bridge:2,approvals:3};
+  var btns=document.querySelectorAll('.tb-btn');
+  if(btns[map[id]])btns[map[id]].classList.add('active');
+  var smap={dashboard:0,router:1,bridge:2,approvals:3};
+  var sitems=document.querySelectorAll('.sb-item');
+  if(sitems[smap[id]])sitems[smap[id]].classList.add('active');
+}
+
+// ── REFRESH ──
+function refreshDash(){
+  showToast('Polling all agents...','var(--teal)');
+  setTimeout(function(){
+    document.getElementById('stat-handoffs').textContent=parseInt(document.getElementById('stat-handoffs').textContent)+1;
+    showToast('All agents synced · Status current','var(--teal)');
+  },900);
+}
+
+// ── AGENT DRAWER ──
+var drawerData={
+  'COMMAND-0':{dir:'/COMMAND/Digests/',webhook:'/webhook/command-0'},
+  'FORGE-1':{dir:'/COMMAND/Build/',webhook:'/webhook/forge-1'},
+  'RECON-1':{dir:'/COMMAND/Intelligence/',webhook:'/webhook/recon-1'},
+  'SIGNAL-1':{dir:'/COMMAND/GTM/',webhook:'/webhook/signal-1'},
+};
+function openDrawer(name,status,task,pct,role,caps){
+  document.getElementById('dr-name').textContent=name;
+  document.getElementById('dr-role').textContent=role;
+  document.getElementById('dr-status').textContent=status;
+  document.getElementById('dr-task').textContent=task;
+  document.getElementById('dr-caps').textContent=caps;
+  document.getElementById('dr-pct').textContent=pct+'%';
+  var col=status==='Active'?'var(--teal)':status==='Stalled'?'var(--amber)':'var(--tx3)';
+  var prog=document.getElementById('dr-prog');
+  prog.style.background=col;
+  setTimeout(function(){prog.style.width=pct+'%'},100);
+  var d=drawerData[name]||{};
+  document.getElementById('dr-dir').textContent=d.dir||'—';
+  document.getElementById('dr-webhook').textContent=d.webhook||'—';
+  if(status==='Stalled'){
+    document.getElementById('dr-restart-btn').style.background='var(--amber)';
+    document.getElementById('dr-restart-btn').style.color='#080b11';
+    document.getElementById('dr-restart-btn').style.borderColor='var(--amber)';
+  } else {
+    document.getElementById('dr-restart-btn').style.background='';
+    document.getElementById('dr-restart-btn').style.color='';
+    document.getElementById('dr-restart-btn').style.borderColor='';
+  }
+  document.getElementById('agent-drawer').classList.add('open');
+}
+function closeDrawer(){document.getElementById('agent-drawer').classList.remove('open')}
+function restartAgent(){
+  var name=document.getElementById('dr-name').textContent;
+  closeDrawer();
+  showToast('Restarting '+name+' · Preserving context...','var(--amber)');
+  setTimeout(function(){
+    if(name==='RECON-1'){
+      var row=document.getElementById('row-recon1');
+      row.querySelector('.status-pill').className='status-pill pill-on';
+      row.querySelector('.status-pill').textContent='● Active';
+      row.querySelector('.adot').className='adot dot-on';
+    }
+    showToast(name+' restarted · Resuming from last checkpoint','var(--teal)');
+  },1800);
+}
+
+// ── TASK ROUTER ──
+function clearCompose(){
+  document.getElementById('task-input').value='';
+  document.getElementById('task-agent').value='';
+  document.getElementById('task-priority').value='Normal';
+  document.getElementById('routing-suggestion').style.display='none';
+}
+document.getElementById('task-input').addEventListener('input',function(){
+  var v=this.value.toLowerCase();
+  var sug=document.getElementById('routing-suggestion');
+  if(v.length<10){sug.style.display='none';return}
+  sug.style.display='block';
+  var agent='RECON-1',color='var(--teal)',reason='Research and intelligence tasks → RECON-1';
+  if(v.includes('build')||v.includes('code')||v.includes('scaffold')||v.includes('repo')){agent='FORGE-1';color='var(--blue)';reason='Build and code tasks → FORGE-1'}
+  else if(v.includes('email')||v.includes('outreach')||v.includes('copy')||v.includes('social')||v.includes('draft')){agent='SIGNAL-1';color='var(--amber)';reason='GTM and content tasks → SIGNAL-1'}
+  else if(v.includes('plan')||v.includes('audit')||v.includes('strategy')||v.includes('digest')){agent='COMMAND-0';color='var(--amber)';reason='Strategic direction tasks → COMMAND-0'}
+  document.getElementById('rc-reason').textContent='Auto-route suggestion: '+reason;
+  document.getElementById('rc-agents').innerHTML='<div class="rc-agent selected"><div class="rc-adot" style="background:'+color+'"></div><div class="rc-info"><div class="rc-aname">'+agent+'</div><div class="rc-acap">Best capability match for this task type</div></div><div class="rc-load">Recommended</div></div>';
+});
+function dispatchTask(){
+  var task=document.getElementById('task-input').value.trim();
+  if(!task){showToast('Enter a task description first','var(--red)');return}
+  var agent=document.getElementById('task-agent').value;
+  var priority=document.getElementById('task-priority').value;
+  var v=task.toLowerCase();
+  if(!agent){
+    if(v.includes('build')||v.includes('code')||v.includes('scaffold'))agent='FORGE-1';
+    else if(v.includes('email')||v.includes('outreach')||v.includes('copy'))agent='SIGNAL-1';
+    else if(v.includes('plan')||v.includes('audit')||v.includes('strategy'))agent='COMMAND-0';
+    else agent='RECON-1';
+  }
+  showToast('Routing to '+agent+'...','var(--amber)');
+  var icons={'RECON-1':'🔍','FORGE-1':'🏗️','SIGNAL-1':'✉️','COMMAND-0':'⚡'};
+  var colors={'RECON-1':'var(--teal2)','FORGE-1':'var(--blue2)','SIGNAL-1':'var(--amber2)','COMMAND-0':'var(--amber2)'};
+  setTimeout(function(){
+    var shortTask=task.length>42?task.substring(0,42)+'...':task;
+    var qi=document.createElement('div');
+    qi.className='queue-item';
+    qi.innerHTML='<div class="qi-icon" style="background:'+colors[agent]+'">'+(icons[agent]||'📋')+'</div><div class="qi-body"><div class="qi-title">'+shortTask+'</div><div class="qi-meta"><span>'+agent+'</span><span>New</span><span>'+priority+'</span></div></div><div class="qi-status pill-on" style="background:var(--teal2);color:var(--teal)">Dispatched</div>';
+    var queue=document.getElementById('task-queue');
+    queue.insertBefore(qi,queue.firstChild);
+    var count=queue.querySelectorAll('.queue-item').length;
+    document.getElementById('queue-count').textContent=count+' tasks';
+    document.getElementById('router-badge').textContent=count;
+    document.getElementById('sb-router-badge').textContent=count;
+    var qStat=document.getElementById('stat-queued');
+    if(qStat)qStat.textContent=count;
+    clearCompose();
+    showToast(agent+' received task · Status: Active','var(--teal)');
+  },1000);
+}
+function selectTask(el,desc,agent,type,priority){
+  document.querySelectorAll('.queue-item').forEach(function(i){i.classList.remove('active-task')});
+  el.classList.add('active-task');
+  document.getElementById('task-input').value=desc;
+  document.getElementById('task-agent').value=agent;
+  document.getElementById('task-priority').value=priority;
+}
+
+// ── CONTEXT BRIDGE ──
+var bridgeRunning=false;
+var bridgeInterval=null;
+function startBridge(){
+  if(bridgeRunning)return;
+  bridgeRunning=true;
+  document.getElementById('bridge-status-label').textContent='Transferring...';
+  document.getElementById('bridge-status-label').style.color='var(--amber)';
+  document.getElementById('bridge-ctrl-label').textContent='Transfer in progress...';
+  var steps=[
+    {pct:20,ti:'ti-1',si:'si-4',ctx:'ctx-1',check:'ctx-check-1',label:'Transferring gap audit results...'},
+    {pct:40,ti:'ti-2',si:'si-5',ctx:'ctx-2',check:'ctx-check-2',label:'Transferring Phase 1 deliverables...'},
+    {pct:60,ti:'ti-3',ctx:'ctx-3',check:'ctx-check-3',label:'Transferring project context bundle...'},
+    {pct:80,ti:'ti-4',label:'Transferring approval queue state...'},
+    {pct:100,ti:'ti-5',ctx:'ctx-4',check:'ctx-check-4',label:'Verifying integrity · Finalizing handoff...'}
+  ];
+  var i=0;
+  bridgeInterval=setInterval(function(){
+    if(i>=steps.length){
+      clearInterval(bridgeInterval);
+      bridgeRunning=false;
+      document.getElementById('bridge-status-label').textContent='✓ Complete';
+      document.getElementById('bridge-status-label').style.color='var(--teal)';
+      document.getElementById('bridge-ctrl-label').textContent='Handoff complete · No state dropped';
+      document.getElementById('bridge-bar').style.width='100%';
+      document.getElementById('bridge-bar-pct').textContent='100%';
+      document.getElementById('bridge-pct').textContent='100%';
+      showToast('Context bridge complete · FORGE-1 ready to resume','var(--teal)');
+      // update log
+      var log=document.getElementById('main-log');
+      var entry=document.createElement('div');
+      entry.className='log-entry';
+      var now=new Date();
+      var pad=function(x){return String(x).padStart(2,'0')};
+      var t=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+      entry.innerHTML='<div class="log-time">'+t+'</div><div class="log-body"><div class="log-msg">Context bridge complete · COMMAND-0 → FORGE-1 · 5 context keys · integrity verified</div><span class="log-tag tag-complete">Complete</span></div>';
+      log.insertBefore(entry,log.firstChild);
+      var hc=document.getElementById('stat-handoffs');
+      if(hc)hc.textContent=parseInt(hc.textContent)+1;
+      return;
+    }
+    var s=steps[i];
+    document.getElementById('bridge-bar').style.width=s.pct+'%';
+    document.getElementById('bridge-bar-pct').textContent=s.pct+'%';
+    document.getElementById('bridge-pct').textContent=s.pct+'%';
+    document.getElementById('bridge-ctrl-label').textContent=s.label;
+    var ti=document.getElementById(s.ti);
+    if(ti){ti.style.opacity='1';ti.classList.add('transferred')}
+    if(s.si){var si=document.getElementById(s.si);if(si)si.classList.add('transferring')}
+    if(s.ctx){
+      var ctx=document.getElementById(s.ctx);
+      if(ctx)ctx.classList.add('done');
+      var check=document.getElementById(s.check);
+      if(check){check.className='ctx-check';check.textContent='✓'}
+    }
+    i++;
+  },700);
+}
+function resetBridge(){
+  clearInterval(bridgeInterval);
+  bridgeRunning=false;
+  document.getElementById('bridge-status-label').textContent='Ready';
+  document.getElementById('bridge-status-label').style.color='var(--teal)';
+  document.getElementById('bridge-ctrl-label').textContent='Click "Initiate Transfer" →';
+  document.getElementById('bridge-bar').style.width='0%';
+  document.getElementById('bridge-bar-pct').textContent='0%';
+  document.getElementById('bridge-pct').textContent='0%';
+  for(var i=1;i<=5;i++){
+    var ti=document.getElementById('ti-'+i);
+    if(ti){ti.style.opacity='.3';ti.classList.remove('transferred')}
+  }
+  ['si-4','si-5'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('transferring')});
+  ['ctx-1','ctx-2','ctx-3','ctx-4'].forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove('done');el.classList.remove('pending')}});
+  ['ctx-check-1','ctx-check-2','ctx-check-3','ctx-check-4'].forEach(function(id){var el=document.getElementById(id);if(el){el.className='ctx-pend';el.textContent='○'}});
+}
+
+// ── APPROVAL QUEUE ──
+var aqApproved={};
+function approveAQ(id){
+  if(aqApproved[id])return;
+  aqApproved[id]=true;
+  var actions=document.getElementById('aq-'+id+'-actions');
+  actions.innerHTML='<div class="aq-approved">✓ Approved · COMMAND-0 notified · Task dispatched</div>';
+  var badge=parseInt(document.getElementById('aq-badge').textContent||'0')-1;
+  var sb=parseInt(document.getElementById('sb-aq-badge').textContent||'0')-1;
+  document.getElementById('aq-badge').textContent=Math.max(0,badge);
+  document.getElementById('sb-aq-badge').textContent=Math.max(0,sb);
+  var sub=document.getElementById('aq-sub');
+  var remaining=Object.keys(aqApproved).length;
+  sub.textContent=(2-remaining)+' items require your decision · Re-notified every 72 hours';
+  showToast('AQ-'+id+' approved · Agent notified','var(--teal)');
+}
+function deferAQ(id){showToast('AQ-'+id+' deferred · Re-notification in 72 hours','var(--amber)')}
+function declineAQ(id){
+  document.getElementById('aq-'+id+'-actions').innerHTML='<div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:.06em">✕ Declined · COMMAND-0 notified · Alternative approach queued</div>';
+  showToast('AQ-'+id+' declined · COMMAND-0 will queue alternative','var(--red)');
+}
+
+// ── TOAST ──
+var toastTimer=null;
+function showToast(msg,color){
+  clearTimeout(toastTimer);
+  var t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  document.getElementById('toast-dot').style.background=color||'var(--teal)';
+  t.classList.remove('hidden');
+  toastTimer=setTimeout(function(){t.classList.add('hidden')},3200);
+}
+</script>
+</body>
+</html>
