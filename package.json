@@ -1,0 +1,16 @@
+{
+  "name": "command-gl",
+  "version": "1.0.0",
+  "description": "Agent Operations Center for boutique consulting firms",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static HTML - no build step required'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
