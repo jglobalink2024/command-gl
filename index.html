@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMMAND — Agent Operations Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b11;--bg2:#0c1018;--bg3:#10141f;
+  --surf:#151c2c;--surf2:#1a2235;
+  --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.11);
+  --amber:#f0a030;--teal:#1fd4a0;--red:#e85050;
+  --tx:#eceef4;--tx2:#7a8099;--tx3:#404660;
+  --mono:'Space Mono',monospace;
+  --display:'Syne',sans-serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:58px;background:rgba(8,11,17,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.1em}
+.logo-pulse{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(240,160,48,.7)}50%{box-shadow:0 0 0 5px rgba(240,160,48,0)}}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:13px;color:var(--tx2);text-decoration:none;letter-spacing:.03em;transition:color .2s}
+.nav-links a:hover{color:var(--tx)}
+.nav-cta{background:var(--amber);color:#080b11;border:none;padding:9px 22px;border-radius:4px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.nav-cta:hover{background:#f5b84a;transform:translateY(-1px)}
+
+/* TICKER */
+.ticker-wrap{margin-top:58px;overflow:hidden;border-bottom:1px solid var(--brd);background:var(--bg3);padding:9px 0}
+.ticker-inner{display:flex;gap:40px;white-space:nowrap;width:max-content;animation:tick 30s linear infinite}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ti{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.ts{color:var(--amber)}
+
+/* HERO SPLIT */
+.hero{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 0 0 64px;position:relative;overflow:hidden}
+.hgrid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.hglow{position:absolute;top:25%;left:-8%;width:520px;height:420px;pointer-events:none;background:radial-gradient(ellipse,rgba(240,160,48,.06) 0%,transparent 65%)}
+.hleft{position:relative;z-index:2;padding:80px 0;display:flex;flex-direction:column}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--amber);text-transform:uppercase;border:1px solid rgba(240,160,48,.22);border-radius:3px;padding:5px 12px;margin-bottom:28px;width:fit-content}
+.edot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:beat 2s infinite}
+h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;line-height:1.0;letter-spacing:-.03em;margin-bottom:8px}
+.h1-muted{display:block;color:var(--tx2);font-weight:500;font-size:.7em;margin-bottom:8px}
+.h1-boss{color:var(--amber)}
+.hsub{font-size:17px;color:var(--tx2);line-height:1.7;max-width:440px;margin:18px 0 32px;font-weight:300}
+.hsub strong{color:var(--tx);font-weight:500}
+
+/* PROOF STRIP */
+.hproof{display:flex;gap:20px;margin-bottom:32px;flex-wrap:wrap}
+.hpi{display:flex;flex-direction:column;gap:2px;border-left:2px solid rgba(240,160,48,.3);padding-left:12px}
+.hpn{font-family:var(--display);font-size:20px;font-weight:700;color:var(--amber);line-height:1}
+.hpl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase;line-height:1.5}
+
+/* BUTTONS */
+.hactions{display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:#080b11;border:none;padding:15px 30px;border-radius:4px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;align-self:flex-start}
+.btn-p:hover{background:#f5b84a;transform:translateY(-2px);box-shadow:0 10px 30px rgba(240,160,48,.25)}
+.btn-s{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--tx2);border:1px solid var(--brd2);padding:13px 26px;border-radius:4px;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .2s;align-self:flex-start}
+.btn-s:hover{border-color:rgba(255,255,255,.28);color:var(--tx)}
+.hfine{font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.06em}
+
+/* HERO RIGHT — DASHBOARD */
+.hright{position:relative;height:100vh;display:flex;align-items:center;padding:80px 28px 80px 36px;overflow:hidden}
+.hright::before{content:'';position:absolute;inset-y:0;left:0;width:1px;background:linear-gradient(to bottom,transparent,var(--brd2) 20%,var(--brd2) 80%,transparent)}
+.shell{width:100%;border:1px solid var(--brd2);border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 32px 80px rgba(0,0,0,.75);animation:float 4s ease-in-out infinite alternate}
+@keyframes float{0%{transform:translateY(0)}100%{transform:translateY(-9px)}}
+.dbar{height:36px;background:var(--surf);display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:1px solid var(--brd)}
+.dd{width:9px;height:9px;border-radius:50%}
+.dbar-t{flex:1;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--tx3)}
+.dbody{background:var(--bg2);display:grid;grid-template-columns:155px 1fr}
+.dside{background:var(--bg3);border-right:1px solid var(--brd);padding:12px 0}
+.dsl{font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;padding:0 12px 6px;display:block}
+.dsi{display:flex;align-items:center;gap:6px;padding:8px 12px;font-size:11px;color:var(--tx2);cursor:pointer;border-left:2px solid transparent}
+.dsi.on{background:rgba(240,160,48,.08);color:var(--amber);border-left-color:var(--amber)}
+.dsb{margin-left:auto;background:var(--amber);color:#080b11;font-family:var(--mono);font-size:8px;font-weight:700;padding:1px 4px;border-radius:2px}
+.dmain{padding:14px;display:flex;flex-direction:column;gap:11px}
+.dtop{display:flex;justify-content:space-between;align-items:flex-start}
+.dtitle{font-size:12px;font-weight:500}
+.dsub{font-family:var(--mono);font-size:8px;color:var(--tx3);letter-spacing:.06em;margin-top:2px}
+.dclock{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.06em}
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.sc{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:9px}
+.scl{font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase;margin-bottom:4px}
+.scv{font-size:17px;font-weight:500;line-height:1}
+.scm{font-family:var(--mono);font-size:7px;color:var(--tx3);margin-top:3px}
+/* agent table */
+.at{background:var(--surf);border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ah{display:grid;grid-template-columns:1.1fr .9fr 1.6fr .65fr;padding:7px 12px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase}
+.ar{display:grid;grid-template-columns:1.1fr .9fr 1.6fr .65fr;padding:9px 12px;border-bottom:1px solid var(--brd);align-items:center;cursor:pointer;transition:background .1s}
+.ar:last-child{border-bottom:none}
+.ar:hover{background:rgba(255,255,255,.02)}
+.an{font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px}
+.adot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.don{background:var(--teal);box-shadow:0 0 4px var(--teal)}
+.dwarn{background:var(--amber);animation:beat 1.4s infinite}
+.doff{background:var(--tx3)}
+.ap{display:inline-flex;align-items:center;font-family:var(--mono);font-size:7px;font-weight:700;padding:3px 6px;border-radius:2px;letter-spacing:.07em;text-transform:uppercase}
+.pon{background:rgba(31,212,160,.12);color:var(--teal)}
+.pwarn{background:rgba(240,160,48,.12);color:var(--amber)}
+.poff{background:rgba(130,140,170,.08);color:var(--tx3)}
+.atask{font-size:10px;color:var(--tx2)}
+.pw{display:flex;flex-direction:column;gap:3px}
+.pb{height:3px;background:var(--surf2);border-radius:2px;overflow:hidden}
+.pf{height:100%;border-radius:2px;transition:width 1.2s ease}
+.pp{font-family:var(--mono);font-size:7px;color:var(--tx3)}
+/* log */
+.lw{background:var(--surf);border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.lh{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:var(--bg3);border-bottom:1px solid var(--brd);font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase}
+.llive{display:flex;align-items:center;gap:5px;color:var(--teal)}
+.le{display:flex;gap:10px;padding:8px 12px;border-bottom:1px solid var(--brd);font-size:10px;align-items:flex-start}
+.le:last-child{border-bottom:none}
+.lt{font-family:var(--mono);font-size:8px;color:var(--tx3);white-space:nowrap;min-width:44px;padding-top:1px}
+.ltag{font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 5px;border-radius:2px;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;margin-top:2px;display:inline-block}
+.tgh{background:rgba(240,160,48,.15);color:var(--amber)}
+.tge{background:rgba(232,80,80,.12);color:var(--red)}
+.tgr{background:rgba(31,212,160,.12);color:var(--teal)}
+
+/* PROOF BAR */
+.pbar{border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);background:var(--bg3);padding:28px 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.pstat{text-align:center}
+.pnum{font-family:var(--display);font-size:30px;font-weight:700;color:var(--amber);line-height:1;margin-bottom:5px}
+.plbl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase;line-height:1.5}
+.pdiv{width:1px;height:40px;background:var(--brd2)}
+.pquote{max-width:340px;padding:16px 20px;background:var(--surf);border:1px solid var(--brd2);border-radius:6px;border-left:3px solid var(--amber)}
+.pqt{font-size:13px;color:var(--tx2);line-height:1.6;font-style:italic;margin-bottom:8px}
+.pqa{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em}
+
+/* SECTIONS */
+.swrap{max-width:1200px;margin:0 auto;padding:96px 64px}
+.sey{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sey::before{content:'';display:inline-block;width:20px;height:1px;background:var(--amber)}
+.sh2{font-family:var(--display);font-size:clamp(28px,3.2vw,46px);font-weight:700;letter-spacing:-.025em;line-height:1.1;margin-bottom:14px}
+.ssub{font-size:17px;color:var(--tx2);max-width:520px;font-weight:300;line-height:1.7;margin-bottom:52px}
+
+/* PAIN */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--brd)}
+.pc{background:var(--surf);padding:34px;position:relative;overflow:hidden;transition:background .2s}
+.pc:hover{background:var(--surf2)}
+.pacc{position:absolute;top:0;left:0;right:0;height:2px}
+.pno{font-family:var(--mono);font-size:44px;font-weight:700;color:var(--surf2);line-height:1;margin-bottom:12px}
+.ptitle{font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:8px}
+.pdesc{font-size:13px;color:var(--tx2);line-height:1.65}
+
+/* FEATURES */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd)}
+.fc{background:var(--bg2);padding:38px 34px;transition:background .2s;cursor:default}
+.fc:hover{background:var(--surf)}
+.ficon{width:40px;height:40px;border-radius:6px;background:rgba(240,160,48,.1);border:1px solid rgba(240,160,48,.2);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:20px}
+.fnum{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:8px}
+.ftitle{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:9px}
+.fdesc{font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:14px}
+.ftag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;border:1px solid rgba(31,212,160,.2);padding:3px 8px;border-radius:3px}
+
+/* PRICING */
+.trow{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.tlbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase}
+.ttrack{position:relative;width:44px;height:24px;background:var(--surf2);border:1px solid var(--brd2);border-radius:12px;cursor:pointer;transition:all .2s}
+.ttrack.on{background:rgba(240,160,48,.2);border-color:rgba(240,160,48,.4)}
+.tthumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--tx3);transition:all .2s}
+.ttrack.on .tthumb{transform:translateX(20px);background:var(--amber)}
+.stag{background:rgba(31,212,160,.12);color:var(--teal);border:1px solid rgba(31,212,160,.2);font-family:var(--mono);font-size:8px;font-weight:700;padding:4px 9px;border-radius:3px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+.stag.show{opacity:1}
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--brd)}
+.qc{background:var(--bg2);padding:30px 24px;position:relative;transition:background .15s}
+.qc:hover{background:var(--surf)}
+.qc.feat{background:var(--surf);outline:1px solid rgba(240,160,48,.35);outline-offset:-1px;z-index:1}
+.qbest{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--amber);color:#080b11;font-family:var(--mono);font-size:8px;font-weight:700;padding:4px 14px;border-radius:0 0 5px 5px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.qtier{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:14px;padding-top:10px}
+.qc.feat .qtier{color:var(--amber)}
+.qamt{font-family:var(--display);font-size:40px;font-weight:700;line-height:1;margin-bottom:4px}
+.qamt sup{font-size:15px;vertical-align:super;color:var(--tx3)}
+.qper{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em;margin-bottom:5px}
+.qann{font-size:11px;color:var(--teal);min-height:15px;margin-bottom:18px}
+.qdiv{height:1px;background:var(--brd);margin-bottom:18px}
+.qfeats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px;min-height:190px}
+.qfeats li{font-size:12px;color:var(--tx2);display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.qck{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;border:1px solid}
+.qck.a{background:rgba(240,160,48,.12);border-color:rgba(240,160,48,.3)}
+.qck.t{background:rgba(31,212,160,.12);border-color:rgba(31,212,160,.25)}
+.qck.n{background:var(--surf2);border-color:var(--brd)}
+.qfeats li.dim{color:var(--tx3)}
+.qbtn{width:100%;padding:11px;border-radius:4px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+.qbtn.o{background:transparent;color:var(--tx2);border:1px solid var(--brd2)}
+.qbtn.o:hover{border-color:rgba(255,255,255,.28);color:var(--tx)}
+.qbtn.f{background:var(--amber);color:#080b11;border:none;font-weight:600}
+.qbtn.f:hover{background:#f5b84a}
+
+/* CTA */
+.ctasec{border-top:1px solid var(--brd);text-align:center;padding:96px 64px}
+.ctah2{font-family:var(--display);font-size:clamp(30px,3.8vw,54px);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin-bottom:18px}
+.ctasub{font-size:18px;color:var(--tx2);max-width:480px;margin:0 auto 36px;font-weight:300;line-height:1.7}
+.ctarow{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.ctafine{font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.06em}
+
+/* FOOTER */
+footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.flogo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--tx3)}
+.fmid,.fright{font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.06em}
+
+/* SCANLINES */
+.scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.022;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
+
+@media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 40px}}
+@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<nav>
+  <div class="nav-logo"><div class="logo-pulse"></div>COMMAND</div>
+  <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#about">About</a></li></ul>
+  <button class="nav-cta">Start Free Trial</button>
+</nav>
+
+<div class="ticker-wrap"><div class="ticker-inner">
+  <span class="ti">Agent Status Dashboard<span class="ts">//</span></span>
+  <span class="ti">Task Router<span class="ts">//</span></span>
+  <span class="ti">Context Handoff Bridge<span class="ts">//</span></span>
+  <span class="ti">Zero-Code Operator Control<span class="ts">//</span></span>
+  <span class="ti">MCP + A2A Protocol Layer<span class="ts">//</span></span>
+  <span class="ti">Built for Boutique Operators<span class="ts">//</span></span>
+  <span class="ti">No IT Department Required<span class="ts">//</span></span>
+  <span class="ti">Agent Status Dashboard<span class="ts">//</span></span>
+  <span class="ti">Task Router<span class="ts">//</span></span>
+  <span class="ti">Context Handoff Bridge<span class="ts">//</span></span>
+  <span class="ti">Zero-Code Operator Control<span class="ts">//</span></span>
+  <span class="ti">MCP + A2A Protocol Layer<span class="ts">//</span></span>
+  <span class="ti">Built for Boutique Operators<span class="ts">//</span></span>
+  <span class="ti">No IT Department Required<span class="ts">//</span></span>
+</div></div>
+
+<!-- HERO SPLIT -->
+<div class="hero" id="product">
+  <div class="hgrid"></div><div class="hglow"></div>
+  <div class="hleft">
+    <div class="eyebrow"><span class="edot"></span>Agent Operations Center &mdash; Beta Opens May 2026</div>
+    <h1><span class="h1-muted">Stop being the bridge.</span>Start being<br>the <span class="h1-boss">boss.</span></h1>
+    <p class="hsub">Your AI agents are running right now. <strong>Do you know what they're doing?</strong> COMMAND is the single control plane for every agent in your stack &mdash; status, routing, and context handoff in one ops center.</p>
+    <div class="hproof">
+      <div class="hpi"><div class="hpn">~30%</div><div class="hpl">AI time lost<br>to manual relay</div></div>
+      <div class="hpi"><div class="hpn">$0</div><div class="hpl">Funded rivals<br>at this layer</div></div>
+      <div class="hpi"><div class="hpn">90 days</div><div class="hpl">Target ROI<br>window</div></div>
+    </div>
+    <div class="hactions">
+      <button class="btn-p">Start 14-Day Free Trial <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-s">Watch 2-min demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.5l4 1.5-4 1.5V5.5z" fill="currentColor"/></svg></button>
+    </div>
+    <p class="hfine">No credit card &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; Full Pro access from day one</p>
+  </div>
+
+  <!-- LIVE DASHBOARD RIGHT -->
+  <div class="hright">
+    <div class="shell">
+      <div class="dbar">
+        <div class="dd" style="background:#e85050"></div>
+        <div class="dd" style="background:#f0a030"></div>
+        <div class="dd" style="background:#1fd4a0"></div>
+        <div class="dbar-t">COMMAND &mdash; Agent Operations Center</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--amber)" id="hclock">&mdash;</div>
+      </div>
+      <div class="dbody">
+        <div class="dside">
+          <span class="dsl">Workspace</span>
+          <div class="dsi on">&#9632; Agent Status</div>
+          <div class="dsi">&#8644; Task Router <span class="dsb">3</span></div>
+          <div class="dsi">&#8660; Context Bridge</div>
+          <div style="height:1px;background:var(--brd);margin:8px 10px"></div>
+          <span class="dsl">System</span>
+          <div class="dsi">Approvals <span class="dsb">2</span></div>
+          <div class="dsi">Settings</div>
+        </div>
+        <div class="dmain">
+          <div class="dtop">
+            <div><div class="dtitle">Agent Status Overview</div><div class="dsub">GL / COMMAND &middot; 4 agents &middot; 2 active &middot; 1 warning</div></div>
+            <div class="dclock" id="dclock">&mdash;</div>
+          </div>
+          <div class="srow">
+            <div class="sc"><div class="scl">Active</div><div class="scv" style="color:var(--teal)">2</div><div class="scm">of 4</div></div>
+            <div class="sc"><div class="scl">Queued</div><div class="scv" style="color:var(--amber)">3</div><div class="scm">tasks</div></div>
+            <div class="sc"><div class="scl">Handoffs</div><div class="scv">7</div><div class="scm">today</div></div>
+            <div class="sc"><div class="scl">Warnings</div><div class="scv" style="color:var(--amber)">1</div><div class="scm">RECON-1</div></div>
+          </div>
+          <div class="at">
+            <div class="ah"><div>Agent</div><div>Status</div><div>Task</div><div>Prog.</div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>COMMAND-0</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Gap audit</div><div class="pw"><div class="pb"><div class="pf" id="pf0" style="width:0%;background:var(--teal)"></div></div><div class="pp">78%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>FORGE-1</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Repo scaffold</div><div class="pw"><div class="pb"><div class="pf" id="pf1" style="width:0%;background:var(--teal)"></div></div><div class="pp">45%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot dwarn"></div>RECON-1</div><div><span class="ap pwarn">&#9888; Stalled</span></div><div class="atask">ICP research</div><div class="pw"><div class="pb"><div class="pf" id="pf2" style="width:0%;background:var(--amber)"></div></div><div class="pp">33%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot doff"></div>SIGNAL-1</div><div><span class="ap poff">&mdash; Idle</span></div><div class="atask" style="color:var(--tx3)">Awaiting task</div><div class="pw"><div class="pb"><div class="pf" style="width:0%"></div></div><div class="pp">&mdash;</div></div></div>
+          </div>
+          <div class="lw">
+            <div class="lh">Context Handoff Log <span class="llive"><span style="width:5px;height:5px;border-radius:50%;background:var(--teal);animation:beat 1.5s infinite;display:inline-block"></span>Live</span></div>
+            <div class="le"><div class="lt" id="lt1">&mdash;</div><div><div style="color:var(--tx2)">COMMAND-0 &rarr; FORGE-1 context bundle dispatched</div><span class="ltag tgh">Handoff</span></div></div>
+            <div class="le"><div class="lt" id="lt2">&mdash;</div><div><div style="color:var(--tx2)">RECON-1 stall &mdash; rate limit, context preserved</div><span class="ltag tge">Warning</span></div></div>
+            <div class="le"><div class="lt" id="lt3">&mdash;</div><div><div style="color:var(--tx2)">AQ-004 queued &mdash; awaiting Jason approval</div><span class="ltag tgr">Routed</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF BAR -->
+<div class="pbar">
+  <div class="pstat"><div class="pnum">$0</div><div class="plbl">Funded competitors<br>at this operator layer</div></div>
+  <div class="pdiv"></div>
+  <div class="pstat"><div class="pnum">~30%</div><div class="plbl">Productive AI time lost<br>to manual context relay</div></div>
+  <div class="pdiv"></div>
+  <div class="pstat"><div class="pnum">15K+</div><div class="plbl">Boutique consulting firms<br>in S&atilde;o Paulo alone</div></div>
+  <div class="pdiv"></div>
+  <div class="pquote">
+    <div class="pqt">&ldquo;I&rsquo;m spending more time debugging my agents than serving my clients. I need a way to just see what&rsquo;s happening.&rdquo;</div>
+    <div class="pqa">&mdash; Founder, 8-person AI consulting firm &middot; Discovery call, March 2026</div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<div id="problem" style="border-top:1px solid var(--brd)">
+<div class="swrap">
+  <div class="sey">The Problem</div>
+  <h2 class="sh2">You built an AI team.<br>You became their coordinator.</h2>
+  <p class="ssub">Boutique operators running multi-agent stacks lose a third of productive AI time manually relaying context between tools. COMMAND eliminates the relay.</p>
+  <div class="pgrid">
+    <div class="pc"><div class="pacc" style="background:var(--red);opacity:.45"></div><div class="pno">01</div><div class="ptitle">No visibility</div><div class="pdesc">Agents are running. You have no unified view of what they&rsquo;re doing, where they stalled, or which one needs your attention right now.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.4"></div><div class="pno">02</div><div class="ptitle">Broken handoffs</div><div class="pdesc">When work moves between agents, context collapses. You copy-paste between tabs and rebuild from scratch. Every single time.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.3"></div><div class="pno">03</div><div class="ptitle">No task routing</div><div class="pdesc">There&rsquo;s no single place to assign a task to the right agent and track it to completion. Your stack runs on memory and habit.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--teal);opacity:.3"></div><div class="pno">04</div><div class="ptitle">You are the bridge</div><div class="pdesc">Your agents are powerful in isolation. But you&rsquo;re connecting them manually &mdash; so your cognitive load grows with every agent you add.</div></div>
+  </div>
+</div></div>
+
+<!-- FEATURES -->
+<div style="border-top:1px solid var(--brd)" id="features">
+<div class="swrap">
+  <div class="sey">MVP Features &mdash; Phase 1</div>
+  <h2 class="sh2">Three features.<br>One command center.</h2>
+  <p class="ssub">No feature bloat. No learning curve. COMMAND ships exactly what boutique operators need to stop being the bridge between their own agents.</p>
+  <div class="fgrid">
+    <div class="fc"><div class="ficon">&#128225;</div><div class="fnum">Feature 01</div><div class="ftitle">Agent Status Dashboard</div><div class="fdesc">See every agent &mdash; active, idle, stalled, warning &mdash; from a single real-time view. Know what&rsquo;s running before you need to ask.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. COMMAND routes to the right agent by capability and tracks it to completion without you managing the handoff.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#128279;</div><div class="fnum">Feature 03</div><div class="ftitle">Handoff &amp; Context Bridge</div><div class="fdesc">When work moves between agents, COMMAND transfers the full context bundle. No dropped state. No rebuild. No copy-paste. The relay ends here.</div><span class="ftag">Live in Phase 1</span></div>
+  </div>
+</div></div>
+
+<!-- PRICING -->
+<div style="border-top:1px solid var(--brd)" id="pricing">
+<div class="swrap">
+  <div class="sey">Pricing</div>
+  <h2 class="sh2">Priced for operators,<br>not enterprise IT.</h2>
+  <p class="ssub" style="margin-bottom:24px">Every tier includes a 14-day free trial. No credit card required. Cancel anytime.</p>
+  <div class="trow">
+    <span class="tlbl">Monthly</span>
+    <div class="ttrack" id="btrack" onclick="toggleB()"><div class="tthumb"></div></div>
+    <span class="tlbl">Annual</span>
+    <span class="stag" id="stag">Save 20%</span>
+  </div>
+  <div class="qgrid">
+    <div class="qc"><div class="qtier">Solo</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button class="qbtn o">Start free trial</button></div>
+    <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button class="qbtn f">Start free trial</button></div>
+    <div class="qc"><div class="qtier">Studio</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button class="qbtn o">Start free trial</button></div>
+    <div class="qc"><div class="qtier">Agency</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
+  </div>
+</div></div>
+
+<!-- CTA -->
+<div class="ctasec">
+  <div class="ctah2">Your agents are running.<br><span style="color:var(--amber)">Time to take command.</span></div>
+  <p class="ctasub">14-day free trial. No credit card. No sales call. Log in and see every agent from one place &mdash; in minutes.</p>
+  <div class="ctarow">
+    <button class="btn-p">Start Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="btn-s">Schedule a Discovery Call</button>
+  </div>
+  <p class="ctafine">Built by GlobaLink &nbsp;&middot;&nbsp; Florida LLC &nbsp;&middot;&nbsp; Bootstrap-first &nbsp;&middot;&nbsp; Operator-led</p>
+</div>
+
+<footer>
+  <div class="flogo"><div style="width:6px;height:6px;border-radius:50%;background:var(--amber);opacity:.5"></div>COMMAND &mdash; AGENT OPERATIONS CENTER</div>
+  <div class="fmid">GLOBALINK (GL) &nbsp;&middot;&nbsp; FLORIDA LLC &nbsp;&middot;&nbsp; MIAMI, FL</div>
+  <div class="fright">jason@globalinkservices.io</div>
+</footer>
+
+<script>
+function tick(){
+  var n=new Date();
+  var t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  var c=document.getElementById('dclock');var c2=document.getElementById('hclock');
+  if(c)c.textContent=t+' EST';if(c2)c2.textContent=t;
+  var fmt=function(d){return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0')};
+  var l1=document.getElementById('lt1');var l2=document.getElementById('lt2');var l3=document.getElementById('lt3');
+  if(l1)l1.textContent=fmt(new Date(n-2*60000));
+  if(l2)l2.textContent=fmt(new Date(n-5*60000));
+  if(l3)l3.textContent=fmt(new Date(n-11*60000));
+}
+tick();setInterval(tick,1000);
+setTimeout(function(){
+  var bars=[['pf0','78%'],['pf1','45%'],['pf2','33%']];
+  bars.forEach(function(b){var el=document.getElementById(b[0]);if(el){el.style.transition='width 1.4s ease';el.style.width=b[1];}});
+},500);
+var mo=[49,149,349,799],an=[39,119,279,639],isA=false;
+function toggleB(){
+  isA=!isA;
+  var t=document.getElementById('btrack');var s=document.getElementById('stag');
+  t.classList.toggle('on',isA);s.classList.toggle('show',isA);
+  var pr=isA?an:mo;
+  pr.forEach(function(p,i){
+    var pe=document.getElementById('qp'+i);var ae=document.getElementById('qa'+i);
+    if(pe)pe.textContent=p;
+    if(ae)ae.textContent=isA?'$'+(p*12).toLocaleString()+' billed annually':'';
+  });
+}
+</script>
+</body>
+</html>
