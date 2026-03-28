@@ -156,6 +156,17 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .fdesc{font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:14px}
 .ftag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;border:1px solid rgba(31,212,160,.2);padding:3px 8px;border-radius:3px}
 
+/* AUDIENCE */
+.audgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--brd);margin-top:8px}
+.audcol{background:var(--surf);padding:36px 34px}
+.auh{font-family:var(--display);font-size:18px;font-weight:600;margin-bottom:20px;letter-spacing:-.02em}
+.auh.for{color:var(--teal)}
+.auh.notfor{color:var(--red)}
+.audlist{list-style:none}
+.audlist li{font-size:14px;color:var(--tx2);line-height:1.65;padding:12px 0 12px 20px;border-bottom:1px solid var(--brd);position:relative}
+.audlist li:last-child{border-bottom:none}
+.audlist li::before{content:'\2014';position:absolute;left:0;color:var(--tx3);font-family:var(--mono);font-size:12px}
+
 /* PRICING */
 .trow{display:flex;align-items:center;gap:12px;margin-bottom:40px}
 .tlbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase}
@@ -172,6 +183,7 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .qbest{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--amber);color:#080b11;font-family:var(--mono);font-size:8px;font-weight:700;padding:4px 14px;border-radius:0 0 5px 5px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
 .qtier{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;margin-bottom:14px;padding-top:10px}
 .qc.feat .qtier{color:var(--amber)}
+.qdescriptor{font-size:12px;line-height:1.5;color:var(--tx2);font-weight:300;margin:-6px 0 12px;max-width:240px}
 .qamt{font-family:var(--display);font-size:40px;font-weight:700;line-height:1;margin-bottom:4px}
 .qamt sup{font-size:15px;vertical-align:super;color:var(--tx3)}
 .qper{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em;margin-bottom:5px}
@@ -252,15 +264,15 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 /* SCANLINES */
 .scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.022;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
 
-@media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 40px}}
-@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
+@media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 40px}}
+@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
 </style>
 </head>
 <body>
 <div class="scanlines"></div>
 <nav>
   <div class="nav-logo"><div class="logo-pulse"></div>COMMAND</div>
-  <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#waitlist">Early Access</a></li></ul>
+  <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#audience">Who it&rsquo;s for</a></li><li><a href="#waitlist">Early Access</a></li></ul>
   <button class="nav-cta" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start Free Trial</button>
 </nav>
 
@@ -269,14 +281,14 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <span class="ti">Task Router<span class="ts">//</span></span>
   <span class="ti">Context Handoff Bridge<span class="ts">//</span></span>
   <span class="ti">Zero-Code Operator Control<span class="ts">//</span></span>
-  <span class="ti">MCP + A2A Protocol Layer<span class="ts">//</span></span>
+  <span class="ti">MCP + A2A Protocol Layer (standard interfaces so your agents and tools speak the same language)<span class="ts">//</span></span>
   <span class="ti">Built for Boutique Operators<span class="ts">//</span></span>
   <span class="ti">No IT Department Required<span class="ts">//</span></span>
   <span class="ti">Agent Status Dashboard<span class="ts">//</span></span>
   <span class="ti">Task Router<span class="ts">//</span></span>
   <span class="ti">Context Handoff Bridge<span class="ts">//</span></span>
   <span class="ti">Zero-Code Operator Control<span class="ts">//</span></span>
-  <span class="ti">MCP + A2A Protocol Layer<span class="ts">//</span></span>
+  <span class="ti">MCP + A2A Protocol Layer (standard interfaces so your agents and tools speak the same language)<span class="ts">//</span></span>
   <span class="ti">Built for Boutique Operators<span class="ts">//</span></span>
   <span class="ti">No IT Department Required<span class="ts">//</span></span>
 </div></div>
@@ -286,7 +298,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <div class="hleft">
     <div class="eyebrow"><span class="edot"></span>Agent Operations Center &mdash; Beta Opens May 2026</div>
     <h1><span class="h1-muted">Stop being the bridge.</span>Start being<br>the <span class="h1-boss">boss.</span></h1>
-    <p class="hsub">Your AI agents are running right now. <strong>Do you know what they're doing?</strong> COMMAND is the single control plane for every agent in your stack &mdash; status, routing, and context handoff in one ops center.</p>
+    <p class="hsub">Your AI agents are running right now. <strong>Do you actually know what they&rsquo;re doing?</strong> COMMAND is a single control plane for every agent in your stack &mdash; one place to see status, route tasks, and hand off context without manual relay.</p>
     <div class="hproof">
       <div class="hpi"><div class="hpn">~30%</div><div class="hpl">AI time lost<br>to manual relay</div></div>
       <div class="hpi"><div class="hpn">$0</div><div class="hpl">Funded rivals<br>at this layer</div></div>
@@ -296,7 +308,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
       <button class="btn-p" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="btn-s" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.5l4 1.5-4 1.5V5.5z" fill="currentColor"/></svg></button>
     </div>
-    <p class="hfine">No credit card &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; Full Pro access from day one</p>
+    <p class="hfine">14-day free trial &nbsp;&middot;&nbsp; No credit card &nbsp;&middot;&nbsp; No sales call &nbsp;&middot;&nbsp; Log in, connect your agents, and see everything from one place &mdash; in minutes</p>
   </div>
   <div class="hright">
     <div class="shell">
@@ -349,10 +361,6 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 </div>
 
 <div class="pbar">
-  <div class="pstat"><div class="pnum">$0</div><div class="plbl">Funded competitors<br>at this operator layer</div></div>
-  <div class="pdiv"></div>
-  <div class="pstat"><div class="pnum">~30%</div><div class="plbl">Productive AI time lost<br>to manual context relay</div></div>
-  <div class="pdiv"></div>
   <div class="pstat"><div class="pnum">15K+</div><div class="plbl">Boutique consulting firms<br>in S&atilde;o Paulo alone</div></div>
   <div class="pdiv"></div>
   <div class="pquote">
@@ -365,12 +373,12 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <div class="swrap">
   <div class="sey">The Problem</div>
   <h2 class="sh2">You built an AI team.<br>You became their coordinator.</h2>
-  <p class="ssub">Boutique operators running multi-agent stacks lose a third of productive AI time manually relaying context between tools. COMMAND eliminates the relay.</p>
+  <p class="ssub">Boutique operators running multi-agent stacks lose roughly a third of productive AI time manually relaying context between tools and tabs. COMMAND kills the relay and gives that time back.</p>
   <div class="pgrid">
-    <div class="pc"><div class="pacc" style="background:var(--red);opacity:.45"></div><div class="pno">01</div><div class="ptitle">No visibility</div><div class="pdesc">Agents are running. You have no unified view of what they&rsquo;re doing, where they stalled, or which one needs your attention right now.</div></div>
-    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.4"></div><div class="pno">02</div><div class="ptitle">Broken handoffs</div><div class="pdesc">When work moves between agents, context collapses. You copy-paste between tabs and rebuild from scratch. Every single time.</div></div>
-    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.3"></div><div class="pno">03</div><div class="ptitle">No task routing</div><div class="pdesc">There&rsquo;s no single place to assign a task to the right agent and track it to completion. Your stack runs on memory and habit.</div></div>
-    <div class="pc"><div class="pacc" style="background:var(--teal);opacity:.3"></div><div class="pno">04</div><div class="ptitle">You are the bridge</div><div class="pdesc">Your agents are powerful in isolation. But you&rsquo;re connecting them manually &mdash; so your cognitive load grows with every agent you add.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--red);opacity:.45"></div><div class="pno">01</div><div class="ptitle">No visibility</div><div class="pdesc">Agents are running, but you have no unified view of what they are doing, where they stalled, or which one needs your attention right now.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.4"></div><div class="pno">02</div><div class="ptitle">Broken handoffs</div><div class="pdesc">When work moves between agents, context collapses. You copy-paste between tabs and rebuild the state from scratch. Every single time.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--amber);opacity:.3"></div><div class="pno">03</div><div class="ptitle">No task routing</div><div class="pdesc">There&rsquo;s no single place to assign a task to the right agent and track it to completion. Your stack runs on memory, DMs, and habit.</div></div>
+    <div class="pc"><div class="pacc" style="background:var(--teal);opacity:.3"></div><div class="pno">04</div><div class="ptitle">You are the bridge</div><div class="pdesc">Your agents are powerful in isolation, but you connect them manually &mdash; so your cognitive load and error risk grow with every new agent you add.</div></div>
   </div>
 </div></div>
 
@@ -378,11 +386,11 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <div class="swrap">
   <div class="sey">MVP Features &mdash; Phase 1</div>
   <h2 class="sh2">Three features.<br>One command center.</h2>
-  <p class="ssub">No feature bloat. No learning curve. COMMAND ships exactly what boutique operators need to stop being the bridge between their own agents.</p>
+  <p class="ssub">No feature bloat. No long onboarding. COMMAND ships exactly what boutique operators need to stop acting as the bridge between their own agents.</p>
   <div class="fgrid">
-    <div class="fc"><div class="ficon">&#128225;</div><div class="fnum">Feature 01</div><div class="ftitle">Agent Status Dashboard</div><div class="fdesc">See every agent &mdash; active, idle, stalled, warning &mdash; from a single real-time view. Know what&rsquo;s running before you need to ask.</div><span class="ftag">Live in Phase 1</span></div>
-    <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. COMMAND routes to the right agent by capability and tracks it to completion without you managing the handoff.</div><span class="ftag">Live in Phase 1</span></div>
-    <div class="fc"><div class="ficon">&#128279;</div><div class="fnum">Feature 03</div><div class="ftitle">Handoff &amp; Context Bridge</div><div class="fdesc">When work moves between agents, COMMAND transfers the full context bundle. No dropped state. No rebuild. No copy-paste. The relay ends here.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#128225;</div><div class="fnum">Feature 01</div><div class="ftitle">Agent Status Dashboard</div><div class="fdesc">See every agent &mdash; active, idle, stalled, or in warning &mdash; from a single real-time view. Know what is running and what is stuck before anyone has to ask.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. COMMAND routes tasks to the right agent by capability and tracks them to completion &mdash; without you managing the handoff.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#128279;</div><div class="fnum">Feature 03</div><div class="ftitle">Handoff &amp; Context Bridge</div><div class="fdesc">When work moves between agents, COMMAND transfers the full context bundle. No dropped state. No rebuild. No copy-paste. The manual relay ends here.</div><span class="ftag">Live in Phase 1</span></div>
   </div>
 </div></div>
 
@@ -390,6 +398,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <div class="swrap">
   <div class="sey">Pricing</div>
   <h2 class="sh2">Priced for operators,<br>not enterprise IT.</h2>
+  <p class="ssub" style="margin-bottom:12px">Setup is intentionally lightweight: connect your agents, see status and routing in one place, and stop acting as the human relay between tools.</p>
   <p class="ssub" style="margin-bottom:24px">Every tier includes a 14-day free trial. No credit card required. Cancel anytime.</p>
   <div class="trow">
     <span class="tlbl">Monthly</span>
@@ -398,10 +407,35 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
     <span class="stag" id="stag">Save 20%</span>
   </div>
   <div class="qgrid">
-    <div class="qc"><div class="qtier">Solo</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
-    <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button class="qbtn f" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
-    <div class="qc"><div class="qtier">Studio</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
-    <div class="qc"><div class="qtier">Agency</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
+    <div class="qc"><div class="qtier">Solo</div><div class="qdescriptor">Lightweight monitoring for a solo operator with a small agent stack.</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
+    <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qdescriptor">Where most boutique operators land: full Phase 1 &mdash; status, routing, and context handoffs.</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button class="qbtn f" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
+    <div class="qc"><div class="qtier">Studio</div><div class="qdescriptor">Small teams and multi-client workflows with room to grow.</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
+    <div class="qc"><div class="qtier">Agency</div><div class="qdescriptor">White-label, SLA, and dedicated support for larger operator-led shops.</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
+  </div>
+</div></div>
+
+<div style="border-top:1px solid var(--brd)" id="audience">
+<div class="swrap">
+  <div class="sey">Fit</div>
+  <h2 class="sh2">Who COMMAND is for &mdash;<br>and who it is not.</h2>
+  <p class="ssub" style="margin-bottom:24px">We built this for operator-led firms that run real agent stacks &mdash; not for another generic &ldquo;AI workspace&rdquo; RFP.</p>
+  <div class="audgrid">
+    <div class="audcol">
+      <div class="auh for">COMMAND is for you if&hellip;</div>
+      <ul class="audlist">
+        <li>You run a boutique AI consulting or delivery firm (roughly solo to ~15 people).</li>
+        <li>You already use 3+ agents or tools and feel the pain of tab-hopping and manual relay.</li>
+        <li>You want one control plane for status, routing, and context &mdash; without hiring platform engineering.</li>
+      </ul>
+    </div>
+    <div class="audcol">
+      <div class="auh notfor">COMMAND is probably not for you if&hellip;</div>
+      <ul class="audlist">
+        <li>You need a full enterprise RPA replacement or IT-owned automation program.</li>
+        <li>You already have a dedicated AI platform team owning observability end-to-end.</li>
+        <li>You are shopping for another undifferentiated &ldquo;AI workspace&rdquo; with no agent-ops focus.</li>
+      </ul>
+    </div>
   </div>
 </div></div>
 
@@ -412,8 +446,8 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <div class="wl-section" id="waitlist">
   <div class="wl-inner">
     <div class="wl-eye">Early Access</div>
-    <h2 class="wl-h2">Get notified when<br>COMMAND launches.</h2>
-    <p class="wl-sub">Beta opens May 15, 2026. Join the waitlist and we'll notify you first &mdash; no pitch, no sequence. One email when the product is ready.</p>
+    <h2 class="wl-h2">Get early access<br>to COMMAND.</h2>
+    <p class="wl-sub">Beta opens May 15, 2026. Join the list for launch updates and a 14-day Pro trial when we open &mdash; no pitch, no drip. One note when the product is ready.</p>
     <form action="https://buttondown.com/api/emails/embed-subscribe/globalinkservices" method="post" class="embeddable-buttondown-form">
       <label for="bd-email">Enter your email</label>
       <div class="bd-row">
@@ -428,7 +462,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 
 <div class="ctasec">
   <div class="ctah2">Your agents are running.<br><span style="color:var(--amber)">Time to take command.</span></div>
-  <p class="ctasub">14-day free trial. No credit card. No sales call. Log in and see every agent from one place &mdash; in minutes.</p>
+  <p class="ctasub">14-day free trial. No credit card. No sales call. Log in, connect your agents, and see every agent from one place &mdash; in minutes.</p>
   <div class="ctarow">
     <button class="btn-p" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button class="btn-s" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo</button>
@@ -465,4 +499,15 @@ function toggleB(){
   var t=document.getElementById('btrack');var s=document.getElementById('stag');
   t.classList.toggle('on',isA);s.classList.toggle('show',isA);
   var pr=isA?an:mo;
-  pr.forEach(fun
+  pr.forEach(function(p,i){
+    var el=document.getElementById('qp'+i);
+    if(el)el.textContent=p;
+  });
+  ['qa0','qa1','qa2','qa3'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.innerHTML=isA?'<span style="color:var(--teal)">Save 20% &middot; billed yearly</span>':'&nbsp;';
+  });
+}
+</script>
+</body>
+</html>
