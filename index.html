@@ -260,12 +260,15 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 .flogo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--tx3)}
 .fmid,.fright{font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.06em}
+.fright{display:flex;align-items:center;flex-wrap:wrap;gap:0;justify-content:flex-end}
+.fright a{color:var(--tx3);text-decoration:none;transition:color .2s}
+.fright a:hover{color:var(--tx)}
 
 /* SCANLINES */
 .scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.022;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
 
 @media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 40px}}
-@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
+@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.fright{justify-content:center}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
 </style>
 </head>
 <body>
@@ -473,7 +476,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <footer>
   <div class="flogo"><div style="width:6px;height:6px;border-radius:50%;background:var(--amber);opacity:.5"></div>COMMAND &mdash; AGENT OPERATIONS CENTER</div>
   <div class="fmid">GLOBALINK (GL) &nbsp;&middot;&nbsp; FLORIDA LLC &nbsp;&middot;&nbsp; MIAMI, FL</div>
-  <div class="fright"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="503a31233f3e10373c3f32313c393e3b23352226393335237e393f">[email&#160;protected]</a></div>
+  <div class="fright"><a href="https://app.command.globalinkservices.io/privacy" data-testid="privacy-link" target="_blank" rel="noopener noreferrer">Privacy Policy</a><span aria-hidden="true">&nbsp;&middot;&nbsp;</span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="503a31233f3e10373c3f32313c393e3b23352226393335237e393f">[email&#160;protected]</a></div>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
