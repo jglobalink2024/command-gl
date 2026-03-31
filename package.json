@@ -1,0 +1,11 @@
+{
+  "name": "command-gl",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:html": "playwright test --reporter=html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0"
+  }
+}
