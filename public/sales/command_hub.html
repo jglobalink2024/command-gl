@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>COMMAND — Sales Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080B11;
+      --surface: #0D1117;
+      --card: #161B22;
+      --border: #21262D;
+      --amber: #F0A030;
+      --amber-dim: #7A5018;
+      --blue: #1F6FEB;
+      --blue-dim: #0D2D6B;
+      --green: #2EA043;
+      --violet: #A78BFA;
+      --tx1: #E6EDF3;
+      --tx2: #9DA8B5;
+      --tx3: #4A5568;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--tx1); font-family: Inter, sans-serif; min-height: 100vh; }
+    body { padding: 0 0 80px; }
+
+    /* TOP NAV */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-brand { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--amber); letter-spacing: 0.06em; }
+    .topbar-status { font-size: 11px; color: var(--tx2); font-family: 'JetBrains Mono', monospace; }
+    .dot-live { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 5px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* TAB BAR */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      flex: 1;
+      min-width: 70px;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--tx3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+    .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+    .tab:hover { color: var(--tx2); }
+
+    /* CONTENT PANELS */
+    .panel { display: none; padding: 20px; }
+    .panel.active { display: block; }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--tx3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--tx1);
+      margin-bottom: 6px;
+    }
+    .card-sub {
+      font-size: 12px;
+      color: var(--tx2);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    /* LINK BUTTONS */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: var(--tx1);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .link-btn:active { opacity: 0.7; }
+    .link-btn .arrow { color: var(--blue); font-size: 16px; }
+    .link-btn.amber-btn { background: rgba(240,160,48,0.12); border-color: var(--amber); }
+    .link-btn.amber-btn .arrow { color: var(--amber); }
+    .link-btn.green-btn { background: rgba(46,160,67,0.12); border-color: var(--green); }
+    .link-btn.green-btn .arrow { color: var(--green); }
+    .link-btn.violet-btn { background: rgba(167,139,250,0.12); border-color: var(--violet); }
+    .link-btn.violet-btn .arrow { color: var(--violet); }
+
+    /* COPY BLOCK */
+    .copy-block {
+      background: #0A0F16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--tx2);
+      position: relative;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .copy-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--tx3);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .copy-tag.copied { color: var(--green); border-color: var(--green); }
+
+    /* PROSPECT SELECTOR */
+    .prospect-select {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--tx1);
+      font-size: 13px;
+      padding: 11px 14px;
+      margin-bottom: 14px;
+      appearance: none;
+      -webkit-appearance: none;
+      font-family: Inter, sans-serif;
+    }
+
+    /* PILL TAGS */
+    .pill {
+      display: inline-block;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      border: 1px solid;
+    }
+    .pill-amber { color: var(--amber); border-color: var(--amber-dim); background: rgba(240,160,48,0.08); }
+    .pill-blue { color: #9BC1FF; border-color: #1A3D7A; background: rgba(31,111,235,0.08); }
+    .pill-green { color: #7FE3A0; border-color: #1A4A2A; background: rgba(46,160,67,0.08); }
+    .pill-violet { color: var(--violet); border-color: #3D2F80; background: rgba(167,139,250,0.08); }
+
+    /* QUICK STATS ROW */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
+    .stat-num { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--amber); }
+    .stat-label { font-size: 10px; color: var(--tx3); margin-top: 3px; letter-spacing: 0.04em; }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+    /* NOTICE BLOCK */
+    .notice {
+      background: rgba(240,160,48,0.08);
+      border: 1px solid var(--amber-dim);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--tx2);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .notice strong { color: var(--amber); }
+
+    /* STEP LIST */
+    .step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+    .step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--blue-dim); border: 1px solid var(--blue);
+      font-size: 11px; font-family: 'JetBrains Mono', monospace;
+      color: #9BC1FF; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-body { font-size: 13px; color: var(--tx2); line-height: 1.6; }
+    .step-body strong { color: var(--tx1); display: block; margin-bottom: 2px; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--green);
+      color: #fff;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 8px 18px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: all 0.25s;
+      pointer-events: none;
+      z-index: 100;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-brand">⬡ COMMAND</div>
+    <div class="topbar-status"><span class="dot-live"></span>sales hub · live</div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-panel="links">Links</div>
+    <div class="tab" data-panel="outreach">Outreach</div>
+    <div class="tab" data-panel="demo">Demo</div>
+    <div class="tab" data-panel="pricing">Pricing</div>
+    <div class="tab" data-panel="setup">Setup</div>
+  </div>
+
+  <!-- ═══════════════════════ LINKS PANEL ═══════════════════════ -->
+  <div class="panel active" id="panel-links">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">$49</div><div class="stat-label">solo/mo</div></div>
+      <div class="stat-card"><div class="stat-num">$149</div><div class="stat-label">pro/mo</div></div>
+      <div class="stat-card"><div class="stat-num">14d</div><div class="stat-label">free trial</div></div>
+    </div>
+
+    <div class="section-label">// send these links from anywhere</div>
+
+    <div class="card">
+      <div class="card-title">One-pager</div>
+      <div class="card-sub">Full sales asset — hero, features, demo, pricing, positioning. Send after discovery call or when someone asks what you're building.</div>
+      <a class="link-btn amber-btn" href="https://go.command.globalinkservices.io" target="_blank">
+        go.command.globalinkservices.io <span class="arrow">→</span>
+      </a>
+      <div class="copy-block" id="copy-onepager">https://go.command.globalinkservices.io<span class="copy-tag" onclick="copyText('copy-onepager', this)">copy</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Interactive demo</div>
+      <div class="card-sub">Navattic product tour — no login required. One-pager flow + app UI flow. Send when they want to see how it actually works.</div>
+      <a class="link-btn violet-btn" href="https://demo.command.globalinkservices.io" target="_blank">
+        demo.command.globalinkservices.io <span class="arrow">→</span>
+      </a>
+      <div class="copy-block" id="copy-demo">https://demo.command.globalinkservices.io<span class="copy-tag" onclick="copyText('copy-demo', this)">copy</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Start free trial</div>
+      <div class="card-sub">Direct link to the app. 14-day trial, no credit card. Send when they're ready to try it — or include in every post-call follow-up.</div>
+      <a class="link-btn green-btn" href="https://trial.command.globalinkservices.io" target="_blank">
+        trial.command.globalinkservices.io <span class="arrow">→</span>
+      </a>
+      <div class="copy-block" id="copy-trial">https://trial.command.globalinkservices.io<span class="copy-tag" onclick="copyText('copy-trial', this)">copy</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Founding member — Pro</div>
+      <div class="card-sub">$99/mo locked for life (vs standard $149). Stripe payment link — 12 slots, closes April 14.</div>
+      <a class="link-btn" href="https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401" target="_blank">
+        Stripe · Founding Member Pro <span class="arrow">→</span>
+      </a>
+      <div class="copy-block" id="copy-stripe">https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401<span class="copy-tag" onclick="copyText('copy-stripe', this)">copy</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ OUTREACH PANEL ═══════════════════════ -->
+  <div class="panel" id="panel-outreach">
+    <div class="notice"><strong>Voice discipline:</strong> Pure question mode. One sentence of context. One question. No observations. No industry lectures. Sign off JCMD only.</div>
+
+    <div class="section-label">// select prospect → get message</div>
+    <select class="prospect-select" id="prospect-select" onchange="renderMessage()">
+      <option value="">— select prospect —</option>
+      <option value="warm">Warm / post-call follow-up</option>
+      <option value="t2">Touch 2 — different angle</option>
+      <option value="t3">Touch 3 — breakup + referral</option>
+      <option value="inbound">Inbound inquiry reply</option>
+      <option value="founding">Founding member pitch</option>
+    </select>
+
+    <div id="message-output"></div>
+  </div>
+
+  <!-- ═══════════════════════ DEMO PANEL ═══════════════════════ -->
+  <div class="panel" id="panel-demo">
+    <div class="section-label">// navattic demo flows</div>
+
+    <div class="notice"><strong>Status:</strong> Setup steps below. Navattic free tier covers both flows. No code required — browser extension capture.</div>
+
+    <div class="card">
+      <div class="card-title">Flow A — One-pager tour</div>
+      <div class="card-sub">Walks through the one-pager HTML. No app login needed. Best for cold prospects and LinkedIn DMs.</div>
+      <div style="margin-bottom:8px;">
+        <span class="pill pill-amber">5 steps</span>
+        <span class="pill pill-blue">~90 seconds</span>
+        <span class="pill pill-green">no login</span>
+      </div>
+      <div class="copy-block" style="font-size:12px; line-height:1.8; color: var(--tx2);">Step 1 · Hero — "Stop being the bridge. Start being the boss."
+Step 2 · Problem — terminal chaos → ACTIVATE COMMAND
+Step 3 · Features — Dashboard · Router · Bridge
+Step 4 · Positioning — the 4-box market map
+Step 5 · CTA — Start 14-day trial (no credit card)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Flow B — App UI tour</div>
+      <div class="card-sub">Screenshots from app.command.globalinkservices.io. Shows real product. Best for warm prospects post-call.</div>
+      <div style="margin-bottom:8px;">
+        <span class="pill pill-violet">7 screens</span>
+        <span class="pill pill-blue">~2 minutes</span>
+        <span class="pill pill-amber">post-call</span>
+      </div>
+      <div class="copy-block" style="font-size:12px; line-height:1.8; color: var(--tx2);">Screen 1 · Dashboard — agent status grid
+Screen 2 · Register agent — 2-minute flow
+Screen 3 · Agent card — status · task · stall alert
+Screen 4 · Task router — type task · route dispatched
+Screen 5 · Handoff — context bridge initiated
+Screen 6 · Intel card — package complete · context preserved
+Screen 7 · Trial countdown + upgrade CTA</div>
+    </div>
+
+    <div class="section-label" style="margin-top:8px;">// setup steps (one-time, ~30 min)</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Create Navattic account</strong>navattic.com — free tier, no credit card. Install Chrome extension.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Capture Flow A</strong>Open COMMAND_One_Pager_v4.html locally. Use extension to capture 5 steps. Add tooltips from the script above.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Capture Flow B</strong>Log into app.command.globalinkservices.io. Capture 7 screens in order. Add callout annotations.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Publish + get embed URL</strong>Navattic generates a shareable link. That becomes demo.command.globalinkservices.io via Dub.co redirect.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Add to Dub.co</strong>Set demo.command.globalinkservices.io → Navattic published URL. Done. Share from this hub.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ PRICING PANEL ═══════════════════════ -->
+  <div class="panel" id="panel-pricing">
+    <div class="section-label">// pricing — below procurement threshold</div>
+
+    <div class="card">
+      <div class="card-title">Solo <span class="pill pill-blue" style="float:right;margin-top:-2px;">$49/mo</span></div>
+      <div class="card-sub">Up to 3 agent instances · 100K tokens/month<br/>Solo operators, independent consultants</div>
+    </div>
+
+    <div class="card" style="border-color: var(--amber);">
+      <div class="card-title">Pro — most popular <span class="pill pill-amber" style="float:right;margin-top:-2px;">$149/mo</span></div>
+      <div class="card-sub">Up to 10 agent instances · 500K tokens/month<br/>Boutique consulting firms · 1–15 person shops<br/><strong style="color:var(--amber);">Below procurement threshold — owner decides.</strong></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Studio <span class="pill pill-blue" style="float:right;margin-top:-2px;">$349/mo</span></div>
+      <div class="card-sub">Unlimited instances · 2M tokens/month<br/>Multi-client workspaces</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Agency <span class="pill pill-violet" style="float:right;margin-top:-2px;">$799/mo</span></div>
+      <div class="card-sub">Unlimited + white-label · SLAs + localization<br/>LATAM-ready · Agency reseller tier</div>
+    </div>
+
+    <div class="notice" style="border-color: var(--green); background: rgba(46,160,67,0.08);">
+      <strong style="color:var(--green);">Founding Member:</strong> $99/mo locked for life — 12 slots, closes April 14. Stripe link in the Links tab.
+    </div>
+
+    <div class="section-label">// trial</div>
+    <div class="copy-block" style="text-align:center; color: var(--green); font-size:13px; padding: 16px;">14-day free trial · no credit card · no freemium</div>
+  </div>
+
+  <!-- ═══════════════════════ SETUP PANEL ═══════════════════════ -->
+  <div class="panel" id="panel-setup">
+    <div class="section-label">// dub.co short link setup</div>
+
+    <div class="notice"><strong>One-time setup ~15 min.</strong> All three links route through globalinkservices.io domain. No new domain needed.</div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Create Dub.co account</strong>dub.co — free tier handles all three links. Connect your globalinkservices.io domain under Settings → Domains.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Add DNS CNAME record</strong>In your DNS (Vercel or registrar) — add CNAME: <code style="color:var(--amber);font-size:11px;">go → cname.dub.co</code>. Propagation: 5–15 min.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Create Link 1 — one-pager</strong>
+        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: https://command.globalinkservices.io/one-pager
+Short link: go.command.globalinkservices.io</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Create Link 2 — demo</strong>
+        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: [Navattic published URL — add after Step 5 in Demo tab]
+Short link: demo.command.globalinkservices.io</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Create Link 3 — trial</strong>
+        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: https://app.command.globalinkservices.io/signup
+Short link: trial.command.globalinkservices.io</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body"><strong>Deploy this hub to command-gl</strong>Drop command_hub.html into command-gl/public/ as sales-hub.html. Access at command.globalinkservices.io/sales-hub from any device.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body"><strong>Bookmark on phone</strong>Open on iPhone/Android → Share → Add to Home Screen. Acts like an app — no App Store needed.</div>
+    </div>
+
+    <hr class="divider"/>
+    <div class="section-label">// this file lives at</div>
+    <div class="copy-block" id="copy-huburl">command-gl/public/sales-hub.html
+→ command.globalinkservices.io/sales-hub<span class="copy-tag" onclick="copyText('copy-huburl', this)">copy</span></div>
+  </div>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.panel;
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + target).classList.add('active');
+      });
+    });
+
+    function copyText(blockId, btn) {
+      const el = document.getElementById(blockId);
+      const tag = el.querySelector('.copy-tag');
+      const text = el.textContent.replace('copy', '').replace('copied', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const t = btn || tag;
+        t.textContent = 'copied';
+        t.classList.add('copied');
+        showToast('Copied to clipboard');
+        setTimeout(() => { t.textContent = 'copy'; t.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    const messages = {
+      warm: {
+        label: 'Post-call follow-up (Template A)',
+        pills: ['strong interest', 'beta opt-in'],
+        text: `Subject: Notes from our call + next step
+
+[First Name],
+
+Thanks for the time today. A few things I took away from what you shared:
+
+· [Specific thing they said — their words]
+· [Second specific point]
+· [Most significant pain they named]
+
+That context is exactly what COMMAND is built around. I'm attaching the one-pager: go.command.globalinkservices.io
+
+As we discussed, I'd like to include [Company] in our early access group. I'll follow up in [X] days with specifics — no commitment needed at that point.
+
+JCMD`
+      },
+      t2: {
+        label: 'Touch 2 — different angle',
+        pills: ['day 4', 'model-agnostic'],
+        text: `[First Name] —
+
+Different angle in case the first one didn't land: the firms I've been speaking with aren't struggling to deploy AI — they're struggling to see what their AI is doing after it's deployed. Agents stall, context drops at handoffs, and the operator becomes the only connection between them.
+
+This happens whether you're running Claude, ChatGPT, Perplexity, or all three — the coordination problem is model-agnostic. No single vendor solves it, because the problem only appears when you're running more than one instance or more than one tool.
+
+If that's not where [Company] is, ignore this. If it is — 20 minutes, no deck, no demo.
+
+JCMD`
+      },
+      t3: {
+        label: 'Touch 3 — breakup + referral',
+        pills: ['day 8', 'final touch'],
+        text: `[First Name] —
+
+Last one — I don't want to clog your inbox.
+
+If the timing's wrong or this isn't relevant to [Company] right now, no issue at all. I'm studying how boutique firms manage AI agent coordination once the stack gets past two or three tools — and I know that's not where every firm is yet.
+
+If you do know someone running a multi-agent stack who'd be the right person to talk to, an intro would mean a lot.
+
+JCMD`
+      },
+      inbound: {
+        label: 'Inbound inquiry reply',
+        pills: ['inbound', 'warm'],
+        text: `[First Name] —
+
+Thanks for reaching out — good timing.
+
+I'm in research mode right now, talking to founders who are deep in managing multi-agent AI stacks. Before I walk you through what I'm building, I'd love 20 minutes to understand how you're running yours — it'll make what I tell you actually relevant.
+
+Are you open to a quick call this week?
+
+JCMD`
+      },
+      founding: {
+        label: 'Founding member pitch',
+        pills: ['$99/mo', 'closes Apr 14'],
+        text: `[First Name] —
+
+One thing I want to share before I close the founding cohort.
+
+I'm building COMMAND for exactly the situation you described — one interface to see all your agents, route tasks, and preserve context across handoffs. Model-agnostic. Claude + GPT + Perplexity simultaneously.
+
+Founding Member is $99/mo locked for life — vs standard Pro at $149. 12 slots. Closes April 14.
+
+One-pager: go.command.globalinkservices.io
+Start trial: trial.command.globalinkservices.io
+
+No pressure — if the timing isn't right, no issue.
+
+JCMD`
+      }
+    };
+
+    function renderMessage() {
+      const key = document.getElementById('prospect-select').value;
+      const out = document.getElementById('message-output');
+      if (!key) { out.innerHTML = ''; return; }
+      const m = messages[key];
+      const pillsHtml = m.pills.map(p => `<span class="pill pill-amber">${p}</span>`).join('');
+      out.innerHTML = `
+        <div class="card">
+          <div class="card-title">${m.label}</div>
+          <div style="margin-bottom:10px;">${pillsHtml}</div>
+          <div class="copy-block" id="msg-block">${m.text}<span class="copy-tag" onclick="copyText('msg-block', this)">copy</span></div>
+        </div>`;
+    }
+  </script>
+</body>
+</html>
