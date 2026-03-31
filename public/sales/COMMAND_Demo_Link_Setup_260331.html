@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COMMAND — Demo & Link Infrastructure Setup</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080B11; --surface: #0D1117; --card: #161B22; --border: #21262D;
+      --amber: #F0A030; --blue: #1F6FEB; --green: #2EA043; --violet: #A78BFA;
+      --tx1: #E6EDF3; --tx2: #9DA8B5; --tx3: #4A5568;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--tx1); font-family: Inter, sans-serif; line-height: 1.6; padding: 40px 20px 80px; max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+    h2 { font-size: 18px; font-weight: 600; margin: 40px 0 16px; color: var(--amber); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; }
+    h3 { font-size: 15px; font-weight: 600; margin: 24px 0 10px; color: var(--tx1); }
+    p { font-size: 14px; color: var(--tx2); margin-bottom: 12px; }
+    .meta { font-size: 13px; color: var(--tx3); font-family: 'JetBrains Mono', monospace; margin-bottom: 32px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .card h3 { margin-top: 0; }
+    .notice { background: rgba(240,160,48,0.08); border: 1px solid rgba(240,160,48,0.3); border-radius: 8px; padding: 14px 16px; font-size: 13px; color: var(--tx2); margin-bottom: 20px; }
+    .notice strong { color: var(--amber); }
+    .step { display: flex; gap: 14px; margin-bottom: 20px; }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(31,111,235,0.15); border: 1px solid var(--blue); font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #9BC1FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .step-body { font-size: 13px; color: var(--tx2); flex: 1; }
+    .step-body strong { color: var(--tx1); display: block; margin-bottom: 4px; font-size: 14px; }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; color: var(--amber); }
+    .code-block { background: #0A0F16; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--tx2); margin: 10px 0; white-space: pre-wrap; line-height: 1.8; }
+    .pill { display: inline-block; font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 3px 9px; border-radius: 999px; margin-right: 6px; margin-bottom: 6px; border: 1px solid; }
+    .pill-amber { color: var(--amber); border-color: rgba(240,160,48,0.4); background: rgba(240,160,48,0.08); }
+    .pill-blue { color: #9BC1FF; border-color: rgba(31,111,235,0.4); background: rgba(31,111,235,0.08); }
+    .pill-green { color: #7FE3A0; border-color: rgba(46,160,67,0.4); background: rgba(46,160,67,0.08); }
+    .pill-violet { color: var(--violet); border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.08); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    th { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--tx3); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(33,38,45,0.5); color: var(--tx2); vertical-align: top; }
+    td:first-child { color: var(--tx1); font-weight: 500; }
+    .tag-amber { color: var(--amber); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    .screen-list { counter-reset: screens; }
+    .screen-item { counter-increment: screens; display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .screen-item:last-child { border-bottom: none; }
+    .screen-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--tx3); min-width: 28px; padding-top: 2px; }
+    .screen-content { flex: 1; }
+    .screen-title { font-size: 13px; font-weight: 600; color: var(--tx1); margin-bottom: 3px; }
+    .screen-desc { font-size: 12px; color: var(--tx2); }
+    .screen-tooltip { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--violet); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <h1>COMMAND — Demo &amp; Link Infrastructure</h1>
+  <div class="meta">Navattic · Dub.co · GlobaLink LLC · Confidential · 260331</div>
+
+  <div class="notice">
+    <strong>Scope:</strong> This doc covers two things. (1) Navattic interactive demo setup — two flows, full tooltip scripts. (2) Dub.co short link infrastructure — three links, DNS instructions. Deploy command_hub.html separately as the mobile-accessible sales hub.
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════════════════════════════════
+       PART 1 — DUB.CO
+  ══════════════════════════════════════════ -->
+
+  <h2>// part 1 — dub.co link infrastructure</h2>
+
+  <p>Three short links. All route through <code>globalinkservices.io</code> — no new domain needed. Dub.co free tier handles all three with click analytics included.</p>
+
+  <table>
+    <thead><tr><th>Short link</th><th>Destination</th><th>When to send</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="tag-amber">go.command.globalinkservices.io</span></td>
+        <td>command.globalinkservices.io/one-pager</td>
+        <td>After every discovery call. In all post-call follow-up emails. On the one-pager CTA.</td>
+      </tr>
+      <tr>
+        <td><span class="tag-amber">demo.command.globalinkservices.io</span></td>
+        <td>Navattic published demo URL</td>
+        <td>After warm signal. When prospect asks "can I see it?" Reply with this — no login needed.</td>
+      </tr>
+      <tr>
+        <td><span class="tag-amber">trial.command.globalinkservices.io</span></td>
+        <td>app.command.globalinkservices.io/signup</td>
+        <td>When prospect says they're ready. Founding member sequence. Every post-call email footer.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Setup — one-time, ~15 minutes</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <strong>Create Dub.co account</strong>
+      Go to <code>dub.co</code> — free tier. Sign up with jason@globalinkservices.io. No credit card required at free tier.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <strong>Add your domain</strong>
+      Dub.co → Settings → Domains → Add Domain → enter <code>globalinkservices.io</code>. Dub shows you a CNAME record to add.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <strong>Add CNAME in DNS (Vercel)</strong>
+      Vercel Dashboard → your globalinkservices.io project → Settings → Domains → Add.
+      <div class="code-block">Type:  CNAME
+Name:  go
+Value: cname.dub.co
+
+Repeat for subdomain: demo → cname.dub.co
+Repeat for subdomain: trial → cname.dub.co</div>
+      Propagation: 5–15 min. Dub.co will confirm when active.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <strong>Create link 1 — one-pager</strong>
+      <div class="code-block">Dub.co → Create Link
+Short link:  go.command.globalinkservices.io
+Destination: https://command.globalinkservices.io/one-pager
+Tags:        sales, one-pager</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <strong>Create link 2 — demo</strong>
+      <div class="code-block">Dub.co → Create Link
+Short link:  demo.command.globalinkservices.io
+Destination: [paste Navattic URL after Part 2 below]
+Tags:        sales, demo</div>
+      Leave destination blank until Navattic is published. Update it after.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <strong>Create link 3 — trial</strong>
+      <div class="code-block">Dub.co → Create Link
+Short link:  trial.command.globalinkservices.io
+Destination: https://app.command.globalinkservices.io/signup
+Tags:        sales, trial</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <strong>Test all three links</strong>
+      Open each in a private browser window. Confirm redirect lands on correct destination. Check Dub.co dashboard — clicks should show immediately.
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════════════════════════════════
+       PART 2 — NAVATTIC
+  ══════════════════════════════════════════ -->
+
+  <h2>// part 2 — navattic demo setup</h2>
+
+  <p>Two separate flows. Flow A walks through the one-pager — no app login needed, works immediately. Flow B walks through the actual app UI — requires screenshots from app.command.globalinkservices.io. Build Flow A first, ship it, then do Flow B.</p>
+
+  <div class="notice">
+    <strong>Tool:</strong> navattic.com — free tier. Install Navattic Chrome extension. Capture is point-and-click, no code. Estimated build time: Flow A = 20 min · Flow B = 30 min.
+  </div>
+
+  <h3>Navattic account setup</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body"><strong>Create account</strong> navattic.com → Sign up with jason@globalinkservices.io → install Chrome extension → pin to toolbar.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body"><strong>Create two demo shells</strong> Navattic dashboard → New Demo → name them "COMMAND — One-Pager Tour" and "COMMAND — Product Tour". Keep both drafts until published.</div>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>// flow a — one-pager tour</h2>
+
+  <div style="margin-bottom:12px;">
+    <span class="pill pill-amber">5 steps</span>
+    <span class="pill pill-blue">~90 seconds</span>
+    <span class="pill pill-green">no login required</span>
+    <span class="pill pill-violet">cold prospects</span>
+  </div>
+
+  <p>Open COMMAND_One_Pager_v4.html locally in Chrome. Activate Navattic extension → Start Capture. Click through each step below. After each click, Navattic takes a screenshot — add the tooltip text shown.</p>
+
+  <div class="card">
+    <div class="screen-list">
+      <div class="screen-item">
+        <div class="screen-num">01</div>
+        <div class="screen-content">
+          <div class="screen-title">Hero — the problem in one line</div>
+          <div class="screen-desc">Capture the hero section. Highlight the h1 headline.</div>
+          <div class="screen-tooltip">Tooltip: "You built an AI stack to save time. Now you manage it full-time. COMMAND ends that."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">02</div>
+        <div class="screen-content">
+          <div class="screen-title">Problem — the terminal chaos</div>
+          <div class="screen-desc">Scroll to the terminal panel. Capture the error lines: agent dropped, context lost, stalled 22 min.</div>
+          <div class="screen-tooltip">Tooltip: "Recognize this? Every agent failure is invisible until you're the one cleaning it up."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">03</div>
+        <div class="screen-content">
+          <div class="screen-title">Activation — COMMAND takes over</div>
+          <div class="screen-desc">Click [ACTIVATE COMMAND] button. Capture the dashboard view that appears — agent cards, status dots, Intel card.</div>
+          <div class="screen-tooltip">Tooltip: "One click. All agents visible. Context preserved. This is what COMMAND replaces the chaos with."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">04</div>
+        <div class="screen-content">
+          <div class="screen-title">Features — three things it does</div>
+          <div class="screen-desc">Scroll to the 3-card features section. Capture all three cards in frame.</div>
+          <div class="screen-tooltip">Tooltip: "Agent Status Dashboard. Task Router. Handoff &amp; Context Bridge. Bring your own agents — COMMAND wrangles them."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">05</div>
+        <div class="screen-content">
+          <div class="screen-title">CTA — start the trial</div>
+          <div class="screen-desc">Scroll to the pricing section. Highlight the Pro card ($149/mo) and the trial note below.</div>
+          <div class="screen-tooltip">Tooltip: "14-day free trial. No credit card. Below procurement threshold — owner decides, no committee."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Flow A publish settings</h3>
+  <div class="code-block">Demo name:    COMMAND — One-Pager Tour
+CTA button:   Start free trial
+CTA URL:      https://trial.command.globalinkservices.io
+Lead capture: OFF (friction kills cold prospects)
+Password:     OFF
+Branding:     Remove Navattic badge (free tier allows this)</div>
+
+  <hr class="divider"/>
+
+  <h2>// flow b — app ui tour</h2>
+
+  <div style="margin-bottom:12px;">
+    <span class="pill pill-amber">7 screens</span>
+    <span class="pill pill-blue">~2 minutes</span>
+    <span class="pill pill-amber">post-call prospects</span>
+    <span class="pill pill-violet">warm signal</span>
+  </div>
+
+  <p>Log into app.command.globalinkservices.io as ws_001. Activate Navattic extension. Capture each screen in order. Do NOT capture any internal-flagged screens (NEXT_PUBLIC_GL_INTERNAL must be false — already confirmed on production).</p>
+
+  <div class="card">
+    <div class="screen-list">
+      <div class="screen-item">
+        <div class="screen-num">01</div>
+        <div class="screen-content">
+          <div class="screen-title">Dashboard — agent status grid</div>
+          <div class="screen-desc">Main dashboard with at least 2 registered agents visible. One active (pulsing dot), one idle.</div>
+          <div class="screen-tooltip">Tooltip: "Every agent. One screen. Status, current task, last activity — no tab-switching."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">02</div>
+        <div class="screen-content">
+          <div class="screen-title">Register agent — 2-minute flow</div>
+          <div class="screen-desc">Agent registration modal or page. Show the name, vendor, protocol fields.</div>
+          <div class="screen-tooltip">Tooltip: "Register any agent in under 2 minutes. Claude, GPT, Perplexity, Cursor — model-agnostic by design."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">03</div>
+        <div class="screen-content">
+          <div class="screen-title">Agent card — live detail</div>
+          <div class="screen-desc">Click into a single agent card. Show status, current task, MCP endpoint URL.</div>
+          <div class="screen-tooltip">Tooltip: "Click any agent to see exactly what it's working on — and when it last reported in."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">04</div>
+        <div class="screen-content">
+          <div class="screen-title">Task router — dispatch</div>
+          <div class="screen-desc">Task input area. Show typing a task and the route confirmation.</div>
+          <div class="screen-tooltip">Tooltip: "Type a task. COMMAND routes it to the right agent — no manual decision required."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">05</div>
+        <div class="screen-content">
+          <div class="screen-title">Handoff — context bridge initiated</div>
+          <div class="screen-desc">Handoff state — first agent complete, context package being assembled.</div>
+          <div class="screen-tooltip">Tooltip: "When work moves between agents, COMMAND packages everything — what was done, what was decided, what's still open."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">06</div>
+        <div class="screen-content">
+          <div class="screen-title">Intel card — handoff complete</div>
+          <div class="screen-desc">Intel card visible: "Handoff complete. Context preserved." Second agent now active.</div>
+          <div class="screen-tooltip">Tooltip: "No copy-paste. No re-explaining. The second agent picks up exactly where the first left off."</div>
+        </div>
+      </div>
+      <div class="screen-item">
+        <div class="screen-num">07</div>
+        <div class="screen-content">
+          <div class="screen-title">Trial countdown — upgrade CTA</div>
+          <div class="screen-desc">Trial banner or countdown UI. Show days remaining and upgrade path.</div>
+          <div class="screen-tooltip">Tooltip: "14-day trial. No credit card. Upgrade when you're ready — or stay on trial until you're sure."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Flow B publish settings</h3>
+  <div class="code-block">Demo name:    COMMAND — Product Tour
+CTA button:   Start free trial
+CTA URL:      https://trial.command.globalinkservices.io
+Lead capture: ON — name + email (warm prospects only, they expect it)
+Password:     OFF
+Branding:     Remove Navattic badge</div>
+
+  <hr class="divider"/>
+
+  <h2>// after publishing — connect to dub.co</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body"><strong>Publish Flow A first</strong> Navattic → Publish → copy the share URL (format: app.navattic.com/...)</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body"><strong>Update Dub.co demo link</strong> Dub.co → demo.command.globalinkservices.io → Edit → paste Navattic URL as destination → Save.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body"><strong>Test the full chain</strong> Open demo.command.globalinkservices.io in a private window. Should land on Navattic tour, auto-start, CTA routes to trial link.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body"><strong>Update command_hub.html</strong> The demo link in the hub already points to demo.command.globalinkservices.io — no changes needed once Dub.co is live.</div>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>// total time estimate</h2>
+
+  <table>
+    <thead><tr><th>Task</th><th>Time</th><th>Walk away?</th></tr></thead>
+    <tbody>
+      <tr><td>Dub.co account + domain setup</td><td>10 min</td><td>DNS propagation: yes (5–15 min)</td></tr>
+      <tr><td>Create 3 Dub.co links</td><td>5 min</td><td>—</td></tr>
+      <tr><td>Navattic account + extension</td><td>5 min</td><td>—</td></tr>
+      <tr><td>Build + publish Flow A</td><td>20 min</td><td>—</td></tr>
+      <tr><td>Build + publish Flow B</td><td>30 min</td><td>—</td></tr>
+      <tr><td>Connect Dub.co → Navattic</td><td>5 min</td><td>—</td></tr>
+      <tr><td>Deploy command_hub.html to command-gl</td><td>5 min</td><td>Vercel deploy: yes (2–4 min)</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>~80 min</strong></td><td>Can split across two sessions</td></tr>
+    </tbody>
+  </table>
+
+  <div class="notice" style="margin-top: 24px;">
+    <strong>Recommended order:</strong> (1) Dub.co setup → (2) Flow A Navattic → (3) Connect + test → (4) Deploy hub. Flow B can wait until after first discovery call — Flow A is enough to ship today.
+  </div>
+
+  <hr class="divider"/>
+  <p style="font-size:12px; color: var(--tx3); font-family: 'JetBrains Mono', monospace;">GlobaLink LLC · Confidential · 260331 · jason@globalinkservices.io</p>
+
+</body>
+</html>
