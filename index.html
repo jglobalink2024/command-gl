@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COMMAND — Agent Operations Center</title>
+<link rel="icon" type="image/svg+xml" href="/command-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -13,7 +14,7 @@
   --surf:#151c2c;--surf2:#1a2235;
   --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.11);
   --amber:#f0a030;--teal:#1fd4a0;--red:#e85050;
-  --tx:#eceef4;--tx2:#7a8099;--tx3:#404660;
+  --tx:#eceef4;--tx2:#9da8b5;--tx3:#404660;
   --mono:'Space Mono',monospace;
   --display:'Syne',sans-serif;
   --sans:'DM Sans',sans-serif;
@@ -156,6 +157,25 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .fdesc{font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:14px}
 .ftag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;border:1px solid rgba(31,212,160,.2);padding:3px 8px;border-radius:3px}
 
+/* ROI */
+.roi-wrap{padding-top:84px;padding-bottom:84px}
+.roi-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:26px}
+.roi-inputs{display:flex;flex-direction:column;gap:20px}
+.roi-row{display:flex;flex-direction:column;gap:9px}
+.roi-label{font-family:var(--sans);font-size:15px;color:#e6edf3}
+.roi-val{font-family:var(--mono);font-size:14px;color:#f0a030}
+.roi-slider{width:100%;appearance:none;height:6px;border-radius:999px;background:rgba(255,255,255,.14);outline:none}
+.roi-slider::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:#f0a030;border:none;cursor:pointer}
+.roi-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#f0a030;border:none;cursor:pointer}
+.roi-slider::-moz-range-track{height:6px;border-radius:999px;background:rgba(255,255,255,.14)}
+.roi-outputs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.roi-output{padding:10px 0}
+.roi-num{font-family:var(--mono);font-size:34px;line-height:1.1;color:#f0a030}
+.roi-lbl{margin-top:6px;font-family:var(--sans);font-size:13px;color:#9da8b5}
+.roi-cta{margin-top:32px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.roi-cta-copy{font-family:var(--display);font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.12;color:#e6edf3}
+.roi-cta-copy .roi-hours{color:#f0a030}
+
 /* AUDIENCE */
 .audgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--brd);margin-top:8px}
 .audcol{background:var(--surf);padding:36px 34px}
@@ -268,7 +288,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 .scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.022;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
 
 @media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 40px}}
-@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.fright{justify-content:center}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
+@media(max-width:680px){nav{padding:0 20px}.nav-links{display:none}.hero{padding:80px 20px 40px}.swrap{padding:60px 20px}.pgrid,.qgrid,.fgrid,.audgrid,.roi-grid,.roi-outputs{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 20px;text-align:center}.pdiv{display:none}.ctasec{padding:60px 20px}footer{flex-direction:column;text-align:center;padding:24px 20px}.fright{justify-content:center}.wl-inner{padding:60px 20px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
 @media(max-width:480px){
   button,
   .nav-cta,
@@ -291,7 +311,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 <nav>
   <div class="nav-logo"><div class="logo-pulse"></div>COMMAND</div>
   <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#audience">Who it&rsquo;s for</a></li><li><a href="#waitlist">Early Access</a></li></ul>
-  <button class="nav-cta" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start Free Trial</button>
+  <button type="button" class="nav-cta" data-testid="cta-trial" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start Free Trial</button>
 </nav>
 
 <div class="ticker-wrap"><div class="ticker-inner">
@@ -323,8 +343,8 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
       <div class="hpi"><div class="hpn">90 days</div><div class="hpl">Target ROI<br>window</div></div>
     </div>
     <div class="hactions">
-      <button class="btn-p" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button class="btn-s" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.5l4 1.5-4 1.5V5.5z" fill="currentColor"/></svg></button>
+      <button type="button" class="btn-p" data-testid="cta-trial-hero" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="btn-s" data-testid="nav-demo" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.5l4 1.5-4 1.5V5.5z" fill="currentColor"/></svg></button>
     </div>
     <p class="hfine">14-day free trial &nbsp;&middot;&nbsp; No credit card &nbsp;&middot;&nbsp; No sales call &nbsp;&middot;&nbsp; Log in, connect your agents, and see everything from one place &mdash; in minutes</p>
   </div>
@@ -412,6 +432,51 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   </div>
 </div></div>
 
+<div style="border-top:1px solid var(--brd)" id="roi">
+<div class="swrap roi-wrap">
+  <div class="sey">ROI Calculator</div>
+  <h2 class="sh2" style="color:#e6edf3">See your weekly ROI<br>before you buy.</h2>
+  <p class="ssub" style="margin-bottom:34px">Adjust your numbers and see how much time and revenue COMMAND can recover each week.</p>
+  <div class="roi-grid">
+    <div class="roi-inputs">
+      <div class="roi-row">
+        <label class="roi-label" for="roi-sessions">How many AI sessions do you run per day? <span class="roi-val" id="roi-sessions-val">4</span></label>
+        <input class="roi-slider" id="roi-sessions" type="range" min="2" max="20" step="1" value="4">
+      </div>
+      <div class="roi-row">
+        <label class="roi-label" for="roi-minutes">Minutes per day copying context between sessions? <span class="roi-val" id="roi-minutes-val">45</span></label>
+        <input class="roi-slider" id="roi-minutes" type="range" min="10" max="180" step="5" value="45">
+      </div>
+      <div class="roi-row">
+        <label class="roi-label" for="roi-rate">Your hourly rate ($/hr) <span class="roi-val" id="roi-rate-val">150</span></label>
+        <input class="roi-slider" id="roi-rate" type="range" min="50" max="500" step="10" value="150">
+      </div>
+    </div>
+    <div class="roi-outputs">
+      <div class="roi-output">
+        <div class="roi-num" id="roi-hours">15.0</div>
+        <div class="roi-lbl">Hours saved per week</div>
+      </div>
+      <div class="roi-output">
+        <div class="roi-num" id="roi-value">$2,250</div>
+        <div class="roi-lbl">Value recovered per week</div>
+      </div>
+      <div class="roi-output">
+        <div class="roi-num" id="roi-cost">$34</div>
+        <div class="roi-lbl">COMMAND Pro cost per week</div>
+      </div>
+      <div class="roi-output">
+        <div class="roi-num" id="roi-percent">6,517.6%</div>
+        <div class="roi-lbl">Your weekly ROI %</div>
+      </div>
+    </div>
+  </div>
+  <div class="roi-cta">
+    <div class="roi-cta-copy" id="roi-cta-copy">Start saving <span class="roi-hours">15.0 hrs/week</span> &mdash; 14-day free trial</div>
+    <button type="button" class="btn-p" onclick="window.open('https://buy.stripe.com/bJe00lfsw74O74E5cT9k408','_blank')">Get Started Free &mdash; No Credit Card</button>
+  </div>
+</div></div>
+
 <div style="border-top:1px solid var(--brd)" id="pricing">
 <div class="swrap">
   <div class="sey">Pricing</div>
@@ -426,7 +491,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   </div>
   <div class="qgrid">
     <div class="qc"><div class="qtier">Solo</div><div class="qdescriptor">Lightweight monitoring for a solo operator with a small agent stack.</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
-    <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qdescriptor">Where most boutique operators land: full Phase 1 &mdash; status, routing, and context handoffs.</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button class="qbtn f" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
+    <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qdescriptor">Where most boutique operators land: full Phase 1 &mdash; status, routing, and context handoffs.</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button type="button" class="qbtn f" data-testid="cta-trial-pricing" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
     <div class="qc"><div class="qtier">Studio</div><div class="qdescriptor">Small teams and multi-client workflows with room to grow.</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
     <div class="qc"><div class="qtier">Agency</div><div class="qdescriptor">White-label, SLA, and dedicated support for larger operator-led shops.</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
   </div>
@@ -457,6 +522,25 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   </div>
 </div></div>
 
+<div style="border-top:1px solid var(--brd)" id="faq">
+<div class="swrap">
+  <div class="sey">FAQ</div>
+  <h2 class="sh2">Common questions</h2>
+  <p class="ssub" style="margin-bottom:28px">Straight answers before you join early access or start a trial.</p>
+  <details data-testid="faq-item" style="border:1px solid var(--brd);border-radius:6px;padding:14px 18px;margin-bottom:12px;background:var(--surf)">
+    <summary style="cursor:pointer;font-weight:600;font-size:15px;list-style-position:outside">What is COMMAND?</summary>
+    <p class="pdesc" style="margin-top:12px">COMMAND is an agent operations center: one place to see agent status, route tasks, and hand off context across your stack &mdash; without being the human relay between tools.</p>
+  </details>
+  <details data-testid="faq-item" style="border:1px solid var(--brd);border-radius:6px;padding:14px 18px;margin-bottom:12px;background:var(--surf)">
+    <summary style="cursor:pointer;font-weight:600;font-size:15px">Where is my data stored?</summary>
+    <p class="pdesc" style="margin-top:12px">The hosted product stores workspace data with our infrastructure providers (e.g. Supabase) under our privacy policy. See the Privacy Policy for retention, subprocessors, and your rights.</p>
+  </details>
+  <details data-testid="faq-item" style="border:1px solid var(--brd);border-radius:6px;padding:14px 18px;margin-bottom:12px;background:var(--surf)">
+    <summary style="cursor:pointer;font-weight:600;font-size:15px">Do I need a credit card for the trial?</summary>
+    <p class="pdesc" style="margin-top:12px">No. The 14-day trial is designed to be frictionless: no credit card required to get started on supported tiers.</p>
+  </details>
+</div></div>
+
 <!-- ══════════════════════════════════════
      WAITLIST / EMAIL CAPTURE
      Buttondown form — styled to COMMAND brand
@@ -482,8 +566,8 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <div class="ctah2">Your agents are running.<br><span style="color:var(--amber)">Time to take command.</span></div>
   <p class="ctasub">14-day free trial. No credit card. No sales call. Log in, connect your agents, and see every agent from one place &mdash; in minutes.</p>
   <div class="ctarow">
-    <button class="btn-p" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button class="btn-s" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo</button>
+    <button type="button" class="btn-p" data-testid="cta-trial-footer" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Trial &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="btn-s" data-testid="nav-demo-footer" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo</button>
   </div>
   <p class="ctafine">Built by GlobaLink &nbsp;&middot;&nbsp; Florida LLC &nbsp;&middot;&nbsp; Bootstrap-first &nbsp;&middot;&nbsp; Operator-led</p>
 </div>
@@ -511,6 +595,15 @@ setTimeout(function(){
   var bars=[['pf0','78%'],['pf1','45%'],['pf2','33%']];
   bars.forEach(function(b){var el=document.getElementById(b[0]);if(el){el.style.transition='width 1.4s ease';el.style.width=b[1];}});
 },500);
+</script>
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "w35dn6egp4");
+</script>
+<script data-cfasync="false">
 var mo=[49,149,349,799],an=[39,119,279,639],isA=false;
 function toggleB(){
   isA=!isA;
@@ -526,6 +619,47 @@ function toggleB(){
     if(el)el.innerHTML=isA?'<span style="color:var(--teal)">Save 20% &middot; billed yearly</span>':'&nbsp;';
   });
 }
+
+function fmtMoney(v){
+  return '$'+Math.round(v).toLocaleString();
+}
+function updateRoi(){
+  var sessions=document.getElementById('roi-sessions');
+  var minutes=document.getElementById('roi-minutes');
+  var rate=document.getElementById('roi-rate');
+  if(!sessions||!minutes||!rate)return;
+  var s=Number(sessions.value);
+  var m=Number(minutes.value);
+  var r=Number(rate.value);
+  var hours=(s*m*5)/60;
+  var value=hours*r;
+  var cost=34;
+  var roi=((value-cost)/cost)*100;
+
+  var sv=document.getElementById('roi-sessions-val');
+  var mv=document.getElementById('roi-minutes-val');
+  var rv=document.getElementById('roi-rate-val');
+  if(sv)sv.textContent=String(s);
+  if(mv)mv.textContent=String(m);
+  if(rv)rv.textContent=String(r);
+
+  var h=document.getElementById('roi-hours');
+  var v=document.getElementById('roi-value');
+  var c=document.getElementById('roi-cost');
+  var p=document.getElementById('roi-percent');
+  var cta=document.getElementById('roi-cta-copy');
+  var hoursText=hours.toFixed(1);
+  if(h)h.textContent=hoursText;
+  if(v)v.textContent=fmtMoney(value);
+  if(c)c.textContent='$34';
+  if(p)p.textContent=roi.toLocaleString(undefined,{maximumFractionDigits:1,minimumFractionDigits:1})+'%';
+  if(cta)cta.innerHTML='Start saving <span class="roi-hours">'+hoursText+' hrs/week</span> &mdash; 14-day free trial';
+}
+['roi-sessions','roi-minutes','roi-rate'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener('input',updateRoi);
+});
+updateRoi();
 </script>
 </body>
 </html>
