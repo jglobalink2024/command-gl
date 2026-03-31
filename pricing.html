@@ -35,6 +35,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero h1{font-family:var(--display);font-size:clamp(36px,4.2vw,62px);font-weight:800;line-height:1.03;letter-spacing:-.03em;color:var(--tx)}
 .hero h1 .acc{color:var(--amber)}
 .hero p{margin:16px auto 0;max-width:760px;color:var(--tx2);font-size:17px;line-height:1.7}
+.pricing-hero-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+.hero-line-1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #9DA8B5;
+  letter-spacing: 0em;
+  line-height: 1.1;
+}
+.hero-line-2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 56px;
+  font-weight: 600;
+  color: #E6EDF3;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.hero-line-3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: #F0A030;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+@media (max-width: 768px) {
+  .hero-line-1 { font-size: 22px; }
+  .hero-line-2 { font-size: 38px; }
+  .hero-line-3 { font-size: 28px; }
+}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;background:var(--brd);padding:1px}
 .card{background:var(--bg2);padding:28px 22px;display:flex;flex-direction:column;transition:background .15s,border-color .15s,transform .15s}
 .card:hover{background:var(--surf)}
@@ -97,7 +133,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 <main class="wrap">
   <section class="hero">
-    <h1>All your agents. One screen. No more bridges.</h1>
+    <div class="pricing-hero-headline">
+      <span class="hero-line-1">All your agents.</span>
+      <span class="hero-line-2">One screen.</span>
+      <span class="hero-line-3">No more bridges.</span>
+    </div>
     <p>14-day free trial on all plans. No credit card required.</p>
   </section>
 
