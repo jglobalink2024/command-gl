@@ -2,7 +2,7 @@
   "rewrites": [
     { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/demo", "destination": "/demo.html" },
-    { "source": "/one-pager", "destination": "/sales/COMMAND_One_Pager_v18.html" }
+    { "source": "/one-pager", "destination": "/sales/COMMAND_One_Pager_v19.html" }
   ],
   "headers": [
     {
