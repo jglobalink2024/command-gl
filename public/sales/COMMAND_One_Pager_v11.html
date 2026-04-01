@@ -500,10 +500,10 @@
     let scrollLocked = false;
     let lockScrollY = 0;
 
-    // Demo ↔ positioning “composition” beat — freeze frame until user engages the demo
+    // Demo ↔ positioning “composition” beat — holds on the same frame for steps 1–4 (each CTA / wheel advances)
     let demoComposeLocked = false;
-    let demoComposeReleased = false;
     let demoLockScrollY = 0;
+    let step = 1;
     const DEMO_COMPOSE_VH_FRAC = 0.42; // positioning top lands at this fraction of viewport (tweak 0.38–0.48 to match design)
 
     function updateDemoLockMetrics() {
@@ -516,8 +516,12 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(updateDemoLockMetrics);
     window.addEventListener("resize", () => {
       updateDemoLockMetrics();
-      if (demoComposeLocked && !demoComposeReleased) window.scrollTo(0, demoLockScrollY);
+      if (demoComposeLocked) window.scrollTo(0, demoLockScrollY);
     });
+
+    function demoComposeHoldActive() {
+      return step >= 1 && step <= 4;
+    }
 
     // Scroll lock enforcement
     function onScrollAttempt() {
@@ -525,7 +529,7 @@
         window.scrollTo(0, lockScrollY);
         return;
       }
-      if (!demoComposeReleased) {
+      if (demoComposeHoldActive()) {
         if (demoComposeLocked && window.scrollY < demoLockScrollY - 48) {
           demoComposeLocked = false;
         } else {
@@ -615,7 +619,6 @@
         btn.classList.remove("fired");
         btn.textContent = "[  ACTIVATE COMMAND  ]";
         demoComposeLocked = false;
-        demoComposeReleased = false;
         updateDemoLockMetrics();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
@@ -643,7 +646,14 @@
     const demoRight = document.getElementById("demo-right");
     const demoBtn = document.getElementById("demo-next");
     const dots = Array.from(document.querySelectorAll("#step-dots .dot"));
-    let step = 1;
+
+    function snapDemoComposeAfterStepChange() {
+      if (step < 1 || step > 4) return;
+      updateDemoLockMetrics();
+      if (window.scrollY < demoLockScrollY - 56) return;
+      demoComposeLocked = true;
+      requestAnimationFrame(() => window.scrollTo(0, demoLockScrollY));
+    }
 
     function renderStep() {
       dots.forEach((d, i) => d.classList.toggle("active", i === step - 1));
@@ -679,6 +689,7 @@
 
 
       if (step === 5) {
+        demoComposeLocked = false;
         demoLeft.innerHTML = "<strong>Dashboard</strong><div class='card' style='margin-top:8px;padding:10px;border-left:4px solid var(--green)'>Claude-1 · <span class='mono' style='color:#7fe3a0'>complete</span></div><div class='card' style='margin-top:8px;padding:10px;border-left:4px solid var(--blue)'>GPT-1 · <span class='mono' style='color:#9bc1ff'>active</span></div>";
         demoRight.innerHTML = '<div style="border:1px solid #a78bfa;border-radius:8px;padding:10px;background:#14112a"><div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#a78bfa;letter-spacing:0.04em">⬡ COMMAND INTEL</div><p style="margin:6px 0 0;font-size:13px;color:#c4b5fd">Handoff complete. Context preserved. GPT-1 has the full package.</p></div>';
         demoBtn.textContent = "[Reset demo]";
@@ -686,28 +697,30 @@
         return;
       }
 
-      demoBtn.onclick = () => { step++; renderStep(); };
+      demoBtn.onclick = () => {
+        step++;
+        renderStep();
+        snapDemoComposeAfterStepChange();
+      };
+      snapDemoComposeAfterStepChange();
     }
 
     renderStep();
-    demoBtn.onclick = () => { step++; renderStep(); };
 
-    demoBtn.addEventListener("click", () => {
-      demoComposeLocked = false;
-      demoComposeReleased = true;
-    }, true);
-
-    // Wheel down ≈ activating the primary demo CTA (compose release, advance steps, or reset + go to pricing)
+    // Wheel down ≈ primary demo CTA for steps 1–4; step 5 (demo on-screen) resets then scrolls to pricing
     window.addEventListener("wheel", (e) => {
       if (e.deltaY <= 0) return;
 
-      if (demoComposeLocked && !demoComposeReleased) {
+      if (demoComposeHoldActive() && (demoComposeLocked || window.scrollY >= demoLockScrollY)) {
         e.preventDefault();
         demoBtn.click();
         return;
       }
 
-      if (demoComposeReleased && step === 5) {
+      if (step === 5) {
+        const demoEl = document.getElementById("demo");
+        const r = demoEl.getBoundingClientRect();
+        if (r.bottom < 120 || r.top > window.innerHeight - 100) return;
         e.preventDefault();
         demoBtn.click();
         requestAnimationFrame(() => {
