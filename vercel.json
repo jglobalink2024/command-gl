@@ -1,16 +1,8 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
-    { "source": "/one-pager", "destination": "/public/sales/COMMAND_One_Pager_v13.html" },
-    { "source": "/command-mark.svg", "destination": "/public/command-mark.svg" },
-    {
-      "source": "/command-mark-transparent.svg",
-      "destination": "/public/command-mark-transparent.svg"
-    },
-    { "source": "/.well-known/:path*", "destination": "/public/.well-known/:path*" },
-    { "source": "/sales/:path*", "destination": "/public/sales/:path*" },
-    { "source": "/demos/:path*", "destination": "/public/demos/:path*" }
+    { "source": "/demo", "destination": "/demo.html" },
+    { "source": "/one-pager", "destination": "/sales/COMMAND_One_Pager_v13.html" }
   ],
   "headers": [
     {
