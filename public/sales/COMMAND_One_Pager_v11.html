@@ -35,6 +35,11 @@
     .mono { font-family: "JetBrains Mono", monospace; }
     .muted { color: var(--tx2); }
     .section { padding: 52px 0; }
+    #demo.section { padding-bottom: 20px; }
+    #positioning.section { padding-top: 20px; padding-bottom: 24px; }
+    #positioning .lead { margin-bottom: 14px; }
+    #pricing.section { padding-top: 20px; }
+    .demo-action { margin-bottom: 0; }
 
     .hero {
       position: relative;
@@ -395,7 +400,7 @@
 
   <section class="section price" id="pricing">
     <div class="page">
-      <div class="eyebrow mono">// pricing</div>
+      <a class="eyebrow mono" href="#pricing">// pricing</a>
       <h2 class="headline">Below procurement threshold.<br />Direct owner decision.</h2>
       <div class="grid-4">
         <article class="card"><h4>Solo</h4><p>$49/month<br />Up to 3 agent instances<br />100K tokens/month<br />Solo operators</p></article>
@@ -530,10 +535,6 @@
       }
     }
     window.addEventListener("scroll", onScrollAttempt, { passive: false });
-
-    window.addEventListener("wheel", (e) => {
-      if (demoComposeLocked && !demoComposeReleased && e.deltaY > 0) e.preventDefault();
-    }, { passive: false });
 
     const storyTl = gsap.timeline({
       scrollTrigger: {
@@ -695,6 +696,25 @@
       demoComposeLocked = false;
       demoComposeReleased = true;
     }, true);
+
+    // Wheel down ≈ activating the primary demo CTA (compose release, advance steps, or reset + go to pricing)
+    window.addEventListener("wheel", (e) => {
+      if (e.deltaY <= 0) return;
+
+      if (demoComposeLocked && !demoComposeReleased) {
+        e.preventDefault();
+        demoBtn.click();
+        return;
+      }
+
+      if (demoComposeReleased && step === 5) {
+        e.preventDefault();
+        demoBtn.click();
+        requestAnimationFrame(() => {
+          document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    }, { passive: false });
 
   </script>
 </body>
