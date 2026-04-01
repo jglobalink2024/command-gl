@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<!-- COMMAND one-pager | v12 | latest: COMMAND_One_Pager_v14.html — bump all version fields when editing any copy -->
-<html lang="en" data-one-pager-version="12">
+﻿<!DOCTYPE html>
+<!-- COMMAND one-pager | v14 | bump html[data-one-pager-version], meta command-one-pager-version, <title>, footer one_pager line, and filename on every publish -->
+<html lang="en" data-one-pager-version="14">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="command-one-pager-version" content="12" />
-  <title>COMMAND — Agent Operations Center · v12</title>
+  <meta name="command-one-pager-version" content="14" />
+  <title>COMMAND — Agent Operations Center · v14</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -586,7 +586,7 @@
   <footer>
     <div class="page foot">
       <div><strong>COMMAND</strong><br /><span class="muted">Ops center initialized.</span><br /><span class="muted mono">app.command.globalinkservices.io · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563c3725393816313a3934373a3f383d253324203f353325783f39">[email&#160;protected]</a></span></div>
-      <div class="muted">GlobaLink LLC · Florida LLC · Confidential · March 2026 · Protocol-agnostic. Model-independent.<br /><span class="mono" style="font-size:12px;opacity:0.85">one_pager · v12</span></div>
+      <div class="muted">GlobaLink LLC · Florida LLC · Confidential · March 2026 · Protocol-agnostic. Model-independent.<br /><span class="mono" style="font-size:12px;opacity:0.85">one_pager · v14</span></div>
     </div>
   </footer>
 
@@ -671,40 +671,31 @@
     let scrollLocked = false;
     let lockScrollY = 0;
 
-    // Demo ↔ positioning “composition” beat — holds on the same frame for steps 1–4 (each CTA / wheel advances)
-    let demoComposeLocked = false;
+    // Demo section interaction lock -- body overflow approach, no reactive scrollTo fighting
+    let demoLocked = false;
+    let demoLockedAtY = 0;
     let demoLockScrollY = 0;
     let step = 1;
-    const DEMO_COMPOSE_VH_FRAC = 0.42; // positioning top lands at this fraction of viewport (tweak 0.38–0.48 to match design)
 
     function updateDemoLockMetrics() {
-      const pos = document.getElementById("positioning");
-      if (!pos) return;
-      const topDoc = pos.getBoundingClientRect().top + window.scrollY;
-      demoLockScrollY = Math.max(0, Math.round(topDoc - window.innerHeight * DEMO_COMPOSE_VH_FRAC));
-    }
-    updateDemoLockMetrics();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { updateDemoLockMetrics(); ScrollTrigger.refresh(); });
-    window.addEventListener("resize", () => {
-      updateDemoLockMetrics();
-      if (demoComposeLocked && demoComposeZoneActive()) scheduleScrollTo(demoLockScrollY);
-    });
-
-    function demoComposeHoldActive() {
-      return step >= 1 && step <= 4;
+      const demoEl = document.getElementById("demo");
+      if (!demoEl) return;
+      const topDoc = demoEl.getBoundingClientRect().top + window.scrollY;
+      demoLockScrollY = Math.max(0, Math.round(topDoc - 60));
     }
 
-    /** True while demo + positioning “beat” should be scroll-managed (not when user moved on to pricing). */
-    function demoComposeZoneActive() {
-      const pricing = document.getElementById("pricing");
-      if (pricing) {
-        const pr = pricing.getBoundingClientRect();
-        if (pr.top < window.innerHeight * 0.9) return false;
-      }
-      const demo = document.getElementById("demo");
-      if (!demo) return false;
-      const r = demo.getBoundingClientRect();
-      return r.bottom > -80 && r.top < window.innerHeight + 120;
+    function engageDemoLock() {
+      if (demoLocked) return;
+      demoLockedAtY = window.scrollY;
+      document.documentElement.style.overflow = 'hidden';
+      demoLocked = true;
+    }
+
+    function releaseDemoLock(restoreY) {
+      if (!demoLocked) return;
+      document.documentElement.style.overflow = '';
+      window.scrollTo(0, restoreY !== undefined ? restoreY : demoLockedAtY);
+      demoLocked = false;
     }
 
     /** One scroll correction per frame — avoids fighting GSAP ScrollTrigger + native scroll. */
@@ -721,24 +712,14 @@
         if (Math.abs(window.scrollY - t) > 1) window.scrollTo(0, t);
       });
     }
-
-    // Scroll lock enforcement (problem CTA + demo compose) — gated so we never yank scroll after leaving the demo band
+    // Scroll enforcement: problem CTA lock + demo lock engagement (passive -- correction only for problem lock)
     function onScrollAttempt() {
       if (scrollLocked) {
         if (Math.abs(window.scrollY - lockScrollY) > 1) scheduleScrollTo(lockScrollY);
         return;
       }
-      if (!demoComposeHoldActive() || !demoComposeZoneActive()) {
-        if (!demoComposeZoneActive()) demoComposeLocked = false;
-        return;
-      }
-      if (demoComposeLocked && window.scrollY < demoLockScrollY - 48) {
-        demoComposeLocked = false;
-      } else {
-        if (!demoComposeLocked && window.scrollY >= demoLockScrollY) demoComposeLocked = true;
-        if (demoComposeLocked && Math.abs(window.scrollY - demoLockScrollY) > 1) {
-          scheduleScrollTo(demoLockScrollY);
-        }
+      if (!demoLocked && step >= 1 && step <= 4 && window.scrollY >= demoLockScrollY) {
+        engageDemoLock();
       }
     }
     window.addEventListener("scroll", onScrollAttempt, { passive: true });
@@ -769,6 +750,18 @@
       const chars = line.querySelectorAll(".char");
       storyTl.to(chars, { opacity: 1, y: 0, stagger: 0.015, duration: 0.18, ease: "none" }, idx * 0.12);
       storyTl.to(copyBlocks[idx], { opacity: 1, y: 0, duration: 0.2, ease: "none" }, idx * 0.12);
+    });
+
+    // Initialise demo lock metrics AFTER ScrollTrigger pin is active (avoids GSAP spacer layout shift)
+    updateDemoLockMetrics();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { updateDemoLockMetrics(); ScrollTrigger.refresh(); });
+    ScrollTrigger.addEventListener("refresh", updateDemoLockMetrics);
+    window.addEventListener("resize", () => {
+      updateDemoLockMetrics();
+      if (demoLocked && step >= 1 && step <= 4) {
+        releaseDemoLock(demoLockScrollY);
+        requestAnimationFrame(engageDemoLock);
+      }
     });
 
     function animateCounters() {
@@ -821,7 +814,7 @@
         const btn = document.getElementById("activate-command");
         btn.classList.remove("fired");
         btn.textContent = "[  ACTIVATE COMMAND  ]";
-        demoComposeLocked = false;
+        demoLocked = false;
         updateDemoLockMetrics();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
@@ -850,14 +843,7 @@
     const demoBtn = document.getElementById("demo-next");
     const dots = Array.from(document.querySelectorAll("#step-dots .dot"));
 
-    function snapDemoComposeAfterStepChange() {
-      if (step < 1 || step > 4) return;
-      updateDemoLockMetrics();
-      if (window.scrollY < demoLockScrollY - 56) return;
-      if (!demoComposeZoneActive()) return;
-      demoComposeLocked = true;
-      scheduleScrollTo(demoLockScrollY);
-    }
+
 
     function renderStep() {
       dots.forEach((d, i) => d.classList.toggle("active", i === step - 1));
@@ -893,7 +879,7 @@
 
 
       if (step === 5) {
-        demoComposeLocked = false;
+        releaseDemoLock();
         demoLeft.innerHTML = "<strong>Dashboard</strong><div class='card' style='margin-top:8px;padding:10px;border-left:4px solid var(--green)'>Claude-1 · <span class='mono' style='color:#7fe3a0'>complete</span></div><div class='card' style='margin-top:8px;padding:10px;border-left:4px solid var(--blue)'>GPT-1 · <span class='mono' style='color:#9bc1ff'>active</span></div>";
         demoRight.innerHTML = '<div style="border:1px solid #a78bfa;border-radius:8px;padding:10px;background:#14112a"><div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#a78bfa;letter-spacing:0.04em">⬡ COMMAND INTEL</div><p style="margin:6px 0 0;font-size:13px;color:#c4b5fd">Handoff complete. Context preserved. GPT-1 has the full package.</p></div>';
         demoBtn.textContent = "[Reset demo]";
@@ -904,36 +890,50 @@
       demoBtn.onclick = () => {
         step++;
         renderStep();
-        snapDemoComposeAfterStepChange();
       };
-      snapDemoComposeAfterStepChange();
+      };
+    }
     }
 
     renderStep();
 
-    // Wheel down ≈ primary demo CTA for steps 1–4; step 5 (demo on-screen) resets then scrolls to pricing
+    // Wheel: block problem CTA scroll + advance/release demo steps
     window.addEventListener("wheel", (e) => {
-      if (e.deltaY <= 0) return;
-
-      if (
-        demoComposeHoldActive() &&
-        demoComposeZoneActive() &&
-        (demoComposeLocked || window.scrollY >= demoLockScrollY)
-      ) {
-        e.preventDefault();
+      if (scrollLocked && e.deltaY > 0) { e.preventDefault(); return; }
+      if (!demoLocked) return;
+      e.preventDefault();
+      if (e.deltaY > 0 && step >= 1 && step <= 4) {
         demoBtn.click();
-        return;
+      } else if (e.deltaY < 0) {
+        releaseDemoLock(Math.max(0, demoLockedAtY - 1));
       }
+    }, { passive: false });
 
-      if (step === 5) {
-        const demoEl = document.getElementById("demo");
-        const r = demoEl.getBoundingClientRect();
-        if (r.bottom < 120 || r.top > window.innerHeight - 100) return;
+    // Keyboard: demo step advance / release
+    window.addEventListener("keydown", (e) => {
+      if (scrollLocked && (e.key === " " || e.key === "ArrowDown" || e.key === "PageDown")) {
+        e.preventDefault(); return;
+      }
+      if (!demoLocked) return;
+      if (e.key === " " || e.key === "ArrowDown" || e.key === "PageDown") {
         e.preventDefault();
-        demoBtn.click();
-        requestAnimationFrame(() => {
-          document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
+        if (step >= 1 && step <= 4) demoBtn.click();
+      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+        e.preventDefault();
+        releaseDemoLock(Math.max(0, demoLockedAtY - 1));
+      }
+    });
+
+    // Touch: demo step advance / release
+    let _touchStartY = 0;
+    window.addEventListener("touchstart", (e) => { _touchStartY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener("touchmove", (e) => {
+      if (!demoLocked) return;
+      e.preventDefault();
+      const dy = _touchStartY - e.touches[0].clientY;
+      if (Math.abs(dy) > 40) {
+        if (dy > 0 && step >= 1 && step <= 4) { demoBtn.click(); _touchStartY = e.touches[0].clientY; }
+        else if (dy < 0) { releaseDemoLock(Math.max(0, demoLockedAtY - 1)); }
       }
     }, { passive: false });
 
