@@ -742,17 +742,13 @@
         if (Math.abs(window.scrollY - t) > 1) window.scrollTo(0, t);
       });
     }
-    // Scroll enforcement: problem CTA lock + demo lock engagement (passive -- correction only for problem lock)
-    // Scroll enforcement: proactive -- fires from scroll events, faster than GSAP onUpdate RAF
+    // Scroll enforcement: proactive lock engagement — fires from scroll events
     function onScrollAttempt() {
       // Problem CTA lock
       if (!activated && !scrollLocked && problemLockScrollY > 0 && window.scrollY >= problemLockScrollY) {
         scrollLocked = true;
         lockScrollY = problemLockScrollY;
         document.documentElement.style.overflow = 'hidden';
-        // #region agent log
-        fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'v21:probLockEngaged',message:'prob-LOCKED',data:{scrollY:window.scrollY,problemLockScrollY},timestamp:Date.now(),hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
 
         window.scrollTo(0, problemLockScrollY);
         const btn = document.getElementById("activate-command");
@@ -762,18 +758,9 @@
       }
       if (scrollLocked) return;
       // Demo lock
-      // #region agent log
-      fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'v21:scrollCheck',message:'scroll-attempt',data:{step,scrollY:window.scrollY,demoTop:document.getElementById('demo')?.getBoundingClientRect().top,demoLocked,scrollLocked,activated},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
       if (!demoLocked && step >= 1 && step <= 4) {
         const demoEl = document.getElementById('demo'); if (demoEl) { const r = demoEl.getBoundingClientRect();
-          // #region agent log
-          fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'v21:demoLockCheck',message:'demo-bRect',data:{step,rTop:r.top,scrollY:window.scrollY,willLock:(r.top>=-100&&r.top<=80)},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
           if (r.top >= -100 && r.top <= 80) { demoLockedAtY = Math.max(0, Math.round(window.scrollY + r.top - 60)); window.scrollTo(0, demoLockedAtY); document.documentElement.style.overflow = 'hidden'; demoLocked = true;
-            // #region agent log
-            fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'v21:demoLockEngaged',message:'demo-LOCKED',data:{demoLockedAtY,step,rTop:r.top},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
           }
         }
       }
