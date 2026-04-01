@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<!-- COMMAND one-pager | v14 | latest: COMMAND_One_Pager_v15.html — bump html[data-one-pager-version], meta command-one-pager-version, <title>, footer one_pager line, and filename on every publish -->
-<html lang="en" data-one-pager-version="14">
+﻿<!DOCTYPE html>
+<!-- COMMAND one-pager | v15 | bump html[data-one-pager-version], meta command-one-pager-version, <title>, footer one_pager line, and filename on every publish -->
+<html lang="en" data-one-pager-version="15">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="command-one-pager-version" content="14" />
-  <title>COMMAND — Agent Operations Center · v14</title>
+  <meta name="command-one-pager-version" content="15" />
+  <title>COMMAND — Agent Operations Center · v15</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -586,7 +586,7 @@
   <footer>
     <div class="page foot">
       <div><strong>COMMAND</strong><br /><span class="muted">Ops center initialized.</span><br /><span class="muted mono">app.command.globalinkservices.io · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563c3725393816313a3934373a3f383d253324203f353325783f39">[email&#160;protected]</a></span></div>
-      <div class="muted">GlobaLink LLC · Florida LLC · Confidential · March 2026 · Protocol-agnostic. Model-independent.<br /><span class="mono" style="font-size:12px;opacity:0.85">one_pager · v14</span></div>
+      <div class="muted">GlobaLink LLC · Florida LLC · Confidential · March 2026 · Protocol-agnostic. Model-independent.<br /><span class="mono" style="font-size:12px;opacity:0.85">one_pager · v15</span></div>
     </div>
   </footer>
 
@@ -670,6 +670,8 @@
     let activated = false;
     let scrollLocked = false;
     let lockScrollY = 0;
+    let problemLockScrollY = 0;
+    let stepLastAdvanced = 0;
 
     // Demo section interaction lock -- body overflow approach, no reactive scrollTo fighting
     let demoLocked = false;
@@ -677,6 +679,14 @@
     let demoLockScrollY = 0;
     let step = 1;
 
+    /** updateProblemLockMetrics: computes exact scroll Y for 68% through #problem-wrap. */
+    function updateProblemLockMetrics() {
+      const st = storyTl && storyTl.scrollTrigger;
+      if (!st) return;
+      problemLockScrollY = Math.round(st.start + 0.68 * (st.end - st.start));
+    }
+
+    /** updateDemoLockMetrics: demo section top at 60px below viewport top. */
     function updateDemoLockMetrics() {
       const demoEl = document.getElementById("demo");
       if (!demoEl) return;
@@ -686,16 +696,25 @@
 
     function engageDemoLock() {
       if (demoLocked) return;
-      demoLockedAtY = window.scrollY;
-      document.documentElement.style.overflow = 'hidden';
+      demoLockedAtY = demoLockScrollY;
+      window.scrollTo(0, demoLockScrollY);           // snap to exact position first
+      document.documentElement.style.overflow = 'hidden'; // then hard-lock body
+      document.body.style.overflow = 'hidden';
       demoLocked = true;
     }
 
     function releaseDemoLock(restoreY) {
       if (!demoLocked) return;
       document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
       window.scrollTo(0, restoreY !== undefined ? restoreY : demoLockedAtY);
       demoLocked = false;
+    }
+
+    function releaseProblemLock() {
+      scrollLocked = false;
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
     }
 
     /** One scroll correction per frame — avoids fighting GSAP ScrollTrigger + native scroll. */
@@ -713,12 +732,23 @@
       });
     }
     // Scroll enforcement: problem CTA lock + demo lock engagement (passive -- correction only for problem lock)
+    // Scroll enforcement: proactive -- fires from scroll events, faster than GSAP onUpdate RAF
     function onScrollAttempt() {
-      if (scrollLocked) {
-        if (Math.abs(window.scrollY - lockScrollY) > 1) scheduleScrollTo(lockScrollY);
+      // Problem CTA lock
+      if (!activated && !scrollLocked && problemLockScrollY > 0 && window.scrollY >= problemLockScrollY) {
+        scrollLocked = true;
+        lockScrollY = problemLockScrollY;
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        window.scrollTo(0, problemLockScrollY);
+        const btn = document.getElementById("activate-command");
+        gsap.to(btn, { x: -6, duration: 0.08, yoyo: true, repeat: 7, ease: "none",
+          onComplete: () => gsap.set(btn, { x: 0 }) });
         return;
       }
-      if (!demoLocked && step >= 1 && step <= 4 && window.scrollY >= demoLockScrollY) {
+      if (scrollLocked) return;
+      // Demo lock
+      if (!demoLocked && step >= 1 && step <= 4 && demoLockScrollY > 0 && window.scrollY >= demoLockScrollY) {
         engageDemoLock();
       }
     }
@@ -732,17 +762,6 @@
         scrub: 0.5,
         pin: "#problem-pin",
         anticipatePin: 1,
-        onUpdate: (self) => {
-          // Lock scroll at 68% — all terminal lines visible, button visible, can't scroll past
-          if (!activated && !scrollLocked && self.progress >= 0.68) {
-            scrollLocked = true;
-            lockScrollY = window.scrollY;
-            // Shake the button to demand attention
-            const btn = document.getElementById("activate-command");
-            gsap.to(btn, { x: -6, duration: 0.08, yoyo: true, repeat: 7, ease: "none",
-              onComplete: () => gsap.set(btn, { x: 0 }) });
-          }
-        }
       }
     });
 
@@ -752,10 +771,11 @@
       storyTl.to(copyBlocks[idx], { opacity: 1, y: 0, duration: 0.2, ease: "none" }, idx * 0.12);
     });
 
-    // Initialise demo lock metrics AFTER ScrollTrigger pin is active (avoids GSAP spacer layout shift)
+    // Initialise lock metrics AFTER ScrollTrigger pin is active
     updateDemoLockMetrics();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { updateDemoLockMetrics(); ScrollTrigger.refresh(); });
-    ScrollTrigger.addEventListener("refresh", updateDemoLockMetrics);
+    updateProblemLockMetrics();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { updateDemoLockMetrics(); updateProblemLockMetrics(); ScrollTrigger.refresh(); });
+    ScrollTrigger.addEventListener("refresh", () => { updateDemoLockMetrics(); updateProblemLockMetrics(); });
     window.addEventListener("resize", () => {
       updateDemoLockMetrics();
       if (demoLocked && step >= 1 && step <= 4) {
@@ -778,7 +798,7 @@
     function activateCommand() {
       if (activated) return;
       activated = true;
-      scrollLocked = false; // Release scroll lock
+      releaseProblemLock();
 
       const btn = document.getElementById("activate-command");
       btn.classList.add("fired");
@@ -804,7 +824,7 @@
     if (replayBtn) {
       replayBtn.addEventListener("click", () => {
         activated = false;
-        scrollLocked = false;
+        releaseProblemLock();
         // Reset visual state
         gsap.set("#terminal-screen", { opacity: 1 });
         gsap.set("#dashboard-view", { opacity: 0, y: 8 });
@@ -903,7 +923,7 @@
       if (!demoLocked) return;
       e.preventDefault();
       if (e.deltaY > 0 && step >= 1 && step <= 4) {
-        demoBtn.click();
+        const now = Date.now(); if (now - stepLastAdvanced > 500) { stepLastAdvanced = now; demoBtn.click(); }
       } else if (e.deltaY < 0) {
         releaseDemoLock(Math.max(0, demoLockedAtY - 1));
       }
@@ -917,7 +937,7 @@
       if (!demoLocked) return;
       if (e.key === " " || e.key === "ArrowDown" || e.key === "PageDown") {
         e.preventDefault();
-        if (step >= 1 && step <= 4) demoBtn.click();
+        const now = Date.now(); if (now - stepLastAdvanced > 500) { stepLastAdvanced = now; demoBtn.click(); }
       } else if (e.key === "ArrowUp" || e.key === "PageUp") {
         e.preventDefault();
         releaseDemoLock(Math.max(0, demoLockedAtY - 1));
@@ -932,7 +952,7 @@
       e.preventDefault();
       const dy = _touchStartY - e.touches[0].clientY;
       if (Math.abs(dy) > 40) {
-        if (dy > 0 && step >= 1 && step <= 4) { demoBtn.click(); _touchStartY = e.touches[0].clientY; }
+        if (dy > 0 && step >= 1 && step <= 4) { const now = Date.now(); if (now - stepLastAdvanced > 500) { stepLastAdvanced = now; demoBtn.click(); _touchStartY = e.touches[0].clientY; } }
         else if (dy < 0) { releaseDemoLock(Math.max(0, demoLockedAtY - 1)); }
       }
     }, { passive: false });
