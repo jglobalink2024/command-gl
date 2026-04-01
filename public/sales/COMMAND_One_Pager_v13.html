@@ -679,9 +679,13 @@
 
     function updateDemoLockMetrics() {
       const pos = document.getElementById("positioning");
-      if (!pos) return;
+      const demoEl = document.getElementById("demo");
+      if (!pos || !demoEl) return;
       const topDoc = pos.getBoundingClientRect().top + window.scrollY;
       demoLockScrollY = Math.max(0, Math.round(topDoc - window.innerHeight * DEMO_COMPOSE_VH_FRAC));
+      // #region agent log H-A H-E
+      fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'onepager:updateDemoLockMetrics',message:'lock metrics computed',data:{demoLockScrollY,vh:window.innerHeight,posTopAbs:Math.round(topDoc),demoTopAbs:Math.round(demoEl.getBoundingClientRect().top+window.scrollY),demoH:demoEl.offsetHeight,FRAC:DEMO_COMPOSE_VH_FRAC},timestamp:Date.now(),hypothesisId:'H-A H-E'})}).catch(()=>{});
+      // #endregion
     }
     updateDemoLockMetrics();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { updateDemoLockMetrics(); ScrollTrigger.refresh(); });
@@ -728,17 +732,28 @@
         if (Math.abs(window.scrollY - lockScrollY) > 1) scheduleScrollTo(lockScrollY);
         return;
       }
-      if (!demoComposeHoldActive() || !demoComposeZoneActive()) {
-        if (!demoComposeZoneActive()) demoComposeLocked = false;
+      const holdActive = demoComposeHoldActive();
+      const zoneActive = demoComposeZoneActive();
+      if (!holdActive || !zoneActive) {
+        // #region agent log H-B H-C
+        fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'onepager:onScrollAttempt:skip',message:'lock NOT active',data:{step,holdActive,zoneActive,scrollY:Math.round(window.scrollY),demoLockScrollY,demoComposeLocked},timestamp:Date.now(),hypothesisId:'H-B H-C'})}).catch(()=>{});
+        // #endregion
+        if (!zoneActive) demoComposeLocked = false;
         return;
       }
       if (demoComposeLocked && window.scrollY < demoLockScrollY - 48) {
         demoComposeLocked = false;
       } else {
+        const wasLocked = demoComposeLocked;
         if (!demoComposeLocked && window.scrollY >= demoLockScrollY) demoComposeLocked = true;
         if (demoComposeLocked && Math.abs(window.scrollY - demoLockScrollY) > 1) {
           scheduleScrollTo(demoLockScrollY);
         }
+        // #region agent log H-B
+        if (!wasLocked && demoComposeLocked) {
+          fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'onepager:onScrollAttempt:locked',message:'demoComposeLocked ENGAGED',data:{step,scrollY:Math.round(window.scrollY),demoLockScrollY},timestamp:Date.now(),hypothesisId:'H-B'})}).catch(()=>{});
+        }
+        // #endregion
       }
     }
     window.addEventListener("scroll", onScrollAttempt, { passive: true });
@@ -915,11 +930,14 @@
     window.addEventListener("wheel", (e) => {
       if (e.deltaY <= 0) return;
 
-      if (
-        demoComposeHoldActive() &&
-        demoComposeZoneActive() &&
-        (demoComposeLocked || window.scrollY >= demoLockScrollY)
-      ) {
+      const holdActive = demoComposeHoldActive();
+      const zoneActive = demoComposeZoneActive();
+      const shouldIntercept = holdActive && zoneActive && (demoComposeLocked || window.scrollY >= demoLockScrollY);
+      // #region agent log H-B H-D
+      fetch('http://127.0.0.1:7411/ingest/283dbd1b-9e4e-46b6-b345-aab57ec84668',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'77ae1b'},body:JSON.stringify({sessionId:'77ae1b',location:'onepager:wheel',message:'wheel event',data:{step,deltaY:Math.round(e.deltaY),holdActive,zoneActive,demoComposeLocked,scrollY:Math.round(window.scrollY),demoLockScrollY,shouldIntercept},timestamp:Date.now(),hypothesisId:'H-B H-D'})}).catch(()=>{});
+      // #endregion
+
+      if (shouldIntercept) {
         e.preventDefault();
         demoBtn.click();
         return;
