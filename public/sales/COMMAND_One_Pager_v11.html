@@ -24,6 +24,10 @@
       --violet: #a78bfa;
       --tx1: #e6edf3;
       --tx2: #8b949e;
+      --terminal-deep: #0a0f16;
+      --glow-blue: rgba(31, 111, 235, 0.45);
+      --glow-green: rgba(63, 185, 80, 0.35);
+      --blue-dim: rgba(31, 111, 235, 0.22);
     }
 
     * { box-sizing: border-box; }
@@ -67,7 +71,8 @@
       display: block;
     }
     .hero-content { position: relative; z-index: 2; max-width: 700px; }
-    .eyebrow { color: var(--blue); font-size: 11px; letter-spacing: 0.08em; text-transform: lowercase; }
+    .eyebrow { color: var(--blue); font-size: 11px; letter-spacing: 0.12em; text-transform: lowercase; }
+    .eyebrow::before { content: "> "; opacity: 0.7; }
     h1 {
       margin: 12px 0 14px;
       font-size: clamp(34px, 6vw, 52px);
@@ -198,11 +203,32 @@
       border-radius: 12px;
       background: var(--surface);
       padding: 16px;
-      transition: transform 300ms ease, opacity 300ms ease;
+      transition: transform 300ms ease, opacity 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
       will-change: transform, opacity;
     }
     .card h4 { margin: 0 0 8px; font-size: 18px; }
     .card p { margin: 0; color: var(--tx2); font-size: 14px; }
+
+    /* COMMAND terminal treatment — solution + positioning grids */
+    #features .feature-card {
+      background: linear-gradient(145deg, #121820 0%, var(--terminal-deep) 100%);
+      border-left: 3px solid var(--blue);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    #features .feature-card h4 { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #9bc1ff; }
+    #positioning .grid-card {
+      background: linear-gradient(145deg, #121820 0%, var(--terminal-deep) 100%);
+      border-left: 3px solid #5f6b76;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    #positioning .grid-card h4 { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--tx2); }
+    #positioning .grid-card:last-child {
+      border-left-color: var(--blue);
+      border-color: rgba(31, 111, 235, 0.35);
+      background: linear-gradient(145deg, rgba(31,111,235,0.1) 0%, var(--terminal-deep) 100%);
+      box-shadow: 0 0 24px var(--blue-dim), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    #positioning .grid-card:last-child h4 { color: #9bc1ff; }
 
     .demo-shell { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 16px; }
     .step-dots { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -219,20 +245,121 @@
     .demo-btn { width: 100%; }
 
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .price .card:hover { transform: translateY(-4px); }
-    .pro { border: 1px solid var(--blue); position: relative; }
+    .trial-note { color: #3fb950; margin-top: 12px; font-size: 13px; letter-spacing: 0.04em; text-shadow: 0 0 12px var(--glow-green); }
+
+    #pricing .headline { text-shadow: 0 0 40px rgba(31, 111, 235, 0.15); }
+    #pricing .pricing-sub {
+      display: block;
+      font-size: 12px;
+      color: var(--tx2);
+      letter-spacing: 0.06em;
+      margin: 0 0 14px;
+      opacity: 0.9;
+    }
+
+    .pricing-shell {
+      border: 1px solid #222b36;
+      border-radius: 14px;
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .pricing-shell-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--terminal-deep);
+      border-bottom: 1px solid #222b36;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--tx2);
+    }
+    .pricing-shell-dots { letter-spacing: 2px; color: #484f58; font-size: 8px; }
+    .pricing-shell-title { color: #7ee787; flex: 1; }
+    .pricing-shell-title span { color: var(--amber); }
+
+    #pricing .price-grid {
+      padding: 14px;
+      gap: 12px;
+      background: linear-gradient(180deg, #0d1117 0%, var(--terminal-deep) 100%);
+    }
+
+    #pricing .plan-card {
+      position: relative;
+      border-radius: 10px;
+      padding: 16px 16px 14px;
+      background: linear-gradient(160deg, #141a24 0%, var(--terminal-deep) 100%);
+      border: 1px solid #26303d;
+      border-left: 3px solid #5f6b76;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    #pricing .plan-card:hover {
+      transform: translateY(-4px);
+      border-color: #3d4a5c;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    #pricing .plan-card .plan-tag {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--tx2);
+      margin-bottom: 6px;
+      display: block;
+    }
+    #pricing .plan-card h4 {
+      margin: 0 0 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--tx1);
+    }
+    #pricing .plan-card .plan-price {
+      margin: 0 0 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: #79c0ff;
+      letter-spacing: -0.02em;
+    }
+    #pricing .plan-card .plan-price .plan-per {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--tx2);
+    }
+    #pricing .plan-card .plan-body {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #8b949e;
+      border-top: 1px dashed #30363d;
+      padding-top: 12px;
+    }
+
+    #pricing .plan-card.plan-solo { border-left-color: var(--green); }
+    #pricing .plan-card.plan-studio { border-left-color: var(--violet); }
+    #pricing .plan-card.plan-agency { border-left-color: var(--amber); }
+
+    #pricing .plan-card.plan-pro {
+      border: 1px solid rgba(31, 111, 235, 0.55);
+      border-left: 3px solid var(--blue);
+      box-shadow: 0 0 32px var(--blue-dim), inset 0 1px 0 rgba(155, 193, 255, 0.08);
+    }
+    #pricing .plan-card.plan-pro .plan-price { color: #a5d6ff; text-shadow: 0 0 20px var(--glow-blue); }
     .badge-pop {
       position: absolute;
-      top: -10px;
-      right: 10px;
+      top: 8px;
+      right: 8px;
       background: var(--blue);
-      color: white;
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 4px 8px;
+      color: #fff;
+      font-size: 9px;
+      border-radius: 4px;
+      padding: 4px 7px;
       font-family: "JetBrains Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px var(--glow-blue);
     }
-    .trial-note { color: var(--green); margin-top: 12px; font-size: 14px; }
 
     footer { border-top: 1px solid var(--line); padding: 28px 0 34px; }
 
@@ -378,6 +505,7 @@
 
   <section class="section" id="demo">
     <div class="page">
+      <div class="eyebrow mono">// live_demo</div>
       <h2 class="headline">One interface. See it in 30 seconds.</h2>
       <div class="demo-shell">
         <div class="step-dots" id="step-dots">
@@ -405,7 +533,7 @@
         <article class="card grid-card"><h4>Enterprise Layer</h4><p>Kore.ai · Microsoft Agent 365 · Salesforce Agentforce<br /><br />✕ Require IT infrastructure boutiques don't have<br />✕ Built for 500-person orgs<br />✕ 6-month implementation cycles</p></article>
         <article class="card grid-card"><h4>Developer Layer</h4><p>AutoGen · CrewAI · LangGraph · LangChain<br /><br />✕ Require engineering depth operators don't have<br />✕ Code-first — not operator-first<br />✕ No UI — no operational visibility</p></article>
         <article class="card grid-card"><h4>Single-Vendor Native</h4><p>Claude Projects · ChatGPT Teams · Gemini Workspace<br /><br />✕ Locked to one model — cannot solve multi-model<br />✕ Cannot coordinate across vendors structurally<br />✕ Single-instance only</p></article>
-        <article class="card grid-card" style="border-color: rgba(31,111,235,0.35); background: rgba(31,111,235,0.06);"><h4>COMMAND</h4><p>Boutique Operator Layer — Unaddressed<br /><br />✓ No-code. Register any agent in 2 minutes.<br />✓ Model-agnostic. Claude + GPT + Perplexity simultaneously.<br />✓ Built for 1-15 person owner-led firms.</p></article>
+        <article class="card grid-card"><h4>COMMAND</h4><p>Boutique Operator Layer — Unaddressed<br /><br />✓ No-code. Register any agent in 2 minutes.<br />✓ Model-agnostic. Claude + GPT + Perplexity simultaneously.<br />✓ Built for 1-15 person owner-led firms.</p></article>
       </div>
     </div>
   </section>
@@ -414,13 +542,42 @@
     <div class="page">
       <a class="eyebrow mono" href="#pricing">// pricing</a>
       <h2 class="headline">Below procurement threshold.<br />Direct owner decision.</h2>
-      <div class="grid-4">
-        <article class="card"><h4>Solo</h4><p>$49/month<br />Up to 3 agent instances<br />100K tokens/month<br />Solo operators</p></article>
-        <article class="card pro"><span class="badge-pop">most popular</span><h4>Pro</h4><p>$149/month<br />Up to 10 agent instances<br />500K tokens/month<br />Boutique consulting firms</p></article>
-        <article class="card"><h4>Studio</h4><p>$349/month<br />Unlimited instances<br />2M tokens/month<br />Multi-client workspaces</p></article>
-        <article class="card"><h4>Agency</h4><p>$799/month<br />Unlimited + white-label<br />SLAs + localization<br />LATAM-ready</p></article>
+      <p class="pricing-sub mono">select_tier — owner-approved · no procurement theater</p>
+      <div class="pricing-shell">
+        <div class="pricing-shell-bar mono">
+          <span class="pricing-shell-dots">●●●</span>
+          <span class="pricing-shell-title">COMMAND<span> ~/billing_matrix</span></span>
+          <span style="opacity:0.55">live</span>
+        </div>
+        <div class="grid-4 price-grid">
+          <article class="card plan-card plan-solo">
+            <span class="plan-tag mono">[ TIER_SOLO ]</span>
+            <h4>Solo</h4>
+            <p class="plan-price mono">$49<span class="plan-per">/mo</span></p>
+            <p class="plan-body">Up to 3 agent instances<br />100K tokens/month<br />Solo operators</p>
+          </article>
+          <article class="card plan-card plan-pro">
+            <span class="badge-pop">popular</span>
+            <span class="plan-tag mono">[ TIER_PRO ]</span>
+            <h4>Pro</h4>
+            <p class="plan-price mono">$149<span class="plan-per">/mo</span></p>
+            <p class="plan-body">Up to 10 agent instances<br />500K tokens/month<br />Boutique consulting firms</p>
+          </article>
+          <article class="card plan-card plan-studio">
+            <span class="plan-tag mono">[ TIER_STUDIO ]</span>
+            <h4>Studio</h4>
+            <p class="plan-price mono">$349<span class="plan-per">/mo</span></p>
+            <p class="plan-body">Unlimited instances<br />2M tokens/month<br />Multi-client workspaces</p>
+          </article>
+          <article class="card plan-card plan-agency">
+            <span class="plan-tag mono">[ TIER_AGENCY ]</span>
+            <h4>Agency</h4>
+            <p class="plan-price mono">$799<span class="plan-per">/mo</span></p>
+            <p class="plan-body">Unlimited + white-label<br />SLAs + localization<br />LATAM-ready</p>
+          </article>
+        </div>
       </div>
-      <div class="trial-note mono">14-day free trial · no credit card · no freemium</div>
+      <div class="trial-note mono">OK · 14-day trial · no_credit_card · no_freemium</div>
     </div>
   </section>
 
