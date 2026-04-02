@@ -377,19 +377,19 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
             <div class="sc"><div class="scl">Active</div><div class="scv" style="color:var(--teal)">2</div><div class="scm">of 4</div></div>
             <div class="sc"><div class="scl">Queued</div><div class="scv" style="color:var(--amber)">3</div><div class="scm">tasks</div></div>
             <div class="sc"><div class="scl">Handoffs</div><div class="scv">7</div><div class="scm">today</div></div>
-            <div class="sc"><div class="scl">Warnings</div><div class="scv" style="color:var(--amber)">1</div><div class="scm">RECON-1</div></div>
+            <div class="sc"><div class="scl">Warnings</div><div class="scv" style="color:var(--amber)">1</div><div class="scm">Ops Agent</div></div>
           </div>
           <div class="at">
             <div class="ah"><div>Agent</div><div>Status</div><div>Task</div><div>Prog.</div></div>
-            <div class="ar"><div class="an"><div class="adot don"></div>COMMAND-0</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Gap audit</div><div class="pw"><div class="pb"><div class="pf" id="pf0" style="width:0%;background:var(--teal)"></div></div><div class="pp">78%</div></div></div>
-            <div class="ar"><div class="an"><div class="adot don"></div>FORGE-1</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Repo scaffold</div><div class="pw"><div class="pb"><div class="pf" id="pf1" style="width:0%;background:var(--teal)"></div></div><div class="pp">45%</div></div></div>
-            <div class="ar"><div class="an"><div class="adot dwarn"></div>RECON-1</div><div><span class="ap pwarn">&#9888; Stalled</span></div><div class="atask">ICP research</div><div class="pw"><div class="pb"><div class="pf" id="pf2" style="width:0%;background:var(--amber)"></div></div><div class="pp">33%</div></div></div>
-            <div class="ar"><div class="an"><div class="adot doff"></div>SIGNAL-1</div><div><span class="ap poff">&mdash; Idle</span></div><div class="atask" style="color:var(--tx3)">Awaiting task</div><div class="pw"><div class="pb"><div class="pf" style="width:0%"></div></div><div class="pp">&mdash;</div></div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>Research Agent</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Gap audit</div><div class="pw"><div class="pb"><div class="pf" id="pf0" style="width:0%;background:var(--teal)"></div></div><div class="pp">78%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>Draft Writer</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Repo scaffold</div><div class="pw"><div class="pb"><div class="pf" id="pf1" style="width:0%;background:var(--teal)"></div></div><div class="pp">45%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot dwarn"></div>Ops Agent</div><div><span class="ap pwarn">&#9888; Stalled</span></div><div class="atask">ICP research</div><div class="pw"><div class="pb"><div class="pf" id="pf2" style="width:0%;background:var(--amber)"></div></div><div class="pp">33%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot doff"></div>GTM Agent</div><div><span class="ap poff">&mdash; Idle</span></div><div class="atask" style="color:var(--tx3)">Awaiting task</div><div class="pw"><div class="pb"><div class="pf" style="width:0%"></div></div><div class="pp">&mdash;</div></div></div>
           </div>
           <div class="lw">
             <div class="lh">Context Handoff Log <span class="llive"><span style="width:5px;height:5px;border-radius:50%;background:var(--teal);animation:beat 1.5s infinite;display:inline-block"></span>Live</span></div>
-            <div class="le"><div class="lt" id="lt1">&mdash;</div><div><div style="color:var(--tx2)">COMMAND-0 &rarr; FORGE-1 context bundle dispatched</div><span class="ltag tgh">Handoff</span></div></div>
-            <div class="le"><div class="lt" id="lt2">&mdash;</div><div><div style="color:var(--tx2)">RECON-1 stall &mdash; rate limit, context preserved</div><span class="ltag tge">Warning</span></div></div>
+            <div class="le"><div class="lt" id="lt1">&mdash;</div><div><div style="color:var(--tx2)">Research Agent &rarr; Draft Writer context bundle dispatched</div><span class="ltag tgh">Handoff</span></div></div>
+            <div class="le"><div class="lt" id="lt2">&mdash;</div><div><div style="color:var(--tx2)">Ops Agent stall &mdash; rate limit, context preserved</div><span class="ltag tge">Warning</span></div></div>
             <div class="le"><div class="lt" id="lt3">&mdash;</div><div><div style="color:var(--tx2)">AQ-004 queued &mdash; awaiting Jason approval</div><span class="ltag tgr">Routed</span></div></div>
           </div>
         </div>
@@ -427,7 +427,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <p class="ssub">No feature bloat. No long onboarding. COMMAND ships exactly what boutique operators need to stop acting as the bridge between their own agents.</p>
   <div class="fgrid">
     <div class="fc"><div class="ficon">&#128225;</div><div class="fnum">Feature 01</div><div class="ftitle">Agent Status Dashboard</div><div class="fdesc">See every agent &mdash; active, idle, stalled, or in warning &mdash; from a single real-time view. Know what is running and what is stuck before anyone has to ask.</div><span class="ftag">Live in Phase 1</span></div>
-    <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. Assign work from one place. Queue tasks to the right agent, track them to completion, and know exactly what each agent is working on &mdash; without running it all from memory.</div><span class="ftag">Live in Phase 1</span></div>
+    <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. Queue tasks to the right agent, track them to completion, and know exactly what each agent is working on &mdash; without running it all from memory.</div><span class="ftag">Live in Phase 1</span></div>
     <div class="fc"><div class="ficon">&#128279;</div><div class="fnum">Feature 03</div><div class="ftitle">Handoff &amp; Context Bridge</div><div class="fdesc">When work moves between agents, COMMAND transfers the full context bundle. No dropped state. No rebuild. No copy-paste. The manual relay ends here.</div><span class="ftag">Live in Phase 1</span></div>
   </div>
 </div></div>
@@ -488,6 +488,14 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
     <div class="ttrack" id="btrack" onclick="toggleB()"><div class="tthumb"></div></div>
     <span class="tlbl">Annual</span>
     <span class="stag" id="stag">Save 20%</span>
+  </div>
+  <div style="background:rgba(240,160,48,0.07);border:1px solid rgba(240,160,48,0.35);border-radius:10px;padding:18px 22px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="color:#F0A030;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Founding Member — 12 slots left</div>
+      <div style="color:#e2e8f0;font-family:monospace;font-size:13px;font-weight:600;margin-bottom:2px;">$99/mo locked for life &mdash; closes April&nbsp;14</div>
+      <div style="color:#9DA8B5;font-family:monospace;font-size:11px;">Pro plan features. Price never increases. First 12 operators only.</div>
+    </div>
+    <button type="button" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')" style="background:#F0A030;color:#080B11;border:none;border-radius:6px;padding:10px 20px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">Claim your slot &rarr;</button>
   </div>
   <div class="qgrid">
     <div class="qc"><div class="qtier">Solo</div><div class="qdescriptor">Lightweight monitoring for a solo operator with a small agent stack.</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button class="qbtn o" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get early access</button></div>
