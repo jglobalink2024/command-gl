@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — COMMAND</title>
+<meta name="description" content="How GlobaLink collects, uses, and protects your data in the COMMAND Agent Operations Center.">
+<link rel="icon" type="image/svg+xml" href="/command-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b11;--bg2:#0c1018;--bg3:#10141f;
+  --surf:#151c2c;--surf2:#1a2235;
+  --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.11);
+  --amber:#f0a030;--teal:#1fd4a0;
+  --tx:#eceef4;--tx2:#9da8b5;--tx3:#404660;
+  --mono:'Space Mono',monospace;
+  --display:'Syne',sans-serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:58px;background:rgba(8,11,17,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-decoration:none;color:var(--tx)}
+.logo-pulse{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(240,160,48,.7)}50%{box-shadow:0 0 0 5px rgba(240,160,48,0)}}
+.nav-cta{background:var(--amber);color:#080b11;border:none;padding:9px 22px;border-radius:4px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.nav-cta:hover{background:#f5b84a;transform:translateY(-1px)}
+.wrap{max-width:760px;margin:0 auto;padding:100px 32px 80px}
+h1{font-family:var(--display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.updated{font-family:var(--mono);font-size:11px;color:var(--tx2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.entity{font-family:var(--mono);font-size:11px;color:var(--tx3);letter-spacing:.04em;margin-bottom:40px}
+section{margin-bottom:36px;padding:28px 32px;background:var(--surf);border:1px solid var(--brd);border-radius:8px}
+h2{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+li{font-size:14px;color:var(--tx2);line-height:1.6;padding-left:16px;position:relative}
+li::before{content:"—";position:absolute;left:0;color:var(--tx3)}
+strong{color:var(--tx);font-weight:600}
+a.inline{color:var(--amber);text-decoration:none}
+a.inline:hover{text-decoration:underline}
+footer{margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:24px;border-top:1px solid var(--brd)}
+.back-link{font-family:var(--mono);font-size:11px;color:var(--tx2);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
+.back-link:hover{color:var(--amber)}
+footer small{font-family:var(--mono);font-size:10px;color:var(--tx3)}
+@media(max-width:600px){nav{padding:0 20px}.wrap{padding:88px 20px 60px}section{padding:20px 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="logo-pulse"></span>
+    COMMAND
+  </a>
+  <a href="https://app.command.globalinkservices.io/login" class="nav-cta">Sign in</a>
+</nav>
+
+<main class="wrap">
+  <p class="updated">Last updated: March 29, 2026</p>
+  <h1>Privacy Policy</h1>
+  <p class="entity">GlobaLink LLC &middot; 66 W Flagler St, Miami FL 33130</p>
+
+  <section>
+    <h2>What We Collect</h2>
+    <ul>
+      <li><strong>Account information:</strong> email address, workspace name</li>
+      <li><strong>Usage data:</strong> agent registrations, task routing events, handoff logs</li>
+      <li><strong>API keys (BYOK):</strong> stored encrypted, never logged in plaintext, never shared</li>
+      <li><strong>Payment data:</strong> processed by Stripe &mdash; COMMAND never stores card numbers</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>How We Use It</h2>
+    <ul>
+      <li>To operate the COMMAND Agent Operations Center</li>
+      <li>To provide the Agent Status Dashboard, Task Router, and Context Bridge features</li>
+      <li>To maintain the append-only audit ledger (SHA-256 chain) for your workspace</li>
+      <li>To send product updates and billing communications (no marketing spam)</li>
+      <li>We do not sell your data. We do not share your data with advertisers.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Data Storage</h2>
+    <ul>
+      <li>Hosted on Supabase (Postgres) &mdash; US East region</li>
+      <li>Row-level security (RLS) enforced &mdash; your workspace data is isolated</li>
+      <li>Audit ledger entries are append-only and cannot be deleted or modified</li>
+      <li>Backups retained for 30 days</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Your Rights</h2>
+    <ul>
+      <li>Export your data: contact <a href="mailto:support@globalinkservices.io" class="inline">support@globalinkservices.io</a></li>
+      <li>Delete your account: contact <a href="mailto:support@globalinkservices.io" class="inline">support@globalinkservices.io</a> &mdash; all workspace data deleted within 30 days</li>
+      <li>You may revoke API keys at any time from Settings</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Cookies</h2>
+    <ul>
+      <li>Session cookies only (Supabase Auth)</li>
+      <li>No advertising cookies</li>
+      <li>No third-party tracking cookies</li>
+      <li>Microsoft Clarity is used for session recording (heatmaps, rage clicks) &mdash; anonymized, production only</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <ul>
+      <li>Email: <a href="mailto:support@globalinkservices.io" class="inline">support@globalinkservices.io</a></li>
+      <li>Entity: GlobaLink LLC, 66 W Flagler St, Miami FL 33130</li>
+    </ul>
+  </section>
+
+  <footer>
+    <a href="/" class="back-link">&larr; Back to COMMAND</a>
+    <small>&copy; 2026 GlobaLink LLC. All rights reserved.</small>
+  </footer>
+</main>
+
+</body>
+</html>
