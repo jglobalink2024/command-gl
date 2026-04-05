@@ -3,7 +3,9 @@
     { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/demo", "destination": "/demo.html" },
     { "source": "/one-pager", "destination": "/sales/COMMAND_One_Pager_v21.html" },
-    { "source": "/privacy", "destination": "/privacy.html" }
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/sales-hub", "destination": "/sales/command_hub.html" },
+    { "source": "/beta-syllabus", "destination": "/beta-syllabus.html" }
   ],
   "headers": [
     {

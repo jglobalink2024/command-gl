@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMMAND — Beta Program Syllabus</title>
+<meta name="description" content="Beta Program Syllabus v2 — GlobaLink LLC · Agent Operations Center for boutique consulting firms">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D1117;
+    --bg2: #161B22;
+    --bg3: #1C2128;
+    --blue: #1F6FEB;
+    --blue-dim: rgba(31,111,235,0.12);
+    --blue-border: rgba(31,111,235,0.3);
+    --green: #238636;
+    --green-dim: rgba(35,134,54,0.12);
+    --green-border: rgba(35,134,54,0.3);
+    --amber: #D29922;
+    --amber-dim: rgba(210,153,34,0.12);
+    --amber-border: rgba(210,153,34,0.3);
+    --red: #DA3633;
+    --red-dim: rgba(218,54,51,0.10);
+    --tx1: #E6EDF3;
+    --tx2: #8B949E;
+    --tx3: #6E7681;
+    --border: rgba(48,54,61,0.8);
+    --border2: rgba(48,54,61,1);
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--tx1);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* TOP NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--tx1);
+  }
+
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    background: var(--amber-dim);
+    border: 1px solid var(--amber-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--green);
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    padding: 3px 9px;
+    border-radius: 4px;
+  }
+
+  .status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-green {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* HERO */
+  .hero {
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 1.25rem 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--tx3);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: var(--tx1);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--tx2);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
+
+  .htag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--tx2);
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  /* FM BANNER */
+  .fm-banner {
+    background: var(--amber-dim);
+    border: 1px solid var(--amber-border);
+    border-left: 3px solid var(--amber);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    max-width: 800px;
+    margin: 0 auto 0;
+  }
+
+  .fm-star {
+    font-size: 16px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .fm-content h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .fm-content p {
+    font-size: 12px;
+    color: var(--tx2);
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+
+  .fm-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .fm-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+
+  .fm-tag.amber { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
+  .fm-tag.green { color: #3fb950; border-color: var(--green-border); background: var(--green-dim); }
+  .fm-tag.gray { color: var(--tx2); border-color: var(--border2); background: transparent; }
+
+  /* TABS */
+  .tabs-wrap {
+    position: sticky;
+    top: 52px;
+    z-index: 90;
+    background: rgba(13,17,23,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--tx3);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: color 0.15s, border-color 0.15s;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .tab:hover { color: var(--tx1); }
+  .tab.on { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* CONTENT */
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .panel { display: none; }
+  .panel.on { display: block; }
+
+  /* SECTION LABEL */
+  .sl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--tx3);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-top: 1.75rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sl:first-child { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 1rem 1.125rem;
+    margin-bottom: 6px;
+    transition: border-color 0.15s;
+  }
+  .card:hover { border-color: rgba(48,54,61,1.5); }
+
+  .card-row { display: flex; align-items: flex-start; gap: 10px; }
+
+  .card-icon {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--blue);
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 18px;
+  }
+
+  .card-body { flex: 1; min-width: 0; }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tx1);
+    margin-bottom: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--tx2);
+    line-height: 1.55;
+  }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid var(--border2);
+    color: var(--tx2);
+    background: transparent;
+  }
+
+  .tag.green { color: #3fb950; border-color: var(--green-border); background: var(--green-dim); }
+  .tag.amber { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
+  .tag.blue  { color: #79c0ff; border-color: var(--blue-border); background: var(--blue-dim); }
+  .tag.red   { color: #ff7b72; border-color: rgba(218,54,51,0.3); background: var(--red-dim); }
+
+  /* RULE BLOCKS */
+  .rule {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 6px 6px 0;
+    padding: 0.875rem 1rem;
+    margin-bottom: 6px;
+  }
+
+  .rule-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tx1);
+    margin-bottom: 3px;
+    font-family: var(--mono);
+  }
+
+  .rule-body {
+    font-size: 12px;
+    color: var(--tx2);
+    line-height: 1.5;
+  }
+
+  /* TIMELINE */
+  .tl { }
+  .tl-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 6px; }
+  .tl-col { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; padding-top: 5px; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tl-dot.blue  { background: var(--blue); box-shadow: 0 0 6px rgba(31,111,235,0.5); }
+  .tl-dot.amber { background: var(--amber); }
+  .tl-dot.red   { background: var(--red); }
+  .tl-dot.gray  { background: var(--tx3); }
+  .tl-line { width: 1px; background: var(--border2); flex: 1; min-height: 20px; margin-top: 4px; }
+  .tl-body { flex: 1; min-width: 0; padding-bottom: 8px; }
+  .tl-date { font-family: var(--mono); font-size: 10px; color: var(--tx3); margin-bottom: 2px; }
+  .tl-date.blue  { color: var(--blue); }
+  .tl-date.amber { color: var(--amber); }
+  .tl-date.red   { color: var(--red); }
+  .tl-title { font-size: 13px; font-weight: 600; color: var(--tx1); margin-bottom: 2px; }
+  .tl-desc  { font-size: 12px; color: var(--tx2); line-height: 1.45; }
+
+  /* SEND TAB */
+  .send-block {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 1rem 1.125rem;
+    margin-bottom: 8px;
+  }
+
+  .send-block h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tx1);
+    margin-bottom: 4px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .send-block p {
+    font-size: 12px;
+    color: var(--tx2);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+  }
+
+  .link-url {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #79c0ff;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .copy-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--tx2);
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 3px 9px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.12s, border-color 0.12s;
+    outline: none;
+  }
+  .copy-btn:hover { color: var(--tx1); border-color: rgba(99,110,123,1); }
+  .copy-btn.copied { color: #3fb950; border-color: var(--green-border); }
+
+  .warn-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber);
+    margin-top: 4px;
+  }
+
+  /* CHANNEL GRID */
+  .ch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+  .ch-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+
+  .ch-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tx1);
+    margin-bottom: 3px;
+    font-family: var(--mono);
+  }
+
+  .ch-desc { font-size: 11px; color: var(--tx2); line-height: 1.45; }
+
+  /* CHECKLIST */
+  .cl-wrap { background: var(--bg2); border: 1px solid var(--border2); border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+
+  .cl-header { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); }
+  .cl-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cl-header-title { font-size: 12px; font-weight: 600; color: var(--tx1); font-family: var(--mono); }
+  .cl-count { font-family: var(--mono); font-size: 11px; color: var(--tx2); }
+
+  .pb-wrap { background: rgba(255,255,255,0.06); border-radius: 3px; height: 3px; }
+  .pb-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.3s; }
+
+  .cl-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .cl-item:last-child { border-bottom: none; }
+  .cl-item:hover { background: var(--bg3); }
+
+  .cb {
+    width: 15px; height: 15px;
+    border-radius: 3px;
+    border: 1px solid rgba(99,110,123,0.7);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .cb.done { background: var(--green-dim); border-color: var(--green-border); }
+  .cb svg { display: none; }
+  .cb.done svg { display: block; }
+
+  .cl-label { font-size: 12px; color: var(--tx2); line-height: 1.5; flex: 1; }
+  .cl-label.done { color: var(--tx3); text-decoration: line-through; }
+
+  /* CTA BLOCK */
+  .cta-block {
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    border-left: 3px solid var(--blue);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-top: 0.75rem;
+  }
+  .cta-block h3 { font-size: 13px; font-weight: 600; color: #79c0ff; margin-bottom: 4px; }
+  .cta-block p  { font-size: 12px; color: var(--tx2); line-height: 1.5; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+  /* DIVIDER */
+  .div { height: 1px; background: var(--border); margin: 1.25rem 0; }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-left { font-family: var(--mono); font-size: 11px; color: var(--tx3); }
+  .footer-right { font-family: var(--mono); font-size: 11px; color: var(--tx3); }
+  .footer-right a { color: #79c0ff; text-decoration: none; }
+  .footer-right a:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 520px) {
+    .two-col { grid-template-columns: 1fr; }
+    .ch-grid  { grid-template-columns: 1fr; }
+    .hero h1  { font-size: 22px; }
+    .fm-banner{ flex-direction: column; gap: 8px; }
+    .nav-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left">
+    <span class="wordmark">COMMAND</span>
+    <span class="nav-badge">BETA v2</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      BETA OPEN
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">GlobaLink LLC · Beta Program Syllabus · April 2026</div>
+  <h1>Stop being the bridge.<br><span>Start being the boss.</span></h1>
+  <p class="hero-sub">COMMAND is an Agent Operations Center for boutique consulting and coaching firms running multi-agent AI stacks. One dashboard. Any agents. Zero manual relay.</p>
+  <div class="hero-tags">
+    <span class="htag">BYOA — Bring Your Own Agents</span>
+    <span class="htag">Claude · GPT · Perplexity · Cursor</span>
+    <span class="htag">Model-agnostic</span>
+    <span class="htag">GlobaLink LLC</span>
+  </div>
+</div>
+
+<!-- FM BANNER -->
+<div style="max-width:800px;margin:0 auto;padding:1.25rem 1.25rem 0;">
+  <div class="fm-banner">
+    <div class="fm-star">★</div>
+    <div class="fm-content">
+      <h3>Founding Member offer — 25 slots · closes April 14</h3>
+      <p>Beta access is free, no strings. If you decide COMMAND is worth paying for, the Founding Member rate locks you in at $99/mo for life — vs. $149/mo standard Pro. The offer is here when you want it. No pressure, no timeline on the beta access itself.</p>
+      <div class="fm-tags">
+        <span class="fm-tag amber">$99/mo locked for life</span>
+        <span class="fm-tag green">14-day free trial · no CC</span>
+        <span class="fm-tag gray">25 slots · closes Apr 14</span>
+        <span class="fm-tag gray">Discount auto-applied at checkout</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab on" onclick="sw('overview',this)">Overview</button>
+    <button class="tab" onclick="sw('features',this)">Features</button>
+    <button class="tab" onclick="sw('your-role',this)">Your role</button>
+    <button class="tab" onclick="sw('timeline',this)">Timeline</button>
+    <button class="tab" onclick="sw('terms',this)">Terms</button>
+    <button class="tab" onclick="sw('send',this)">Send this</button>
+    <button class="tab" onclick="sw('checklist',this)">Checklist</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="panel on" id="panel-overview">
+    <div class="sl">The problem COMMAND solves</div>
+
+    <div class="card">
+      <div class="card-row">
+        <div class="card-icon">01</div>
+        <div class="card-body">
+          <div class="card-title">The manual relay problem</div>
+          <div class="card-desc">You run Claude, Cursor, Perplexity, GPT — simultaneously. No unified view, no clean handoff, no alert when something stalls. You become the copy-paste bridge between your own agents. COMMAND eliminates that.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-row">
+        <div class="card-icon">02</div>
+        <div class="card-body">
+          <div class="card-title">The cockpit, not the engines</div>
+          <div class="card-desc">COMMAND does not replace your agents. You bring your own — any combination, any vendor. COMMAND coordinates them. Model-agnostic by architecture, not by marketing claim.</div>
+          <div class="tag-row">
+            <span class="tag">BYOA</span>
+            <span class="tag">Claude + GPT + Perplexity</span>
+            <span class="tag">Zero lock-in</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl">Who this is for</div>
+
+    <div class="card">
+      <div class="card-row">
+        <div class="card-icon">▣</div>
+        <div class="card-body">
+          <div class="card-title">Boutique consulting & coaching firms</div>
+          <div class="card-desc">1–15 person owner-led shops actively running 2+ AI agents or simultaneous sessions. If you've said "manual relay is the best I've found" — this is built for that exact problem.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl">Beta vs Founding Member</div>
+
+    <div class="card">
+      <div class="card-row">
+        <div class="card-icon">◆</div>
+        <div class="card-body">
+          <div class="card-title">Beta access is free — always</div>
+          <div class="card-desc">You get the full product, direct feedback loop to the builder, and early roadmap visibility. No trial clock. Founding Member is an upgrade path — same product, but your rate locks at $99/mo for life and you get a seat at the direct roadmap vote. Join beta first. Decide on FM when you've seen it run.</div>
+          <div class="tag-row">
+            <span class="tag green">Beta = free, no expiry</span>
+            <span class="tag amber">FM = $99/mo locked · closes Apr 14</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="panel" id="panel-features">
+    <div class="sl">Phase 1 — live in beta now</div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">◈</div><div class="card-body">
+        <div class="card-title">Agent Status Dashboard</div>
+        <div class="card-desc">Register all your agents in one place. See status, last activity, and stall alerts — without opening five tabs. Supabase Realtime under the hood.</div>
+        <div class="tag-row"><span class="tag green">Live</span><span class="tag">Realtime</span><span class="tag">Stall detection</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">⇥</div><div class="card-body">
+        <div class="card-title">Task Router</div>
+        <div class="card-desc">Route work to the right agent with a recommendation engine. Stop deciding manually which agent gets the next task — COMMAND surfaces the best fit.</div>
+        <div class="tag-row"><span class="tag green">Live</span><span class="tag">RecommendationPanel</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">⇄</div><div class="card-body">
+        <div class="card-title">Handoff & Context Bridge</div>
+        <div class="card-desc">Package context from one agent, hand it to another — structured, checksummed, reproducible. Four fields: decisions made, open questions, artifacts, constraints carried forward. No copy-paste.</div>
+        <div class="tag-row"><span class="tag green">Live</span><span class="tag">CCF format</span><span class="tag">SHA-256 checksum</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">⏰</div><div class="card-body">
+        <div class="card-title">Stall detection</div>
+        <div class="card-desc">Agents that stop reporting get flagged. You know before the workflow dies. Stall = cost. COMMAND makes that visible.</div>
+        <div class="tag-row"><span class="tag green">Live</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">◰</div><div class="card-body">
+        <div class="card-title">Output Curator</div>
+        <div class="card-desc">Review and approve agent outputs before they move to the next step. Full audit ledger with SHA-256 integrity chain.</div>
+        <div class="tag-row"><span class="tag green">Live</span><span class="tag">Audit log</span></div>
+      </div></div>
+    </div>
+
+    <div class="sl">Phase 2 — shipping May–June 2026</div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">⚡</div><div class="card-body">
+        <div class="card-title">Live webhook events</div>
+        <div class="card-desc">Agents report their own status automatically. Dashboard goes from snapshot to real-time ops center. No manual status updates.</div>
+        <div class="tag-row"><span class="tag amber">Phase 2</span><span class="tag">AEP spec</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">◈</div><div class="card-body">
+        <div class="card-title">Multi-instance agent registration</div>
+        <div class="card-desc">Claude-1 + Claude-2 + GPT-1 + Perplexity-1 — all tracked, named, coordinated in one view. The primary use case. Phase 2 target: April 11.</div>
+        <div class="tag-row"><span class="tag amber">Phase 2</span><span class="tag">Apr 11 target</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- YOUR ROLE -->
+  <div class="panel" id="panel-your-role">
+    <div class="sl">What we ask of you</div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">01</div><div class="card-body">
+        <div class="card-title">Run it on a real workflow</div>
+        <div class="card-desc">Not a demo scenario. Use COMMAND on an actual client project where you're already running multiple agents. That's the only way to surface what matters.</div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">02</div><div class="card-body">
+        <div class="card-title">Weekly friction report</div>
+        <div class="card-desc">One Loom video or voice note per week — 5–10 minutes. Where did you hit friction? What felt wrong? What did you expect that didn't happen?</div>
+        <div class="tag-row"><span class="tag">Loom or voice note</span><span class="tag">5–10 min</span><span class="tag">Weekly</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">03</div><div class="card-body">
+        <div class="card-title">Bug reports via Tally</div>
+        <div class="card-desc">When something breaks: 3-minute form, goes directly to the build queue. No ticket system. No GitHub issues.</div>
+        <div class="tag-row"><span class="tag blue">tally.so/r/81884o</span></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-icon">04</div><div class="card-body">
+        <div class="card-title">30-min onboarding call — week 1</div>
+        <div class="card-desc">We walk through your current agent stack, register your first agents, and route your first task. You leave with COMMAND live on a real workflow. Scheduled in your first week.</div>
+        <div class="tag-row"><span class="tag amber">Week 1 only</span></div>
+      </div></div>
+    </div>
+
+    <div class="sl">What we owe you</div>
+    <div class="two-col">
+      <div class="rule">
+        <div class="rule-title">48-hr bug SLA</div>
+        <div class="rule-body">Every report gets a response within 48 hours. Not a fix — a response. You'll know it's in the queue.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Direct line to Jason</div>
+        <div class="rule-body">jason@globalinkservices.io goes to the builder directly. Not a support inbox. Not a bot.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">Your data is yours</div>
+        <div class="rule-body">Tenant-isolated via Supabase RLS. We cannot read your agent configs or client data. DPA available on request.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-title">FM rate if you want it</div>
+        <div class="rule-body">$99/mo locked for life — available to any beta user before April 14. Discount auto-applied at checkout.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="panel" id="panel-timeline">
+    <div class="sl">Beta program calendar</div>
+    <div class="tl">
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot blue"></div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date blue">April 5, 2026</div>
+          <div class="tl-title">Beta opens — first invite sent</div>
+          <div class="tl-desc">Smoke tests cleared. Beta gate open. Rolling admission — one user in, 48-hr stabilization, then next invite.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot blue"></div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date blue">April 8</div>
+          <div class="tl-title">Webhook receiver live</div>
+          <div class="tl-desc">Agents begin reporting status automatically. Dashboard starts receiving live events.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot blue"></div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date blue">April 11</div>
+          <div class="tl-title">Multi-instance registration UI</div>
+          <div class="tl-desc">Run N instances of the same model simultaneously — all tracked, named, coordinated in one view.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot red"></div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date red">April 14 — hard close</div>
+          <div class="tl-title">Founding Member cohort closes</div>
+          <div class="tl-desc">25 slots at $99/mo locked for life. After April 14: standard Pro rate ($149/mo). No exceptions.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot gray"></div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date">May–June 2026</div>
+          <div class="tl-title">Phase 2 — live connections</div>
+          <div class="tl-desc">Real-time dashboard. Beta users testing live webhook connections. This is when the tagline becomes literally true.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-col"><div class="tl-dot gray"></div></div>
+        <div class="tl-body">
+          <div class="tl-date">June 1, 2026</div>
+          <div class="tl-title">São Paulo base established</div>
+          <div class="tl-desc">COMMAND continues. LATAM market entry begins. Beta program remains active.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS -->
+  <div class="panel" id="panel-terms">
+    <div class="sl">Terms for beta users</div>
+    <div class="rule"><div class="rule-title">Private beta — NDA by default</div><div class="rule-body">Do not share screenshots, feature details, or pricing outside your firm without written approval. Formal NDA available on request.</div></div>
+    <div class="rule"><div class="rule-title">Your agents, your data</div><div class="rule-body">COMMAND is a coordination layer — it does not access the content your agents produce. Workspace data is tenant-isolated via Supabase row-level security. We cannot read it.</div></div>
+    <div class="rule"><div class="rule-title">Beta access is free — always</div><div class="rule-body">No trial clock on beta access. Founding Member billing ($99/mo) only activates if you choose to upgrade before April 14. Standard Pro ($149/mo) after that date.</div></div>
+    <div class="rule"><div class="rule-title">Feedback is the currency</div><div class="rule-body">Beta access is earned by providing real friction reports. Direct roadmap access pauses if feedback stops. You remain a customer either way.</div></div>
+    <div class="rule"><div class="rule-title">Model-agnostic forever</div><div class="rule-body">BYOA is an architectural commitment, not a marketing line. COMMAND will never force a single AI vendor. Your stack, your choice, always.</div></div>
+
+    <div class="sl">Contact</div>
+    <div class="card">
+      <div class="card-row"><div class="card-icon">@</div><div class="card-body">
+        <div class="card-title">jason@globalinkservices.io</div>
+        <div class="card-desc">Jason Davis directly. LTC (O-5) U.S. Army Infantry, bootstrapped founder. 48-hr response SLA. No support ticket required.</div>
+      </div></div>
+    </div>
+    <div class="card">
+      <div class="card-row"><div class="card-icon">△</div><div class="card-body">
+        <div class="card-title">Bug reporting</div>
+        <div class="card-desc">tally.so/r/81884o — 7 questions, 3 minutes, goes straight to the build queue.</div>
+      </div></div>
+    </div>
+    <div class="card">
+      <div class="card-row"><div class="card-icon">◐</div><div class="card-body">
+        <div class="card-title">General feedback</div>
+        <div class="card-desc">tally.so/r/2EvLee — 7-question beta feedback form. For product impressions, feature requests, and friction reports.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- SEND THIS -->
+  <div class="panel" id="panel-send">
+    <div class="sl">Send order — warm the prospect first</div>
+
+    <div class="send-block">
+      <h3>Step 1 — Landing page + demo</h3>
+      <p>Lead with the landing page and Navattic demo. Warms the reader. Send the full syllabus link only after a positive signal.</p>
+      <div class="link-row"><span class="link-url">command.globalinkservices.io</span><button class="copy-btn" onclick="cp('https://command.globalinkservices.io',this)">Copy</button></div>
+      <div class="link-row"><span class="link-url">globalink.navattic.com/fcr04wg</span><button class="copy-btn" onclick="cp('https://globalink.navattic.com/fcr04wg',this)">Copy</button></div>
+    </div>
+
+    <div class="send-block">
+      <h3>Step 2 — This syllabus</h3>
+      <p>Send after a positive signal — discovery call, warm DM reply, direct ask. Not a cold open.</p>
+      <div class="link-row"><span class="link-url">command.globalinkservices.io/beta-syllabus</span><button class="copy-btn" onclick="cp('https://command.globalinkservices.io/beta-syllabus',this)">Copy</button></div>
+    </div>
+
+    <div class="send-block">
+      <h3>Step 3 — Founding Member checkout (post-signal only)</h3>
+      <p>The close link. Send only after the prospect has seen the product. Discount auto-applies at checkout — they click, it's applied, no code needed.</p>
+      <div class="link-row"><span class="link-url">Founding Member Stripe link</span><button class="copy-btn" onclick="cp('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401',this)">Copy</button></div>
+      <div class="warn-note">⚠ Update this link once new FOUNDING99 coupon (cap 25) is live in Stripe</div>
+    </div>
+
+    <div class="div"></div>
+    <div class="sl">Channel playbook</div>
+    <div class="ch-grid">
+      <div class="ch-card"><div class="ch-title">iMessage / SMS</div><div class="ch-desc">Landing page link only. Syllabus link in follow-up after reply.</div></div>
+      <div class="ch-card"><div class="ch-title">LinkedIn DM</div><div class="ch-desc">One-pager + Navattic. Dock room after they respond.</div></div>
+      <div class="ch-card"><div class="ch-title">Email</div><div class="ch-desc">Founding Member Sequence v2 template. Syllabus as link in body.</div></div>
+      <div class="ch-card"><div class="ch-title">Post-call</div><div class="ch-desc">Clone Dock.us room. Syllabus + one-pager. Send within 2 hrs.</div></div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="panel" id="panel-checklist">
+    <div class="sl">Pre-send — Eric invite</div>
+
+    <div class="cl-wrap">
+      <div class="cl-header">
+        <div class="cl-header-row">
+          <div class="cl-header-title">Completion</div>
+          <div class="cl-count" id="cl-count">0 / 10</div>
+        </div>
+        <div class="pb-wrap"><div class="pb-fill" id="pb-fill" style="width:0%"></div></div>
+      </div>
+      <div id="cl-items"></div>
+    </div>
+
+    <div class="cta-block">
+      <h3>When all items are green — send it</h3>
+      <p>Dock.us room for Eric builds after a positive signal — not before. Send this syllabus link as the follow-up, not the opener.</p>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-left">GlobaLink LLC · COMMAND Beta Program Syllabus v2 · April 2026 · Confidential</div>
+  <div class="footer-right"><a href="mailto:jason@globalinkservices.io">jason@globalinkservices.io</a></div>
+</footer>
+
+<script>
+const items = [
+  { l: 'Smoke test complete — 9/9 steps green', d: true },
+  { l: 'Sprint D shipped — D1–D5 all green', d: true },
+  { l: 'GL_INTERNAL confirmed false in production', d: true },
+  { l: 'Beta gate cleared 260331', d: true },
+  { l: 'ANTHROPIC_API_KEY set in Vercel Production', d: true },
+  { l: 'New FOUNDING99 coupon created — cap 25, auto-apply via Stripe link', d: false },
+  { l: 'Tally bug form live — routed to jason@globalinkservices.io', d: false },
+  { l: 'Tally feedback form live', d: false },
+  { l: 'Beta Program Syllabus v2 approved by Jason', d: false },
+  { l: 'Eric onboarding call blocked in Reclaim.ai', d: false },
+];
+
+function render() {
+  const el = document.getElementById('cl-items');
+  el.innerHTML = items.map((it, i) => `
+    <div class="cl-item" onclick="tog(${i})">
+      <div class="cb ${it.d ? 'done' : ''}" id="cb${i}">
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+          <path d="M2 5L4.5 7.5L8 3" stroke="#3fb950" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="cl-label ${it.d ? 'done' : ''}" id="cl${i}">${it.l}</div>
+    </div>`).join('');
+  upd();
+}
+
+function tog(i) {
+  items[i].d = !items[i].d;
+  document.getElementById('cb' + i).className = 'cb' + (items[i].d ? ' done' : '');
+  document.getElementById('cl' + i).className = 'cl-label' + (items[i].d ? ' done' : '');
+  upd();
+}
+
+function upd() {
+  const done = items.filter(x => x.d).length;
+  document.getElementById('cl-count').textContent = done + ' / ' + items.length;
+  document.getElementById('pb-fill').style.width = Math.round(done / items.length * 100) + '%';
+}
+
+function sw(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('panel-' + id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function cp(txt, btn) {
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+  }).catch(() => { btn.textContent = 'Error'; });
+}
+
+render();
+</script>
+</body>
+</html>
