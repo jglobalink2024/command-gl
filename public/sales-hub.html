@@ -59,6 +59,7 @@
   .ic { background: var(--bg2); border: 1px solid var(--border2); border-radius: 6px; padding: .75rem 1rem; margin-bottom: 6px; }
   .ic-title { font-size: 12px; font-weight: 600; color: var(--tx1); margin-bottom: 3px; }
   .ic-desc { font-size: 11px; color: var(--tx2); line-height: 1.5; }
+  .ic-actions { margin-top: 10px; }
 
   /* RULE */
   .rule { background: var(--bg2); border: 1px solid var(--border2); border-left: 2px solid var(--amber); border-radius: 0 6px 6px 0; padding: .625rem .875rem; margin-bottom: 5px; }
@@ -111,6 +112,7 @@
   <button class="tab" onclick="sw('outreach',this)">Outreach</button>
   <button class="tab" onclick="sw('demo',this)">Demo</button>
   <button class="tab" onclick="sw('pricing',this)">Pricing</button>
+  <button class="tab" onclick="sw('feedback',this)">Feedback</button>
 </div>
 
 <div class="content">
@@ -334,6 +336,35 @@
     <div class="rule"><div class="rule-title">"I already use Claude natively"</div><div class="rule-body">COMMAND works with Claude, ChatGPT, Perplexity, and any combination — because your stack will never be just one tool, and no single vendor solves the coordination problem for you.</div></div>
     <div class="rule"><div class="rule-title">"Why not just use Claude Projects?"</div><div class="rule-body">Claude Projects is single-vendor. COMMAND coordinates across vendors simultaneously. That's the structural moat no single AI company can replicate by definition.</div></div>
     <div class="rule"><div class="rule-title">"Is this worth $99/mo?"</div><div class="rule-body">If you spend 30 min/day on manual relay across agents, that's 10 hrs/month. At $150/hr consulting rate, that's $1,500/month in lost billable time. COMMAND costs $99.</div></div>
+  </div>
+
+  <!-- FEEDBACK -->
+  <div class="panel" id="panel-feedback">
+    <div class="sl">Beta feedback</div>
+
+    <div class="ic" style="border-left: 2px solid var(--amber);">
+      <div class="ic-title">Product Feedback</div>
+      <div class="ic-desc">Share what's working, what's not, and what you'd change</div>
+      <div class="ic-actions">
+        <a class="btn btn-amber" href="https://tally.so/r/2EvLee" target="_blank" rel="noopener noreferrer">Give Feedback →</a>
+      </div>
+    </div>
+
+    <div class="ic" style="border-left: 2px solid var(--amber);">
+      <div class="ic-title">Bug Reports</div>
+      <div class="ic-desc">Found something broken? Report it here</div>
+      <div class="ic-actions">
+        <a class="btn btn-amber" href="https://tally.so/r/81884o" target="_blank" rel="noopener noreferrer">Report Bug →</a>
+      </div>
+    </div>
+
+    <div class="ic" style="border-left: 2px solid var(--amber);">
+      <div class="ic-title">Jobs-to-be-Done Survey</div>
+      <div class="ic-desc">Help us understand how you work with AI agents</div>
+      <div class="ic-actions">
+        <a class="btn btn-amber" href="https://tally.so/r/lbWlv6" target="_blank" rel="noopener noreferrer">Take Survey →</a>
+      </div>
+    </div>
   </div>
 
 </div><!-- /content -->
