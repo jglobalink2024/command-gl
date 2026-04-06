@@ -143,10 +143,11 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace" id="headerStatus">READY</div>
 </div>
 
-<!-- MAIN NAV — two tabs only -->
+<!-- MAIN NAV -->
 <div class="nav">
   <button class="nav-btn active" data-maintab="ops">⚙ OPS</button>
   <button class="nav-btn" data-maintab="client">📤 CLIENT</button>
+  <button class="nav-btn" data-maintab="surveys">📋 SURVEYS</button>
 </div>
 
 <!-- ═══════════════════════════════════════════ OPS TAB -->
@@ -519,6 +520,37 @@ JCMD</div>
   </div>
 
 </div><!-- /tab-client -->
+
+<!-- ═══════════════════════════════════════════ SURVEYS TAB -->
+<div id="tab-surveys" class="tab">
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:14px;letter-spacing:.1em">ASSESSMENT LINKS — COPY OR OPEN</div>
+
+  <div class="card">
+    <div class="slabel">📋 Surveys</div>
+    <div class="copy-row">
+      <div>
+        <div class="copy-label">AI Ops Assessment (Anonymous)</div>
+        <div class="copy-sub">dub.sh/ai-ops-survey</div>
+        <div class="copy-sub" style="margin-top:6px;line-height:1.55">For LinkedIn, Reddit, cold outreach — no COMMAND branding</div>
+      </div>
+      <div style="display:flex;gap:6px;align-self:flex-start;flex-shrink:0">
+        <button class="copy-btn" data-copy="https://dub.sh/ai-ops-survey">COPY</button>
+        <a class="open-btn" href="https://dub.sh/ai-ops-survey" target="_blank" rel="noopener noreferrer">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div>
+        <div class="copy-label">COMMAND Readiness Assessment</div>
+        <div class="copy-sub">go.command.globalinkservices.io/assess</div>
+        <div class="copy-sub" style="margin-top:6px;line-height:1.55">For post-call prospects, warm pipeline — COMMAND branded</div>
+      </div>
+      <div style="display:flex;gap:6px;align-self:flex-start;flex-shrink:0">
+        <button class="copy-btn" data-copy="https://go.command.globalinkservices.io/assess">COPY</button>
+        <a class="open-btn" href="https://go.command.globalinkservices.io/assess" target="_blank" rel="noopener noreferrer">OPEN</a>
+      </div>
+    </div>
+  </div>
+</div><!-- /tab-surveys -->
 
 <script>
 // ─── CONSTANTS ─────────────────────────────────────────
