@@ -235,17 +235,12 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
       <button class="btn-secondary" id="newProspectBtn" style="font-size:10px;padding:5px 10px">↺ NEW</button>
     </div>
 
-    <!-- BRIEF NAV -->
+    <!-- BRIEF NAV — prep tabs only (Q1-Q5 appear on call screen) -->
     <div class="btabs" id="briefTabNav">
       <button class="btab active" data-btab="bSnap">SNAP</button>
       <button class="btab" data-btab="bOpen">OPEN</button>
-      <button class="btab" data-btab="bQ1">Q1</button>
-      <button class="btab" data-btab="bQ2">Q2</button>
-      <button class="btab" data-btab="bQ3">Q3</button>
-      <button class="btab" data-btab="bQ4">Q4</button>
-      <button class="btab" data-btab="bQ5">Q5</button>
-      <button class="btab" data-btab="bCounter">🚨</button>
       <button class="btab" data-btab="bIntel">INTEL</button>
+      <button class="btab" data-btab="bCounter">🚨 COUNTER</button>
     </div>
 
     <!-- BRIEF PANELS -->
@@ -274,11 +269,11 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
       </div>
     </div>
 
-    <div id="bQ1" class="bpanel" style="display:none"><div id="q1r"></div></div>
-    <div id="bQ2" class="bpanel" style="display:none"><div id="q2r"></div></div>
-    <div id="bQ3" class="bpanel" style="display:none"><div id="q3r"></div></div>
-    <div id="bQ4" class="bpanel" style="display:none"><div id="q4r"></div></div>
-    <div id="bQ5" class="bpanel" style="display:none"><div id="q5r"></div></div>
+    
+    
+    
+    
+    
 
     <div id="bCounter" class="bpanel" style="display:none">
       <div class="card-red">
@@ -310,10 +305,12 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   <!-- ── STEP 3: CALL LIVE ── -->
   <div id="step3" class="step-panel" style="display:none">
     <div class="timer-bar"><div class="timer-fill" id="timerBar" style="width:0%"></div></div>
-    <div class="card-amber">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+
+    <!-- TIMER PINNED -->
+    <div class="card-amber" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
         <div class="slabel" style="margin:0">⏱ Call Timer</div>
-        <div id="timerWarn" style="display:none;font-size:10px;color:var(--red);font-family:'Courier New',monospace;animation:pulse 1s infinite">⚠ CLOSE NOW</div>
+        <div id="timerWarn" style="display:none;font-size:10px;color:var(--red);font-family:'Courier New',monospace;animation:pulse 1s infinite">⚠ CLOSE NOW — 18 MIN</div>
       </div>
       <div class="timer-big" id="timerDisplay">00:00</div>
       <div style="display:flex;gap:8px">
@@ -323,8 +320,53 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
       </div>
     </div>
 
-    <!-- LIVE SCORE DURING CALL -->
-    <div class="card">
+    <!-- OPENING SCRIPT -->
+    <div class="card" style="margin-bottom:10px">
+      <div class="slabel">📋 Open</div>
+      <div class="script" style="font-size:12px;margin-bottom:6px">"You're already running multiple AI tools — everybody is. The question isn't whether to use them. It's who's coordinating them. Right now that's you — copy-pasting between tabs. COMMAND makes that someone else's job."</div>
+      <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace">[PAUSE] → "Research mode — no agenda. Can I ask a few questions?" → [Wait for yes] → "Okay to record for my notes?"</div>
+    </div>
+
+    <!-- ALL QUESTIONS — SINGLE SCROLL, NO TABS -->
+    <div id="allQuestionsPanel"></div>
+
+    <!-- INTEL AMMO — COLLAPSED -->
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" id="intelToggleRow" style="cursor:pointer">
+        <div class="slabel" style="margin:0">📡 Intel — "Why Now?" (tap to expand)</div>
+        <span id="intelArrow" style="color:var(--amber);font-family:'Courier New',monospace;font-size:12px">▸</span>
+      </div>
+      <div id="intelPanel" style="display:none;margin-top:10px">
+        <div id="intelHookDisplay" style="font-size:12px;color:var(--tx1);line-height:1.7;margin-bottom:10px;padding:8px;background:var(--amber-glow);border-radius:5px;border:1px solid var(--amber-dim)"></div>
+        <div class="script" style="font-size:11px">"Microsoft just shipped agent-to-agent coordination for enterprises this week. IBM calls the orchestration layer 'the front door to the super agent.' Gartner logged a 1,400% surge in multi-agent inquiries. The category is real. Nobody's built this for firms your size — enterprise has it, solo operators have nothing."</div>
+      </div>
+    </div>
+
+    <!-- COUNTER-PITCH — COLLAPSED -->
+    <div class="card-red" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" id="counterToggleRow" style="cursor:pointer">
+        <div class="slabel-red" style="margin:0">🚨 Counter-Pitch (tap if he flips)</div>
+        <span id="counterArrow" style="color:var(--red);font-family:'Courier New',monospace;font-size:12px">▸</span>
+      </div>
+      <div id="counterPanel" style="display:none;margin-top:10px">
+        <div id="counterWarnings2"></div>
+        <div style="margin-top:10px">
+          <div style="font-size:10px;color:var(--amber);font-family:'Courier New',monospace;margin-bottom:4px">🥇 REDIRECT</div>
+          <div class="script" style="font-size:12px">"That's interesting — before we go there, let me understand your situation better. One more thing?"</div>
+          <div style="font-size:10px;color:var(--amber);font-family:'Courier New',monospace;margin:8px 0 4px">🥈 REFRAME</div>
+          <div class="script" style="font-size:12px">"Look, straight up — pure research mode. Not a consulting client. Just trying to understand how operators manage AI complexity. Still useful?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NON-PITCH CLOSE -->
+    <div class="card" style="margin-bottom:10px">
+      <div class="slabel">⏱ At 18 Min — Close</div>
+      <div class="script" style="font-size:12px">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early and I'm selective. Would you be open to me sending a one-pager and following up in a week?"</div>
+    </div>
+
+    <!-- LIVE SCORE -->
+    <div class="card" style="margin-bottom:10px">
       <div class="slabel">🧮 ICP Score — Fill Live</div>
       <div id="scoreRows"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
@@ -338,12 +380,6 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <div class="card">
       <div class="slabel">📝 Notes</div>
       <div id="noteFields"></div>
-    </div>
-
-    <!-- NON-PITCH CLOSE -->
-    <div class="card">
-      <div class="slabel">⏱ At 18min — Close Script</div>
-      <div class="script">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early and I'm selective about who I bring in. Would it be okay if I sent you a one-pager and followed up in a week or two?"</div>
     </div>
   </div>
 
@@ -412,7 +448,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <div style="font-size:11px;color:var(--tx2);margin-bottom:10px;line-height:1.65">Clone master template → rename to prospect → send their unique room link. Never send the master directly.</div>
     <div class="copy-row">
       <div><div class="copy-label">Master Template</div><div class="copy-sub">Clone per prospect · never send this URL</div></div>
-      <a class="open-btn" href="https://globalinkservices.dock.us/acme-E7sOXt5HpHir" target="_blank">CLONE →</a>
+      <button class="copy-btn" id="dockCloneBtn">CLONE →</button>
     </div>
   </div>
 
@@ -449,13 +485,13 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
       <span class="msg-subj">SUBJ: Running multi-agent AI at [Company]?</span>
       <button class="copy-btn" data-copy-id="tpl-t1">COPY</button>
     </div>
-    <div class="msg-box" id="tpl-t1">[First Name],
+    <div class="msg-box" id="tpl-t1">[First Name] —
 
-I've been studying how boutique consulting firms manage multi-agent AI stacks — specifically the coordination problem that appears once you're running more than one agent or session simultaneously.
+Running into this yet — you're coordinating multiple AI tools and you've become the copy-paste bridge between them?
 
-Most firms hit the same walls — no unified view of what agents are doing, no clean handoffs, and no fast way to intervene when something stalls. The operator ends up being the bridge — manually copying context between tools that should be talking to each other.
+Most operators I talk to hit the same wall — no unified view of what's running, no clean handoffs, no fast way to catch something when it stalls. They end up being the relay. That's the problem I'm building against.
 
-Is that pattern showing up at [Company]? Would a 20-minute call be useful?
+Would you be open to a 20-min call? No deck, no pitch — I'm in research mode and your perspective would be useful.
 
 — JCMD  |  jason@globalinkservices.io</div>
   </div>
@@ -465,15 +501,15 @@ Is that pattern showing up at [Company]? Would a 20-minute call be useful?
       <span class="msg-subj">SUBJ: Founding Member spots — [N] remaining</span>
       <button class="copy-btn" data-copy-id="tpl-t2">COPY</button>
     </div>
-    <div class="msg-box" id="tpl-t2">[First Name],
+    <div class="msg-box" id="tpl-t2">[First Name] —
 
-Following up. I'm opening a small Founding Member cohort for COMMAND — an Agent Operations Center for firms running multi-agent AI stacks.
+Following up. Opening a small Founding Member cohort for COMMAND — one interface to register, route, and coordinate every AI agent you're running.
 
-$99/mo locked for life · direct roadmap access · 30-min onboarding call
+$99/mo locked for life — that's the founding rate, never goes up.
 
-Works with Claude, ChatGPT, Perplexity, any combination — no single vendor solves the coordination problem by definition.
+Works with Claude, ChatGPT, Perplexity, Cursor, whatever combination you're running. No single vendor solves the coordination problem — that's the whole point.
 
-12 spots left. Start here: https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407
+12 spots. Start here: https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407
 
 — JCMD</div>
   </div>
@@ -517,17 +553,35 @@ const LOAD_MSGS = [
 ];
 
 const VOICE_CONTEXT = `
-JASON'S VOICE PROFILE (use for all emails):
-- Opener: [First Name] — (name then dash, no comma, never "Hi" or "Hey")
-- Short sentences. Dashes over commas.
-- Never salesy. Never preamble. Gets to the point immediately.
-- Warmth is real or absent — never performative.
-- Closes warm but brief.
-- Sign-off: JCMD only (never "Jason", never "Best", never "Regards", never "Cheers")
-- Two line breaks between paragraphs for copy-paste fidelity.
-- Never: "I hope this finds you well", "I wanted to reach out", "circle back", "touch base"
-- Military contacts: even shorter, lower obligation, assumes mutual respect
-- Discovery mode: observing and listening, NOT comparing notes as peer
+JASON'S VOICE PROFILE — follow exactly for all emails:
+
+OPENER: [First Name] — (name then em-dash, never comma, never "Hi", never "Hey")
+SENTENCES: Short. Punchy. Dashes over commas.
+TONE: Direct but warm. Never salesy. Never preamble. Gets to the point in the first sentence.
+WARMTH: Real or absent — never performative. Only say warm things that are true.
+CLOSE: Warm but brief. One sentence max.
+SIGN-OFF: JCMD only. Never "Jason", "Best", "Regards", "Cheers", "Thanks", "Warmly".
+SPACING: Two line breaks between paragraphs — mandatory for copy-paste fidelity.
+
+NEVER USE:
+- "I hope this finds you well"
+- "I wanted to reach out" / "I wanted to follow up"
+- "circle back" / "touch base" / "synergy" / "leverage"
+- "Would you be open to a 20-min call?" → INSTEAD: "Would you be open to a 20-min call?"
+- "I'd love to connect" → INSTEAD: just ask directly
+- Rhetorical questions that feel salesy
+
+MUTUAL PRINCIPLE (non-negotiable):
+If Jason offered help during the call, that offer MUST appear in the email.
+Never send a message that only asks for something.
+Every follow-up reflects the two-way nature of the relationship.
+Reference what Jason can do for THEM before or alongside what he's asking.
+
+MILITARY CONTACTS: Even shorter. Lower obligation. Assumes mutual respect. Peer framing.
+DISCOVERY MODE: Observing and listening — never comparing notes as a peer or pitching.
+
+CALL-TO-ACTION: "Would you be open to a 20-min call?" is the preferred ask.
+Never: "Would you be open to", "Would that make sense", "Does that work for you"
 `;
 
 // ─── STATE ─────────────────────────────────────────────
@@ -768,6 +822,8 @@ function renderBrief(b, name, firm){
 
   buildScoreRows();
   buildNoteFields();
+  // Pre-render all questions for the call screen
+  renderAllQuestions(b);
 }
 
 // ─── ANALYZE TRANSCRIPT ──────────────────────────────────
@@ -954,16 +1010,96 @@ async function callClaude(key, prompt){
 
 // ─── PROMPTS ─────────────────────────────────────────────
 function buildResearchPrompt(url, name, firm){
-  return `You are a B2B sales research agent for COMMAND — an Agent Operations Center for boutique consulting and coaching firms (1-15 people, owner-led). COMMAND solves: operators running multiple AI agents simultaneously have no unified dashboard, no handoff layer, no context bridge — they become manual copy-paste relays.
+  return `You are a B2B sales research agent for COMMAND — an Agent Operations Center for boutique consulting and coaching firms (1-15 people, owner-led). COMMAND solves: operators running multiple AI agents simultaneously have no unified dashboard, no handoff layer, no context bridge — they become manual copy-paste relays. Tagline: "Stop being the bridge. Start being the boss."
 
 RESEARCH TARGET:
 LinkedIn URL: ${url||'not provided'}
 Contact: ${name||'unknown'}
 Firm: ${firm||'unknown'}
 
-Return ONLY valid JSON, no markdown, no preamble:
+INSTRUCTIONS:
+1. Research this person deeply from their LinkedIn URL, name, and firm name.
+2. Identify their AI tool usage signals — be specific. If none found, say exactly that.
+3. Generate ONLY the discovery questions that are relevant to this specific person. Drop or rewrite any question where the intel makes it redundant or off-target.
+4. For each question: tailor the wording, signals, and follow-ups to what you know about this person. A developer gets different framing than a fractional COO.
+5. The intel_hook must be personalized — reference their specific industry/role/signals, not just generic market stats.
+6. counter_pitch warning signs must be specific to THIS person's background and role.
 
-{"snapshot":{"firm":"1-line firm description","person":"background: role, history, location","ai_signals":"specific AI tools found publicly OR 'None found'","watch_for":"behavioral risks specific to this person","icp_pre_score":"HIGH / MEDIUM / LOW"},"tailored_questions":[{"id":"Q1","label":"Agent Inventory","question":"Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used.","single_tool_followup":"How many [tool] sessions or tabs are you running simultaneously? How does work move between them?","green":["Multiple tools named","Single tool with multiple simultaneous instances"],"yellow":["Single tool, unclear on instances"],"red":["Just ChatGPT for basic writing only"],"pain_language":["copy-paste","manual relay","re-explain","babysit"],"context_note":"1-sentence note specific to this prospect"},{"id":"Q2","label":"Coordination Behavior","question":"How do you actually move work between those tools? If something starts in one agent and needs to continue in another — walk me through what that looks like.","green":["Copy-paste context manually","Re-explain in new tab","Someone manages the handoffs"],"yellow":["Some automation but it breaks"],"red":["They talk to each other automatically"],"pain_language":["manual relay","copy-paste","re-explain","babysit it","nobody watching"],"context_note":"tailored note"},{"id":"Q3","label":"Failure Mode","question":"Tell me about a time something went wrong — an agent stalled, dropped context, or just didn't work the way you expected.","green":["Specific failure with real business impact","Found out days later — visibility gap confirmed"],"yellow":["Vague frustration, no specific story"],"red":["Nothing has gone wrong"],"pain_language":["lost context","had to start over","client found out"],"context_note":"tailored note"},{"id":"Q4","label":"Time Cost","question":"How much time a week goes into just managing the agents — not using their output, just managing them.","scoring":{"15pts":"2+ hours/week","10pts":"30-120 min/week","5pts":"Can't quantify but real","0pts":"It's pretty automated"},"pain_language":["more than I'd like","too much time","hired someone to do it"],"context_note":"tailored note"},{"id":"Q5","label":"Vision","question":"If you had one place to see everything your agents were doing — status, task queue, handoff state — what would that change for you?","green":["I'd finally know what's running","Could actually delegate properly","Emotional relief response"],"red":["Confused or blank response"],"pain_language":["finally","delegate","trust it","sleep better"],"context_note":"tailored note"}],"counter_pitch":{"warning_signs":["Specific signs THIS person might pitch you based on their background and role"]},"intel_hook":"One sentence tailored to why this specific prospect type cares about agent coordination right now"}`;
+Return ONLY valid JSON, no markdown, no preamble, no trailing text:
+
+{
+  "snapshot": {
+    "firm": "1-line firm description — type of work, clients served, size",
+    "person": "background summary: prior roles, industries, location, notable signals",
+    "ai_signals": "SPECIFIC tools/platforms found (Claude, Cursor, ChatGPT, Zapier, etc.) OR 'None found in public research'",
+    "watch_for": "1-2 specific behavioral risks for this exact call based on their background",
+    "icp_pre_score": "HIGH / MEDIUM / LOW — with one sentence rationale"
+  },
+  "tailored_questions": [
+    {
+      "id": "Q1",
+      "label": "Agent Inventory",
+      "relevance": "HIGH",
+      "question": "Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used daily.",
+      "single_tool_followup": "How many [tool] sessions or tabs are you running simultaneously? How does work move between those sessions?",
+      "green": ["GREEN signal tailored to what THIS person likely uses"],
+      "yellow": ["YELLOW — single tool, need to dig on instances"],
+      "red": ["RED — only basic writing use, no workflow integration"],
+      "pain_language": ["copy-paste", "manual relay", "re-explain", "babysit"],
+      "context_note": "1-sentence note SPECIFIC to this person — reference their background"
+    },
+    {
+      "id": "Q2",
+      "label": "Coordination Behavior",
+      "relevance": "HIGH",
+      "question": "How do you actually move work between those tools? Walk me through what that looks like step by step — like a real task you did this week.",
+      "green": ["Copy-paste context manually", "Re-explain in new tab", "Someone on team manages handoffs"],
+      "yellow": ["Some automation but breaks occasionally"],
+      "red": ["They talk to each other automatically"],
+      "pain_language": ["manual relay", "copy-paste", "re-explain", "babysit it", "nobody watching"],
+      "context_note": "Tailored to their workflow — reference their specific role"
+    },
+    {
+      "id": "Q3",
+      "label": "Failure Mode",
+      "relevance": "HIGH or MEDIUM based on intel",
+      "question": "Tell me about a time something went wrong — an agent stalled, dropped context, or just didn't perform. What happened and what did it cost you?",
+      "green": ["Specific failure with real business or client impact", "Found out days later — visibility gap confirmed"],
+      "yellow": ["Vague frustration, no specific story yet"],
+      "red": ["Nothing has gone wrong — low usage signal"],
+      "pain_language": ["lost context", "had to start over", "client found out", "cost me hours"],
+      "context_note": "Adjust framing based on whether they're client-facing or internal-ops focused"
+    },
+    {
+      "id": "Q4",
+      "label": "Time Cost",
+      "relevance": "HIGH or MEDIUM based on intel",
+      "question": "If you had to put a number on it — how much time a week goes into managing the agents themselves, not using their output. Just the overhead of keeping them coordinated.",
+      "scoring": {"15pts": "2+ hours/week", "10pts": "30-120 min/week", "5pts": "Can't quantify but acknowledges waste", "0pts": "It runs itself"},
+      "pain_language": ["more than I'd like", "too much time on it", "hired someone to watch it"],
+      "context_note": "Tailor based on firm size — solo operators underestimate this number"
+    },
+    {
+      "id": "Q5",
+      "label": "Vision",
+      "relevance": "HIGH or MEDIUM based on intel",
+      "question": "If you had one place where you could see everything your agents were doing — status, what they're working on, handoff state — what would that actually change for you day to day?",
+      "green": ["Emotional relief response", "I'd finally be able to delegate properly", "I'd trust it more"],
+      "red": ["Blank or confused — may not have the problem yet"],
+      "pain_language": ["finally", "delegate", "trust it", "less time babysitting", "know what's happening"],
+      "context_note": "If they're solo, frame around personal leverage. If they have a team, frame around visibility."
+    }
+  ],
+  "counter_pitch": {
+    "warning_signs": [
+      "Specific sign #1 based on THIS person's role/background",
+      "Specific sign #2",
+      "Specific sign #3"
+    ]
+  },
+  "intel_hook": "2-3 sentences tailored to THIS person's specific industry, role, and AI signals. Reference Microsoft A2A, IBM orchestration layer, or Gartner 1400% only where genuinely relevant. Lead with what's most relevant to THEM specifically.",
+  "dock_brief_template": "Pre-written 3-4 sentence Dock.us room description for this prospect — what COMMAND solves for someone with their specific background and role. Written in second person, warm, direct."
+}`;
 }
 
 function buildAnalysisPrompt(transcript, name, firm){
@@ -1027,6 +1163,186 @@ function resetAll(){
   document.getElementById('step1').style.display='block';
 }
 
+// ─── RENDER ALL QUESTIONS (single scroll, no tabs) ───────
+function renderAllQuestions(brief) {
+  const el = document.getElementById('allQuestionsPanel');
+  if(!el || !brief) return;
+  const qs = brief.tailored_questions || [];
+  const timings = {Q1:'MIN 2–5',Q2:'MIN 5–9',Q3:'MIN 9–13',Q4:'MIN 13–16',Q5:'MIN 16–18'};
+
+  el.innerHTML = qs.map((qd,idx) => `
+    <div class="card" style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--amber);font-weight:700">${qd.id}</span>
+          <span style="font-size:11px;color:var(--tx2)">${qd.label||''}</span>
+        </div>
+        <span style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace">${timings[qd.id]||''}</span>
+      </div>
+
+      <div class="script" style="font-size:13px;margin-bottom:6px">"${qd.question||'—'}"</div>
+
+      ${qd.single_tool_followup ? `<div style="font-size:11px;background:#0A0E15;border:1px solid var(--amber-dim);border-radius:4px;padding:7px 10px;margin-bottom:6px;font-style:italic;color:var(--tx1)">↳ Single tool: "${qd.single_tool_followup}"</div>` : ''}
+
+      ${qd.context_note ? `<div style="font-size:11px;color:var(--amber);padding:5px 9px;background:var(--amber-glow);border-radius:4px;margin-bottom:6px;font-family:'Courier New',monospace">⚡ ${qd.context_note}</div>` : ''}
+
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">
+        ${(qd.green||[]).map(g=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">✓</span>${g}</span>`).join('')}
+        ${(qd.red||[]).map(r=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge br" style="font-size:9px">✗</span>${r}</span>`).join('')}
+      </div>
+
+      ${(qd.pain_language||[]).length ? `<div style="display:flex;flex-wrap:wrap;gap:3px;border-top:1px solid var(--border);padding-top:6px;margin-top:4px">${qd.pain_language.map(p=>`<span style="font-size:10px;color:var(--amber);font-family:'Courier New',monospace;padding:2px 6px;background:var(--amber-glow);border-radius:3px;border:1px solid var(--amber-dim)">"${p}"</span>`).join('')}</div>` : ''}
+
+      ${qd.scoring ? `<div style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px">${Object.entries(qd.scoring).map(([p,l])=>`<div style="display:flex;gap:8px;font-size:11px;padding:3px 0"><span style="color:var(--amber);font-family:'Courier New',monospace;width:34px;flex-shrink:0">${p}</span><span style="color:var(--tx2)">${l}</span></div>`).join('')}</div>` : ''}
+    </div>
+  `).join('');
+
+  // Also populate counter warnings in the collapsed panel
+  const cp = brief.counter_pitch || {};
+  const cw = document.getElementById('counterWarnings2');
+  if(cw) cw.innerHTML = (cp.warning_signs||[]).map(w=>`<div style="font-size:12px;color:var(--tx2);padding:5px 0;border-bottom:1px solid rgba(248,81,73,.15);display:flex;gap:8px"><span style="color:var(--red);flex-shrink:0">→</span>${w}</div>`).join('');
+
+  // Populate intel hook
+  const ih = document.getElementById('intelHookDisplay');
+  if(ih && brief.intel_hook) ih.textContent = brief.intel_hook;
+}
+
+// ─── TOGGLE INTEL / COUNTER PANELS ────────────────────────
+function toggleIntelPanel(){
+  const p = document.getElementById('intelPanel');
+  const a = document.getElementById('intelArrow');
+  const open = p.style.display === 'block';
+  p.style.display = open ? 'none' : 'block';
+  a.textContent = open ? '▸' : '▾';
+}
+function toggleCounterPanel(){
+  const p = document.getElementById('counterPanel');
+  const a = document.getElementById('counterArrow');
+  const open = p.style.display === 'block';
+  p.style.display = open ? 'none' : 'block';
+  a.textContent = open ? '▸' : '▾';
+}
+
+// ─── DOCK.US CLONE BRIEF ──────────────────────────────────
+function showDockBrief(){
+  const brief = currentBrief;
+  const transcript = document.getElementById('transcriptText')?.value?.trim() || '';
+  const name = document.getElementById('contactName').value.trim() || 'this prospect';
+  const firm = document.getElementById('firmName').value.trim() || 'their firm';
+
+  // Use AI-generated template from brief, or transcript-derived, or fallback
+  let dockText = '';
+
+  if(transcript && transcript.length > 100){
+    // We have a transcript — generate from it
+    generateDockBriefFromTranscript(transcript, name, firm);
+    return;
+  }
+
+  // Use the dock_brief_template from brief if available
+  if(brief && brief.dock_brief_template){
+    dockText = brief.dock_brief_template;
+  } else {
+    dockText = `COMMAND for ${name} at ${firm}\n\nThis room was built for ${name} based on our discovery conversation. Inside you'll find a demo of the three features live right now — Agent Status Dashboard, Task Router, and Handoff & Context Bridge — plus the one-pager, pricing, and a direct path to get started.\n\nNext step: book a 30-min onboarding call using the link below.`;
+  }
+
+  showDockModal(dockText, name);
+}
+
+async function generateDockBriefFromTranscript(transcript, name, firm){
+  const key = getKey();
+  if(!key){ alert('Set API key in Step 1 first.'); return; }
+
+  // Show loading state in modal
+  showDockModal('Generating from transcript...', name, true);
+
+  try {
+    const result = await callClaude(key, `Based on this discovery call transcript, write a personalized 3-4 sentence Dock.us room description for ${name} at ${firm}.
+
+The description should:
+- Be written in second person, warm and direct
+- Reference the specific pain or situation they described in the call
+- Explain what COMMAND solves for someone in their exact situation
+- End with a clear next step (book onboarding call)
+- Match Jason's voice: direct, dashes over commas, no fluff
+
+Return ONLY the room description text — no JSON, no markdown, no labels.
+
+TRANSCRIPT:
+${transcript.substring(0,3000)}`);
+
+    // callClaude tries JSON.parse — for plain text this fails and returns null
+    // So we need a plain-text version
+    const plainResult = await callClaudePlain(key, `Based on this discovery call transcript, write a personalized 3-4 sentence Dock.us room description for ${name} at ${firm}.
+
+The description should:
+- Be written in second person, warm and direct  
+- Reference the specific pain or situation they described in the call
+- Explain what COMMAND solves for someone in their exact situation
+- End with a clear next step (book onboarding call or start trial)
+- Match Jason's voice: direct, dashes over commas, no fluff
+
+TRANSCRIPT:
+${transcript.substring(0,3000)}`);
+
+    showDockModal(plainResult || 'Could not generate — use manual input below.', name);
+  } catch(e){
+    showDockModal('Error generating brief. Use manual input below.', name);
+  }
+}
+
+async function callClaudePlain(key, prompt){
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:500,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  if(!res.ok) throw new Error('API '+res.status);
+  const data = await res.json();
+  return data.content?.[0]?.text?.trim() || null;
+}
+
+function showDockModal(text, name, loading=false){
+  // Remove existing modal
+  const existing = document.getElementById('dockModal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'dockModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(8,11,17,.92);z-index:999;display:flex;align-items:flex-end;padding:0';
+  modal.innerHTML = `
+    <div style="background:var(--surface);border-top:1px solid var(--amber-dim);border-radius:12px 12px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:20px 16px 32px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="slabel" style="margin:0">🏠 Dock Room Brief — ${name||'Prospect'}</div>
+        <button onclick="document.getElementById('dockModal').remove()" style="background:none;border:none;color:var(--tx3);font-size:18px;cursor:pointer;padding:0 4px">✕</button>
+      </div>
+      ${loading ? '<div style="text-align:center;padding:20px"><div class="spin"></div></div>' : `
+      <div style="font-size:11px;color:var(--tx2);margin-bottom:8px;line-height:1.6">Copy this → open Dock.us master → clone → paste as room description → rename to ${name||'prospect name'}.</div>
+      <div id="dockBriefText" style="background:#0A0E15;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:13px;line-height:1.75;color:var(--tx1);white-space:pre-wrap;margin-bottom:10px">${text}</div>
+      <button class="btn-primary" style="margin-bottom:10px" onclick="copyDockBrief()">COPY BRIEF</button>
+      <a class="btn-secondary" href="https://globalinkservices.dock.us/acme-E7sOXt5HpHir" target="_blank" style="display:block;text-align:center;padding:9px;text-decoration:none">OPEN DOCK MASTER →</a>
+      `}
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+}
+
+function copyDockBrief(){
+  const el = document.getElementById('dockBriefText');
+  if(!el) return;
+  copyToClipboard(el.textContent, document.querySelector('#dockModal .btn-primary'));
+}
+
 // ─── INIT ────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function(){
 
@@ -1056,11 +1372,25 @@ window.addEventListener('DOMContentLoaded', function(){
     showStep(3);
     buildScoreRows();
     buildNoteFields();
+    if(currentBrief) renderAllQuestions(currentBrief);
     toggleTimer();
   });
 
   // Skip to transcript
   document.getElementById('skipCallBtn').addEventListener('click', ()=>showStep(4));
+
+  // Wire step pipeline — also jump to call from prep (step 2 START CALL)
+
+  // Wire collapsed panel toggles
+  const intelRow = document.getElementById('intelToggleRow');
+  if(intelRow) intelRow.addEventListener('click', toggleIntelPanel);
+  const counterRow = document.getElementById('counterToggleRow');
+  if(counterRow) counterRow.addEventListener('click', toggleCounterPanel);
+  const dockClone = document.getElementById('dockCloneBtn');
+  if(dockClone) dockClone.addEventListener('click', showDockBrief);
+
+
+
 
   // Timer controls
   document.getElementById('timerToggleBtn').addEventListener('click', toggleTimer);
