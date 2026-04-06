@@ -1,601 +1,1117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-  <title>COMMAND — Sales Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg: #080B11;
-      --surface: #0D1117;
-      --card: #161B22;
-      --border: #21262D;
-      --amber: #F0A030;
-      --amber-dim: #7A5018;
-      --blue: #1F6FEB;
-      --blue-dim: #0D2D6B;
-      --green: #2EA043;
-      --violet: #A78BFA;
-      --tx1: #E6EDF3;
-      --tx2: #9DA8B5;
-      --tx3: #4A5568;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background: var(--bg); color: var(--tx1); font-family: Inter, sans-serif; min-height: 100vh; }
-    body { padding: 0 0 80px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>COMMAND // Sales Hub</title>
+<style>
+:root{
+  --bg:#080B11;--surface:#0D1117;--border:#1C2333;
+  --amber:#F0A030;--amber-dim:#A06820;--amber-glow:rgba(240,160,48,0.08);
+  --tx1:#E6EDF3;--tx2:#9DA8B5;--tx3:#6E7681;
+  --green:#3FB950;--yellow:#D29922;--red:#F85149;--blue:#58A6FF;
+  --step-done:#3FB950;--step-active:#F0A030;--step-idle:#1C2333;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--tx1);font-family:'Courier New',monospace;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-    /* TOP NAV */
-    .topbar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .topbar-brand { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--amber); letter-spacing: 0.06em; }
-    .topbar-status { font-size: 11px; color: var(--tx2); font-family: 'JetBrains Mono', monospace; }
-    .dot-live { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 5px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+/* LAYOUT */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.logo{font-size:12px;color:var(--amber);letter-spacing:.15em;font-weight:700}
+.nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;position:sticky;top:44px;z-index:199}
+.nav-btn{flex:1;padding:11px 6px;font-size:12px;font-weight:700;color:var(--tx3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:.06em;transition:color .15s}
+.nav-btn.active{color:var(--amber);border-bottom-color:var(--amber)}
+.tab{display:none;padding:14px 16px;max-width:680px;margin:0 auto;animation:fadeUp .2s ease}
+.tab.active{display:block}
 
-    /* TAB BAR */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex: 1;
-      min-width: 70px;
-      padding: 12px 8px;
-      text-align: center;
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--tx3);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.15s;
-      white-space: nowrap;
-      letter-spacing: 0.04em;
-    }
-    .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
-    .tab:hover { color: var(--tx2); }
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.card-amber{background:var(--amber-glow);border:1px solid var(--amber-dim);border-radius:8px;padding:14px;margin-bottom:10px}
+.card-green{background:rgba(63,185,80,.07);border:1px solid rgba(63,185,80,.28);border-radius:8px;padding:14px;margin-bottom:10px}
+.card-red{background:rgba(248,81,73,.07);border:1px solid rgba(248,81,73,.25);border-radius:8px;padding:14px;margin-bottom:10px}
 
-    /* CONTENT PANELS */
-    .panel { display: none; padding: 20px; }
-    .panel.active { display: block; }
+/* STEP PIPELINE */
+.pipeline{display:flex;align-items:center;gap:0;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.step-pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.08em;font-family:'Courier New',monospace;cursor:pointer;white-space:nowrap;border:1px solid var(--step-idle);color:var(--tx3);background:none;transition:all .15s;flex-shrink:0}
+.step-pill.done{border-color:var(--step-done);color:var(--step-done);background:rgba(63,185,80,.08)}
+.step-pill.active{border-color:var(--step-active);color:var(--step-active);background:var(--amber-glow)}
+.step-arrow{color:var(--border);font-size:12px;padding:0 4px;flex-shrink:0}
+.step-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-    /* SECTION LABEL */
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--tx3);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
+/* SECTION LABELS */
+.slabel{font-size:10px;letter-spacing:.18em;color:var(--amber);font-weight:700;margin-bottom:10px;text-transform:uppercase;font-family:'Courier New',monospace}
+.slabel-green{font-size:10px;letter-spacing:.18em;color:var(--green);font-weight:700;margin-bottom:10px;text-transform:uppercase;font-family:'Courier New',monospace}
+.slabel-red{font-size:10px;letter-spacing:.18em;color:var(--red);font-weight:700;margin-bottom:10px;text-transform:uppercase;font-family:'Courier New',monospace}
 
-    /* CARD */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--tx1);
-      margin-bottom: 6px;
-    }
-    .card-sub {
-      font-size: 12px;
-      color: var(--tx2);
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
+/* INPUTS */
+input[type=text],input[type=password],textarea,select{width:100%;background:#0A0E15;border:1px solid var(--border);border-radius:6px;color:var(--tx1);font-size:13px;font-family:'Courier New',monospace;padding:9px 11px;outline:none;transition:border-color .15s}
+input:focus,textarea:focus{border-color:var(--amber)}
+textarea{resize:vertical;min-height:70px;line-height:1.55}
+.flabel{font-size:10px;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-family:'Courier New',monospace}
 
-    /* LINK BUTTONS */
-    .link-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--blue-dim);
-      border: 1px solid var(--blue);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      text-decoration: none;
-      color: var(--tx1);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .link-btn:active { opacity: 0.7; }
-    .link-btn .arrow { color: var(--blue); font-size: 16px; }
-    .link-btn.amber-btn { background: rgba(240,160,48,0.12); border-color: var(--amber); }
-    .link-btn.amber-btn .arrow { color: var(--amber); }
-    .link-btn.green-btn { background: rgba(46,160,67,0.12); border-color: var(--green); }
-    .link-btn.green-btn .arrow { color: var(--green); }
-    .link-btn.violet-btn { background: rgba(167,139,250,0.12); border-color: var(--violet); }
-    .link-btn.violet-btn .arrow { color: var(--violet); }
+/* BUTTONS */
+.btn-primary{width:100%;padding:12px;border-radius:6px;border:1px solid var(--amber);background:var(--amber-glow);color:var(--amber);font-family:'Courier New',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;cursor:pointer;transition:all .15s}
+.btn-primary:active{background:rgba(240,160,48,.22)}
+.btn-secondary{padding:8px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--tx2);font-family:'Courier New',monospace;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-danger{padding:8px 14px;border-radius:6px;border:1px solid rgba(248,81,73,.35);background:transparent;color:var(--red);font-family:'Courier New',monospace;font-size:10px;font-weight:700;cursor:pointer}
 
-    /* COPY BLOCK */
-    .copy-block {
-      background: #0A0F16;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.7;
-      color: var(--tx2);
-      position: relative;
-      margin-bottom: 8px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .copy-tag {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--tx3);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 7px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .copy-tag.copied { color: var(--green); border-color: var(--green); }
+/* COPY ROWS */
+.copy-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.copy-row:last-child{border-bottom:none}
+.copy-label{font-size:12px;color:var(--tx1);font-weight:700}
+.copy-sub{font-size:10px;color:var(--tx3);margin-top:2px}
+.copy-btn{padding:5px 14px;border:1px solid var(--amber-dim);background:var(--amber-glow);color:var(--amber);font-size:10px;font-weight:700;letter-spacing:.08em;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.copy-btn:active{background:rgba(240,160,48,.22)}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(63,185,80,.1)}
+.open-btn{padding:5px 14px;border:1px solid var(--border);background:transparent;color:var(--tx2);font-size:10px;font-weight:700;letter-spacing:.08em;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;white-space:nowrap;text-decoration:none;display:inline-block}
 
-    /* PROSPECT SELECTOR */
-    .prospect-select {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--tx1);
-      font-size: 13px;
-      padding: 11px 14px;
-      margin-bottom: 14px;
-      appearance: none;
-      -webkit-appearance: none;
-      font-family: Inter, sans-serif;
-    }
+/* SCRIPT BOX */
+.script{background:#0A0E15;border:1px solid var(--amber-dim);border-radius:6px;padding:11px 12px;font-size:13px;line-height:1.7;color:var(--tx1);margin-bottom:8px;font-style:italic}
 
-    /* PILL TAGS */
-    .pill {
-      display: inline-block;
-      font-size: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      padding: 3px 8px;
-      border-radius: 999px;
-      margin-right: 6px;
-      margin-bottom: 6px;
-      border: 1px solid;
-    }
-    .pill-amber { color: var(--amber); border-color: var(--amber-dim); background: rgba(240,160,48,0.08); }
-    .pill-blue { color: #9BC1FF; border-color: #1A3D7A; background: rgba(31,111,235,0.08); }
-    .pill-green { color: #7FE3A0; border-color: #1A4A2A; background: rgba(46,160,67,0.08); }
-    .pill-violet { color: var(--violet); border-color: #3D2F80; background: rgba(167,139,250,0.08); }
+/* SIGNAL ROWS */
+.sig{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:12px;border-bottom:1px solid var(--border)}
+.sig:last-child{border-bottom:none}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;font-family:'Courier New',monospace;white-space:nowrap;flex-shrink:0}
+.bg{background:rgba(63,185,80,.15);border:1px solid var(--green);color:var(--green)}
+.by{background:rgba(210,153,34,.15);border:1px solid var(--yellow);color:var(--yellow)}
+.br{background:rgba(248,81,73,.15);border:1px solid var(--red);color:var(--red)}
+.ba{background:var(--amber-glow);border:1px solid var(--amber-dim);color:var(--amber)}
+.bb{background:rgba(88,166,255,.12);border:1px solid var(--blue);color:var(--blue)}
 
-    /* QUICK STATS ROW */
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
-    .stat-num { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--amber); }
-    .stat-label { font-size: 10px; color: var(--tx3); margin-top: 3px; letter-spacing: 0.04em; }
+/* SCORE */
+.score-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.score-inp{width:48px;background:#0A0E15;border:1px solid var(--border);border-radius:4px;color:var(--amber);font-size:13px;font-family:'Courier New',monospace;font-weight:700;text-align:center;padding:4px;outline:none}
+.score-inp:focus{border-color:var(--amber)}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar-fill{height:100%;border-radius:3px;transition:width .4s,background .4s}
 
-    /* DIVIDER */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+/* UPLOAD */
+.drop-zone{border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer;transition:all .15s;margin-bottom:10px}
+.drop-zone:active,.drop-zone.drag{border-color:var(--amber);background:var(--amber-glow)}
 
-    /* NOTICE BLOCK */
-    .notice {
-      background: rgba(240,160,48,0.08);
-      border: 1px solid var(--amber-dim);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 12px;
-      color: var(--tx2);
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-    .notice strong { color: var(--amber); }
+/* TIMER */
+.timer-big{font-size:34px;font-weight:700;color:var(--amber);text-align:center;letter-spacing:.06em;padding:10px 0 4px;font-family:'Courier New',monospace}
+.timer-bar{height:3px;background:var(--border)}
+.timer-fill{height:100%;background:var(--amber);transition:width 1s linear,background .3s}
 
-    /* STEP LIST */
-    .step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
-    .step-num {
-      width: 24px; height: 24px; border-radius: 50%;
-      background: var(--blue-dim); border: 1px solid var(--blue);
-      font-size: 11px; font-family: 'JetBrains Mono', monospace;
-      color: #9BC1FF; display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 1px;
-    }
-    .step-body { font-size: 13px; color: var(--tx2); line-height: 1.6; }
-    .step-body strong { color: var(--tx1); display: block; margin-bottom: 2px; }
+/* BRIEF TABS */
+.btabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.btab{padding:5px 9px;font-size:10px;font-weight:700;color:var(--tx3);background:var(--surface);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:.05em;transition:all .15s}
+.btab.active{color:var(--amber);border-color:var(--amber-dim);background:var(--amber-glow)}
 
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--green);
-      color: #fff;
-      font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      padding: 8px 18px;
-      border-radius: 999px;
-      opacity: 0;
-      transition: all 0.25s;
-      pointer-events: none;
-      z-index: 100;
-      white-space: nowrap;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  </style>
+/* ACTION ITEMS */
+.action{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.action:last-child{border-bottom:none}
+.action-n{font-size:15px;font-weight:700;color:var(--amber);width:18px;flex-shrink:0;font-family:'Courier New',monospace}
+.action-body{flex:1}
+.action-title{font-size:13px;color:var(--tx1);font-weight:700;margin-bottom:3px}
+.action-desc{font-size:11px;color:var(--tx2);line-height:1.6}
+.action-link{display:inline-block;margin-top:6px;padding:4px 11px;border:1px solid var(--amber-dim);background:var(--amber-glow);color:var(--amber);border-radius:4px;font-size:10px;font-weight:700;text-decoration:none;font-family:'Courier New',monospace;cursor:pointer}
+
+/* MSG BOX */
+.msg-box{background:#0A0E15;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:12px;line-height:1.8;color:var(--tx1);white-space:pre-wrap;word-break:break-word;margin-top:8px}
+.msg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.msg-subj{font-size:10px;color:var(--amber);font-family:'Courier New',monospace;letter-spacing:.06em}
+
+/* SPINNER */
+.spin{width:26px;height:26px;border:2px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
+
+/* CLIENT TAB BIG BUTTONS */
+.client-btn{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;cursor:pointer;text-decoration:none;transition:border-color .15s}
+.client-btn:active{border-color:var(--amber);background:var(--amber-glow)}
+.client-btn-label{font-size:13px;font-weight:700;color:var(--tx1)}
+.client-btn-sub{font-size:10px;color:var(--tx3);margin-top:2px}
+.client-btn-copy{padding:6px 16px;border:1px solid var(--amber-dim);background:var(--amber-glow);color:var(--amber);font-size:10px;font-weight:700;border-radius:4px;cursor:pointer;font-family:'Courier New',monospace;flex-shrink:0}
+.client-btn-copy.copied{border-color:var(--green);color:var(--green);background:rgba(63,185,80,.1)}
+
+.section-divider{height:1px;background:var(--border);margin:16px 0}
+.snap-row{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--amber-dim);font-size:12px}
+.snap-row:last-child{border-bottom:none}
+.snap-key{font-size:10px;color:var(--amber);font-weight:700;width:76px;flex-shrink:0;font-family:'Courier New',monospace;padding-top:1px}
+</style>
 </head>
 <body>
 
-  <div class="topbar">
-    <div class="topbar-brand">⬡ COMMAND</div>
-    <div class="topbar-status"><span class="dot-live"></span>sales hub · live</div>
+<div class="header">
+  <div class="logo">COMMAND // SALES HUB</div>
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace" id="headerStatus">READY</div>
+</div>
+
+<!-- MAIN NAV — two tabs only -->
+<div class="nav">
+  <button class="nav-btn active" data-maintab="ops">⚙ OPS</button>
+  <button class="nav-btn" data-maintab="client">📤 CLIENT</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ OPS TAB -->
+<div id="tab-ops" class="tab active">
+
+  <!-- PIPELINE PROGRESS BAR -->
+  <div class="pipeline" id="pipeline">
+    <button class="step-pill active" data-step="1"><span class="step-dot"></span>PROSPECT</button>
+    <span class="step-arrow">›</span>
+    <button class="step-pill" data-step="2"><span class="step-dot"></span>PREP</button>
+    <span class="step-arrow">›</span>
+    <button class="step-pill" data-step="3"><span class="step-dot"></span>CALL</button>
+    <span class="step-arrow">›</span>
+    <button class="step-pill" data-step="4"><span class="step-dot"></span>TRANSCRIPT</button>
+    <span class="step-arrow">›</span>
+    <button class="step-pill" data-step="5"><span class="step-dot"></span>SEND</button>
   </div>
 
-  <div class="tabs" id="tabs">
-    <div class="tab active" data-panel="links">Links</div>
-    <div class="tab" data-panel="outreach">Outreach</div>
-    <div class="tab" data-panel="demo">Demo</div>
-    <div class="tab" data-panel="pricing">Pricing</div>
-    <div class="tab" data-panel="setup">Setup</div>
-  </div>
-
-  <!-- ═══════════════════════ LINKS PANEL ═══════════════════════ -->
-  <div class="panel active" id="panel-links">
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">$49</div><div class="stat-label">solo/mo</div></div>
-      <div class="stat-card"><div class="stat-num">$149</div><div class="stat-label">pro/mo</div></div>
-      <div class="stat-card"><div class="stat-num">14d</div><div class="stat-label">free trial</div></div>
-    </div>
-
-    <div class="section-label">// send these links from anywhere</div>
-
-    <div class="card">
-      <div class="card-title">One-pager</div>
-      <div class="card-sub">Full sales asset — hero, features, demo, pricing, positioning. Send after discovery call or when someone asks what you're building.</div>
-      <a class="link-btn amber-btn" href="https://go.command.globalinkservices.io/one-pager" target="_blank">
-        go.command.globalinkservices.io/one-pager <span class="arrow">→</span>
-      </a>
-      <div class="copy-block" id="copy-onepager">https://go.command.globalinkservices.io/one-pager<span class="copy-tag" onclick="copyText('copy-onepager', this)">copy</span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Interactive demo</div>
-      <div class="card-sub">Navattic product tour — no login required. One-pager flow + app UI flow. Send when they want to see how it actually works.</div>
-      <a class="link-btn violet-btn" href="https://go.command.globalinkservices.io/demo" target="_blank">
-        go.command.globalinkservices.io/demo <span class="arrow">→</span>
-      </a>
-      <div class="copy-block" id="copy-demo">https://go.command.globalinkservices.io/demo<span class="copy-tag" onclick="copyText('copy-demo', this)">copy</span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Start free trial</div>
-      <div class="card-sub">Direct link to the app. 14-day trial, no credit card. Send when they're ready to try it — or include in every post-call follow-up.</div>
-      <a class="link-btn green-btn" href="https://go.command.globalinkservices.io/trial" target="_blank">
-        go.command.globalinkservices.io/trial <span class="arrow">→</span>
-      </a>
-      <div class="copy-block" id="copy-trial">https://go.command.globalinkservices.io/trial<span class="copy-tag" onclick="copyText('copy-trial', this)">copy</span></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Founding member — Pro</div>
-      <div class="card-sub">$99/mo locked for life (vs standard $149). Stripe payment link — 12 slots, closes April 14.</div>
-      <a class="link-btn" href="https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401" target="_blank">
-        Stripe · Founding Member Pro <span class="arrow">→</span>
-      </a>
-      <div class="copy-block" id="copy-stripe">https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401<span class="copy-tag" onclick="copyText('copy-stripe', this)">copy</span></div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════ OUTREACH PANEL ═══════════════════════ -->
-  <div class="panel" id="panel-outreach">
-    <div class="notice"><strong>Voice discipline:</strong> Pure question mode. One sentence of context. One question. No observations. No industry lectures. Sign off JCMD only.</div>
-
-    <div class="section-label">// select prospect → get message</div>
-    <select class="prospect-select" id="prospect-select" onchange="renderMessage()">
-      <option value="">— select prospect —</option>
-      <option value="warm">Warm / post-call follow-up</option>
-      <option value="t2">Touch 2 — different angle</option>
-      <option value="t3">Touch 3 — breakup + referral</option>
-      <option value="inbound">Inbound inquiry reply</option>
-      <option value="founding">Founding member pitch</option>
-    </select>
-
-    <div id="message-output"></div>
-  </div>
-
-  <!-- ═══════════════════════ DEMO PANEL ═══════════════════════ -->
-  <div class="panel" id="panel-demo">
-    <div class="section-label">// navattic demo flows</div>
-
-    <div class="notice"><strong>Status:</strong> Setup steps below. Navattic free tier covers both flows. No code required — browser extension capture.</div>
-
-    <div class="card">
-      <div class="card-title">Flow A — One-pager tour</div>
-      <div class="card-sub">Walks through the one-pager HTML. No app login needed. Best for cold prospects and LinkedIn DMs.</div>
-      <div style="margin-bottom:8px;">
-        <span class="pill pill-amber">5 steps</span>
-        <span class="pill pill-blue">~90 seconds</span>
-        <span class="pill pill-green">no login</span>
+  <!-- ── STEP 1: PROSPECT ── -->
+  <div id="step1" class="step-panel">
+    <div class="card-amber">
+      <div class="slabel">① Prospect Intel</div>
+      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Paste LinkedIn URL + contact info. Claude researches and builds your tailored call brief.</div>
+      <div style="margin-bottom:10px">
+        <div class="flabel">LinkedIn URL</div>
+        <input type="text" id="linkedinUrl" placeholder="https://linkedin.com/in/firstname-lastname">
       </div>
-      <div class="copy-block" style="font-size:12px; line-height:1.8; color: var(--tx2);">Step 1 · Hero — "Stop being the bridge. Start being the boss."
-Step 2 · Problem — terminal chaos → ACTIVATE COMMAND
-Step 3 · Features — Dashboard · Router · Bridge
-Step 4 · Positioning — the 4-box market map
-Step 5 · CTA — Start 14-day trial (no credit card)</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Flow B — App UI tour</div>
-      <div class="card-sub">Screenshots from app.command.globalinkservices.io. Shows real product. Best for warm prospects post-call.</div>
-      <div style="margin-bottom:8px;">
-        <span class="pill pill-violet">7 screens</span>
-        <span class="pill pill-blue">~2 minutes</span>
-        <span class="pill pill-amber">post-call</span>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="flex:1">
+          <div class="flabel">Contact Name</div>
+          <input type="text" id="contactName" placeholder="First Last">
+        </div>
+        <div style="flex:1">
+          <div class="flabel">Firm Name</div>
+          <input type="text" id="firmName" placeholder="Firm Inc.">
+        </div>
       </div>
-      <div class="copy-block" style="font-size:12px; line-height:1.8; color: var(--tx2);">Screen 1 · Dashboard — agent status grid
-Screen 2 · Register agent — 2-minute flow
-Screen 3 · Agent card — status · task · stall alert
-Screen 4 · Task router — type task · route dispatched
-Screen 5 · Handoff — context bridge initiated
-Screen 6 · Intel card — package complete · context preserved
-Screen 7 · Trial countdown + upgrade CTA</div>
+      <div id="step1Error" style="display:none;font-size:11px;color:var(--red);margin-bottom:10px;padding:7px;background:rgba(248,81,73,.08);border-radius:4px;border:1px solid rgba(248,81,73,.3)"></div>
+
+      <!-- API KEY GATE -->
+      <div id="apiGate" style="display:none;margin-bottom:10px;padding:10px;background:rgba(248,81,73,.07);border:1px solid rgba(248,81,73,.25);border-radius:6px">
+        <div style="font-size:11px;color:var(--red);margin-bottom:8px;font-family:'Courier New',monospace">⚠ API key required — set below first</div>
+        <div style="display:flex;gap:8px">
+          <input type="password" id="inlineApiKey" placeholder="sk-ant-..." style="flex:1;font-size:12px;padding:7px 10px">
+          <button class="btn-secondary" id="inlineSaveBtn">SAVE</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="generateBtn">GENERATE CALL BRIEF →</button>
     </div>
 
-    <div class="section-label" style="margin-top:8px;">// setup steps (one-time, ~30 min)</div>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body"><strong>Create Navattic account</strong>navattic.com — free tier, no credit card. Install Chrome extension.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body"><strong>Capture Flow A</strong>Open COMMAND_One_Pager_v4.html locally. Use extension to capture 5 steps. Add tooltips from the script above.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body"><strong>Capture Flow B</strong>Log into app.command.globalinkservices.io. Capture 7 screens in order. Add callout annotations.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body"><strong>Publish + get embed URL</strong>Navattic generates a shareable link. That becomes go.command.globalinkservices.io/demo via Dub.co.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-body"><strong>Add to Dub.co</strong>Set go.command.globalinkservices.io/demo → Navattic published URL. Done. Share from this hub.</div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════ PRICING PANEL ═══════════════════════ -->
-  <div class="panel" id="panel-pricing">
-    <div class="section-label">// pricing — below procurement threshold</div>
-
-    <div class="card">
-      <div class="card-title">Solo <span class="pill pill-blue" style="float:right;margin-top:-2px;">$49/mo</span></div>
-      <div class="card-sub">Up to 3 agent instances · 100K tokens/month<br/>Solo operators, independent consultants</div>
-    </div>
-
-    <div class="card" style="border-color: var(--amber);">
-      <div class="card-title">Pro — most popular <span class="pill pill-amber" style="float:right;margin-top:-2px;">$149/mo</span></div>
-      <div class="card-sub">Up to 10 agent instances · 500K tokens/month<br/>Boutique consulting firms · 1–15 person shops<br/><strong style="color:var(--amber);">Below procurement threshold — owner decides.</strong></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Studio <span class="pill pill-blue" style="float:right;margin-top:-2px;">$349/mo</span></div>
-      <div class="card-sub">Unlimited instances · 2M tokens/month<br/>Multi-client workspaces</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Agency <span class="pill pill-violet" style="float:right;margin-top:-2px;">$799/mo</span></div>
-      <div class="card-sub">Unlimited + white-label · SLAs + localization<br/>LATAM-ready · Agency reseller tier</div>
-    </div>
-
-    <div class="notice" style="border-color: var(--green); background: rgba(46,160,67,0.08);">
-      <strong style="color:var(--green);">Founding Member:</strong> $99/mo locked for life — 12 slots, closes April 14. Stripe link in the Links tab.
-    </div>
-
-    <div class="section-label">// trial</div>
-    <div class="copy-block" style="text-align:center; color: var(--green); font-size:13px; padding: 16px;">14-day free trial · no credit card · no freemium</div>
-  </div>
-
-  <!-- ═══════════════════════ SETUP PANEL ═══════════════════════ -->
-  <div class="panel" id="panel-setup">
-    <div class="section-label">// dub.co short link setup</div>
-
-    <div class="notice"><strong>One-time setup ~15 min.</strong> All three links route through globalinkservices.io domain. No new domain needed.</div>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body"><strong>Create Dub.co account</strong>dub.co — free tier handles all three links. Connect your globalinkservices.io domain under Settings → Domains.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body"><strong>Add DNS CNAME record</strong>In your DNS (Vercel or registrar) — add CNAME: <code style="color:var(--amber);font-size:11px;">go → cname.dub.co</code>. Propagation: 5–15 min.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body"><strong>Create Link 1 — one-pager</strong>
-        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: https://command.globalinkservices.io/one-pager
-Short link: go.command.globalinkservices.io</div>
+    <!-- KEY MGMT (collapsed) -->
+    <div class="card" style="padding:10px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace" id="keyStatusLine">API KEY: NOT SET</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn-secondary" id="setKeyBtn" style="font-size:10px;padding:5px 10px">SET KEY</button>
+          <button class="btn-danger" id="clearKeyBtn" style="display:none;font-size:10px;padding:5px 10px">CLEAR</button>
+        </div>
+      </div>
+      <div id="keyInputRow" style="display:none;margin-top:10px">
+        <div style="display:flex;gap:8px">
+          <input type="password" id="mainApiKey" placeholder="sk-ant-..." style="flex:1;font-size:12px;padding:7px 10px">
+          <button class="btn-secondary" id="mainSaveBtn">SAVE</button>
+        </div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:5px;line-height:1.5">Saved to this device only. Never sent to any server. Enter once per device.</div>
       </div>
     </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body"><strong>Create Link 2 — demo</strong>
-        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: [Navattic published URL — add after Step 5 in Demo tab]
-Short link: go.command.globalinkservices.io/demo</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-body"><strong>Create Link 3 — trial</strong>
-        <div class="copy-block" style="margin-top:6px;font-size:11px;">Destination: https://app.command.globalinkservices.io/signup
-Short link: go.command.globalinkservices.io/trial</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">6</div>
-      <div class="step-body"><strong>Deploy this hub to command-gl</strong>Drop command_hub.html into command-gl/public/ as sales-hub.html. Access at command.globalinkservices.io/sales-hub from any device.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">7</div>
-      <div class="step-body"><strong>Bookmark on phone</strong>Open on iPhone/Android → Share → Add to Home Screen. Acts like an app — no App Store needed.</div>
-    </div>
-
-    <hr class="divider"/>
-    <div class="section-label">// this file lives at</div>
-    <div class="copy-block" id="copy-huburl">command-gl/public/sales-hub.html
-→ command.globalinkservices.io/sales-hub<span class="copy-tag" onclick="copyText('copy-huburl', this)">copy</span></div>
   </div>
 
-  <div class="toast" id="toast">Copied</div>
+  <!-- GENERATE LOADING -->
+  <div id="generateLoading" style="display:none;text-align:center;padding:40px 20px">
+    <div class="spin" style="margin-bottom:14px"></div>
+    <div id="loadMsg" style="font-size:11px;color:var(--amber);font-family:'Courier New',monospace;letter-spacing:.1em"></div>
+  </div>
 
-  <script>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.panel');
+  <!-- ── STEP 2: PREP (BRIEF) ── -->
+  <div id="step2" class="step-panel" style="display:none">
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = tab.dataset.panel;
-        tabs.forEach(t => t.classList.remove('active'));
-        panels.forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + target).classList.add('active');
-      });
-    });
+    <!-- BRIEF HEADER -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div>
+        <div id="briefNameDisplay" style="font-size:14px;font-weight:700;color:var(--tx1)"></div>
+        <div id="briefFirmDisplay" style="font-size:11px;color:var(--tx2);margin-top:1px"></div>
+      </div>
+      <button class="btn-secondary" id="newProspectBtn" style="font-size:10px;padding:5px 10px">↺ NEW</button>
+    </div>
 
-    function copyText(blockId, btn) {
-      const el = document.getElementById(blockId);
-      const tag = el.querySelector('.copy-tag');
-      const text = el.textContent.replace('copy', '').replace('copied', '').trim();
-      navigator.clipboard.writeText(text).then(() => {
-        const t = btn || tag;
-        t.textContent = 'copied';
-        t.classList.add('copied');
-        showToast('Copied to clipboard');
-        setTimeout(() => { t.textContent = 'copy'; t.classList.remove('copied'); }, 2000);
-      });
-    }
+    <!-- BRIEF NAV -->
+    <div class="btabs" id="briefTabNav">
+      <button class="btab active" data-btab="bSnap">SNAP</button>
+      <button class="btab" data-btab="bOpen">OPEN</button>
+      <button class="btab" data-btab="bQ1">Q1</button>
+      <button class="btab" data-btab="bQ2">Q2</button>
+      <button class="btab" data-btab="bQ3">Q3</button>
+      <button class="btab" data-btab="bQ4">Q4</button>
+      <button class="btab" data-btab="bQ5">Q5</button>
+      <button class="btab" data-btab="bCounter">🚨</button>
+      <button class="btab" data-btab="bIntel">INTEL</button>
+    </div>
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
-    }
+    <!-- BRIEF PANELS -->
+    <div id="bSnap" class="bpanel">
+      <div class="card-amber">
+        <div class="slabel">☎ Snapshot</div>
+        <div id="snapRows"></div>
+      </div>
+      <div class="card">
+        <div class="slabel">⏱ Ready — Hit START when call begins</div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="btn-primary" id="startCallBtn" style="flex:1;padding:10px">▶ START CALL</button>
+          <button class="btn-secondary" id="skipCallBtn">SKIP TO TRANSCRIPT →</button>
+        </div>
+      </div>
+    </div>
 
-    const messages = {
-      warm: {
-        label: 'Post-call follow-up (Template A)',
-        pills: ['strong interest', 'beta opt-in'],
-        text: `Subject: Notes from our call + next step
+    <div id="bOpen" class="bpanel" style="display:none">
+      <div class="card">
+        <div class="slabel">📋 Opening</div>
+        <div class="script">"You're already running multiple AI tools — everybody is. The question isn't whether to use them. It's who's coordinating them. Right now that's you — copy-pasting between tabs. COMMAND makes that someone else's job."</div>
+        <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:10px">[PAUSE — let it land]</div>
+        <div class="script">"I'm in research mode — no agenda, no demo. Can I ask a few questions and take notes?"</div>
+        <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:10px">[Wait for yes]</div>
+        <div class="script">"Is it okay if I record this for my own notes? Totally fine to say no."</div>
+      </div>
+    </div>
 
-[First Name],
+    <div id="bQ1" class="bpanel" style="display:none"><div id="q1r"></div></div>
+    <div id="bQ2" class="bpanel" style="display:none"><div id="q2r"></div></div>
+    <div id="bQ3" class="bpanel" style="display:none"><div id="q3r"></div></div>
+    <div id="bQ4" class="bpanel" style="display:none"><div id="q4r"></div></div>
+    <div id="bQ5" class="bpanel" style="display:none"><div id="q5r"></div></div>
 
-Thanks for the time today. A few things I took away from what you shared:
+    <div id="bCounter" class="bpanel" style="display:none">
+      <div class="card-red">
+        <div class="slabel-red">🚩 Pitch Warning Signs</div>
+        <div id="counterList"></div>
+      </div>
+      <div class="card">
+        <div class="slabel">🥇 Redirect</div>
+        <div class="script">"That's interesting — before we go there, let me understand your situation better. Can I ask you one more thing?"</div>
+      </div>
+      <div class="card">
+        <div class="slabel">🥈 Reframe</div>
+        <div class="script">"Look, I'll be straight — pure research mode. Not a consulting client. Just trying to understand how operators manage AI complexity. Still useful?"</div>
+      </div>
+      <div class="card">
+        <div class="slabel">💬 "What are you building?"</div>
+        <div class="script">"I'll tell you at the end — but I want to understand your situation first or it won't be relevant. One more thing?"</div>
+      </div>
+    </div>
 
-· [Specific thing they said — their words]
-· [Second specific point]
-· [Most significant pain they named]
+    <div id="bIntel" class="bpanel" style="display:none">
+      <div class="card-amber">
+        <div class="slabel">📡 "Why Now" — Deploy Only If Asked</div>
+        <div class="script">"Microsoft just shipped agent-to-agent coordination for enterprises this week. IBM calls the orchestration layer 'the front door to the super agent.' Gartner logged a 1,400% surge in multi-agent inquiries. The category is real. Nobody's built this for firms your size. Enterprise has it. Solo operators running 3–5 tools have nothing."</div>
+      </div>
+    </div>
+  </div>
 
-That context is exactly what COMMAND is built around. I'm attaching the one-pager: go.command.globalinkservices.io/one-pager
+  <!-- ── STEP 3: CALL LIVE ── -->
+  <div id="step3" class="step-panel" style="display:none">
+    <div class="timer-bar"><div class="timer-fill" id="timerBar" style="width:0%"></div></div>
+    <div class="card-amber">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="slabel" style="margin:0">⏱ Call Timer</div>
+        <div id="timerWarn" style="display:none;font-size:10px;color:var(--red);font-family:'Courier New',monospace;animation:pulse 1s infinite">⚠ CLOSE NOW</div>
+      </div>
+      <div class="timer-big" id="timerDisplay">00:00</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" id="timerToggleBtn" style="flex:1;padding:9px">⏸ PAUSE</button>
+        <button class="btn-secondary" id="timerResetBtn">↺</button>
+        <button class="btn-secondary" id="goToTranscriptBtn">CALL DONE →</button>
+      </div>
+    </div>
 
-As we discussed, I'd like to include [Company] in our early access group. I'll follow up in [X] days with specifics — no commitment needed at that point.
+    <!-- LIVE SCORE DURING CALL -->
+    <div class="card">
+      <div class="slabel">🧮 ICP Score — Fill Live</div>
+      <div id="scoreRows"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <span style="font-size:11px;color:var(--tx2);font-family:'Courier New',monospace;font-weight:700">TOTAL</span>
+        <span id="scoreTotal" style="font-size:18px;font-weight:700;color:var(--amber);font-family:'Courier New',monospace">0 / 100</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="scoreFill" style="width:0%;background:var(--amber)"></div></div>
+    </div>
 
-JCMD`
-      },
-      t2: {
-        label: 'Touch 2 — different angle',
-        pills: ['day 4', 'model-agnostic'],
-        text: `[First Name] —
+    <!-- LIVE NOTES -->
+    <div class="card">
+      <div class="slabel">📝 Notes</div>
+      <div id="noteFields"></div>
+    </div>
 
-Different angle in case the first one didn't land: the firms I've been speaking with aren't struggling to deploy AI — they're struggling to see what their AI is doing after it's deployed. Agents stall, context drops at handoffs, and the operator becomes the only connection between them.
+    <!-- NON-PITCH CLOSE -->
+    <div class="card">
+      <div class="slabel">⏱ At 18min — Close Script</div>
+      <div class="script">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early and I'm selective about who I bring in. Would it be okay if I sent you a one-pager and followed up in a week or two?"</div>
+    </div>
+  </div>
 
-This happens whether you're running Claude, ChatGPT, Perplexity, or all three — the coordination problem is model-agnostic. No single vendor solves it, because the problem only appears when you're running more than one instance or more than one tool.
+  <!-- ── STEP 4: TRANSCRIPT ── -->
+  <div id="step4" class="step-panel" style="display:none">
+    <div class="card-amber">
+      <div class="slabel">📄 Upload Transcript</div>
+      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Upload Tactiq .txt or paste. Claude scores the ICP, extracts pain quotes, and writes your follow-up email in your voice.</div>
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept=".txt,.md" style="display:none">
+        <div style="font-size:12px;color:var(--tx3)">Drop .txt/.md file here</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'Courier New',monospace">or tap to browse</div>
+        <div id="fileName" style="font-size:11px;color:var(--green);margin-top:6px;font-family:'Courier New',monospace"></div>
+      </div>
+      <div style="text-align:center;font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin:6px 0">— OR —</div>
+      <div class="flabel">Paste Transcript</div>
+      <textarea id="transcriptText" placeholder="Paste Tactiq or Fathom transcript here..." style="min-height:100px;margin-bottom:10px"></textarea>
+      <div id="transcriptError" style="display:none;font-size:11px;color:var(--red);margin-bottom:10px;padding:7px;background:rgba(248,81,73,.08);border-radius:4px;border:1px solid rgba(248,81,73,.3)"></div>
+      <button class="btn-primary" id="analyzeBtn">ANALYZE + BUILD FOLLOW-UP →</button>
+    </div>
 
-If that's not where [Company] is, ignore this. If it is — 20 minutes, no deck, no demo.
+    <div id="analyzeLoading" style="display:none;text-align:center;padding:30px">
+      <div class="spin" style="margin-bottom:12px"></div>
+      <div style="font-size:11px;color:var(--amber);font-family:'Courier New',monospace">Scoring ICP · extracting pain · writing email in your voice...</div>
+    </div>
+  </div>
 
-JCMD`
-      },
-      t3: {
-        label: 'Touch 3 — breakup + referral',
-        pills: ['day 8', 'final touch'],
-        text: `[First Name] —
+  <!-- ── STEP 5: SEND ── -->
+  <div id="step5" class="step-panel" style="display:none">
+    <div id="sendContent"></div>
+  </div>
 
-Last one — I don't want to clog your inbox.
+</div><!-- /tab-ops -->
 
-If the timing's wrong or this isn't relevant to [Company] right now, no issue at all. I'm studying how boutique firms manage AI agent coordination once the stack gets past two or three tools — and I know that's not where every firm is yet.
+<!-- ═══════════════════════════════════════════ CLIENT TAB -->
+<div id="tab-client" class="tab">
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:14px;letter-spacing:.1em">COPY LINK OR OPEN — TAP TO SHARE WITH PROSPECT</div>
 
-If you do know someone running a multi-agent stack who'd be the right person to talk to, an intro would mean a lot.
+  <div class="card-amber">
+    <div class="slabel">⭐ Send These First</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Beta Syllabus v2</div><div class="copy-sub">command.globalinkservices.io/beta-syllabus</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://command.globalinkservices.io/beta-syllabus">COPY</button>
+        <a class="open-btn" href="https://command.globalinkservices.io/beta-syllabus" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">One-Pager v4</div><div class="copy-sub">2-min read · what COMMAND does</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://command.globalinkservices.io/sales/COMMAND_One_Pager_v4.html">COPY</button>
+        <a class="open-btn" href="https://command.globalinkservices.io/sales/COMMAND_One_Pager_v4.html" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Live Demo</div><div class="copy-sub">Navattic · 11-step interactive Flow A</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://globalink.navattic.com/fcr04wg">COPY</button>
+        <a class="open-btn" href="https://globalink.navattic.com/fcr04wg" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
 
-JCMD`
-      },
-      inbound: {
-        label: 'Inbound inquiry reply',
-        pills: ['inbound', 'warm'],
-        text: `[First Name] —
+  <div class="card">
+    <div class="slabel">🏠 Dock.us Room</div>
+    <div style="font-size:11px;color:var(--tx2);margin-bottom:10px;line-height:1.65">Clone master template → rename to prospect → send their unique room link. Never send the master directly.</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Master Template</div><div class="copy-sub">Clone per prospect · never send this URL</div></div>
+      <a class="open-btn" href="https://globalinkservices.dock.us/acme-E7sOXt5HpHir" target="_blank">CLONE →</a>
+    </div>
+  </div>
 
-Thanks for reaching out — good timing.
+  <div class="card">
+    <div class="slabel">💳 Founding Member Checkout</div>
+    <div style="font-size:11px;color:var(--tx2);margin-bottom:10px;line-height:1.65">$99/mo locked for life · 25 slots · closes April 14. Send to TIER 1 only.</div>
+    <div class="copy-row">
+      <div><div class="copy-label">FM Stripe Link</div><div class="copy-sub">$99/mo · no coupon needed</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407">COPY</button>
+        <a class="open-btn" href="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
 
-I'm in research mode right now, talking to founders who are deep in managing multi-agent AI stacks. Before I walk you through what I'm building, I'd love 20 minutes to understand how you're running yours — it'll make what I tell you actually relevant.
+  <div class="card">
+    <div class="slabel">📅 Book a Call</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Scheduling Link</div><div class="copy-sub">app.reclaim.ai/m/GlobaLink-Jason</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://app.reclaim.ai/m/GlobaLink-Jason">COPY</button>
+        <a class="open-btn" href="https://app.reclaim.ai/m/GlobaLink-Jason" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
 
-Are you open to a quick call this week?
+  <div class="section-divider"></div>
 
-JCMD`
-      },
-      founding: {
-        label: 'Founding member pitch',
-        pills: ['$99/mo', 'closes Apr 14'],
-        text: `[First Name] —
+  <!-- QUICK EMAIL TEMPLATES -->
+  <div class="slabel">📧 Quick Email Templates</div>
 
-One thing I want to share before I close the founding cohort.
+  <div class="card">
+    <div class="msg-header">
+      <span class="msg-subj">SUBJ: Running multi-agent AI at [Company]?</span>
+      <button class="copy-btn" data-copy-id="tpl-t1">COPY</button>
+    </div>
+    <div class="msg-box" id="tpl-t1">[First Name],
 
-I'm building COMMAND for exactly the situation you described — one interface to see all your agents, route tasks, and preserve context across handoffs. Model-agnostic. Claude + GPT + Perplexity simultaneously.
+I've been studying how boutique consulting firms manage multi-agent AI stacks — specifically the coordination problem that appears once you're running more than one agent or session simultaneously.
 
-Founding Member is $99/mo locked for life — vs standard Pro at $149. 12 slots. Closes April 14.
+Most firms hit the same walls — no unified view of what agents are doing, no clean handoffs, and no fast way to intervene when something stalls. The operator ends up being the bridge — manually copying context between tools that should be talking to each other.
 
-One-pager: go.command.globalinkservices.io/one-pager
-Start trial: go.command.globalinkservices.io/trial
+Is that pattern showing up at [Company]? Would a 20-minute call be useful?
 
-No pressure — if the timing isn't right, no issue.
+— JCMD  |  jason@globalinkservices.io</div>
+  </div>
 
-JCMD`
+  <div class="card">
+    <div class="msg-header">
+      <span class="msg-subj">SUBJ: Founding Member spots — [N] remaining</span>
+      <button class="copy-btn" data-copy-id="tpl-t2">COPY</button>
+    </div>
+    <div class="msg-box" id="tpl-t2">[First Name],
+
+Following up. I'm opening a small Founding Member cohort for COMMAND — an Agent Operations Center for firms running multi-agent AI stacks.
+
+$99/mo locked for life · direct roadmap access · 30-min onboarding call
+
+Works with Claude, ChatGPT, Perplexity, any combination — no single vendor solves the coordination problem by definition.
+
+12 spots left. Start here: https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407
+
+— JCMD</div>
+  </div>
+
+</div><!-- /tab-client -->
+
+<script>
+// ─── CONSTANTS ─────────────────────────────────────────
+const ASSETS = {
+  syllabus: 'https://command.globalinkservices.io/beta-syllabus',
+  onepager: 'https://command.globalinkservices.io/sales/COMMAND_One_Pager_v4.html',
+  demo: 'https://globalink.navattic.com/fcr04wg',
+  dock: 'https://globalinkservices.dock.us/acme-E7sOXt5HpHir',
+  fmStripe: 'https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407',
+  notion: 'https://www.notion.so/11a1101224794438874fea16dd2eeab1',
+  reclaim: 'https://app.reclaim.ai/m/GlobaLink-Jason'
+};
+
+const SCORE_DIMS = [
+  {key:'firmProfile',label:'Firm size + role',max:20},
+  {key:'stackDepth',label:'Agent stack depth',max:25},
+  {key:'painDepth',label:'Pain depth',max:30},
+  {key:'roiAwareness',label:'ROI awareness',max:15},
+  {key:'buyingIntent',label:'Buying intent',max:10}
+];
+
+const NOTE_FIELDS = [
+  {key:'tools',label:'AI tools named'},
+  {key:'instances',label:'# simultaneous instances'},
+  {key:'coordination',label:'Coordination method'},
+  {key:'failure',label:'Failure story'},
+  {key:'timecost',label:'Time cost estimate'},
+  {key:'painquote',label:'Exact pain quote'},
+  {key:'vision',label:'Vision response'}
+];
+
+const LOAD_MSGS = [
+  'Analyzing LinkedIn profile...','Researching firm history...',
+  'Identifying AI signals...','Scoring ICP dimensions...',
+  'Tailoring questions...','Building call brief...','Almost ready...'
+];
+
+const VOICE_CONTEXT = `
+JASON'S VOICE PROFILE (use for all emails):
+- Opener: [First Name] — (name then dash, no comma, never "Hi" or "Hey")
+- Short sentences. Dashes over commas.
+- Never salesy. Never preamble. Gets to the point immediately.
+- Warmth is real or absent — never performative.
+- Closes warm but brief.
+- Sign-off: JCMD only (never "Jason", never "Best", never "Regards", never "Cheers")
+- Two line breaks between paragraphs for copy-paste fidelity.
+- Never: "I hope this finds you well", "I wanted to reach out", "circle back", "touch base"
+- Military contacts: even shorter, lower obligation, assumes mutual respect
+- Discovery mode: observing and listening, NOT comparing notes as peer
+`;
+
+// ─── STATE ─────────────────────────────────────────────
+let currentStep = 1;
+let currentBrief = null;
+let timerActive = false;
+let timerSec = 0;
+let timerIv = null;
+let scoreVals = {};
+let noteVals = {};
+let flags = {agency:false, beta:false};
+
+// ─── KEY MGMT ───────────────────────────────────────────
+function getKey(){ return localStorage.getItem('cmd_api_key') || ''; }
+function setKey(k){ localStorage.setItem('cmd_api_key', k.trim()); updateKeyUI(); }
+function clearKey(){ localStorage.removeItem('cmd_api_key'); updateKeyUI(); }
+
+function updateKeyUI(){
+  const k = getKey();
+  const status = document.getElementById('keyStatusLine');
+  const clearBtn = document.getElementById('clearKeyBtn');
+  const gateDiv = document.getElementById('apiGate');
+  if(k){
+    status.textContent = '✓ API KEY SET — ' + k.slice(0,8) + '...';
+    status.style.color = 'var(--green)';
+    clearBtn.style.display = 'block';
+    if(gateDiv) gateDiv.style.display = 'none';
+  } else {
+    status.textContent = 'API KEY: NOT SET';
+    status.style.color = 'var(--tx3)';
+    clearBtn.style.display = 'none';
+  }
+}
+
+// ─── MAIN TAB SWITCH ────────────────────────────────────
+function switchMainTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelector('[data-maintab="'+id+'"]').classList.add('active');
+}
+
+// ─── STEP NAV ───────────────────────────────────────────
+function showStep(n){
+  document.querySelectorAll('.step-panel').forEach(p=>p.style.display='none');
+  const el = document.getElementById('step'+n);
+  if(el){ el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  document.querySelectorAll('.step-pill').forEach(p=>{
+    const s = parseInt(p.getAttribute('data-step'));
+    p.classList.remove('active','done');
+    if(s < n) p.classList.add('done');
+    else if(s === n) p.classList.add('active');
+  });
+  currentStep = n;
+}
+
+// ─── BRIEF TABS ─────────────────────────────────────────
+function switchBriefTab(id){
+  document.querySelectorAll('.bpanel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.btab').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.style.display='block';
+  document.querySelector('[data-btab="'+id+'"]').classList.add('active');
+}
+
+// ─── TIMER ──────────────────────────────────────────────
+function fmtTime(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+function toggleTimer(){
+  timerActive = !timerActive;
+  const btn = document.getElementById('timerToggleBtn');
+  if(timerActive){
+    btn.textContent = '⏸ PAUSE';
+    timerIv = setInterval(()=>{ timerSec++; updateTimerUI(); }, 1000);
+  } else {
+    btn.textContent = '▶ RESUME';
+    clearInterval(timerIv);
+  }
+}
+
+function updateTimerUI(){
+  const t = fmtTime(timerSec);
+  const disp = document.getElementById('timerDisplay');
+  const fill = document.getElementById('timerBar');
+  const warn = document.getElementById('timerWarn');
+  if(disp){ disp.textContent = t; disp.style.color = timerSec>=1080 ? 'var(--red)' : 'var(--amber)'; }
+  if(fill){ fill.style.width = Math.min(timerSec/1200*100,100)+'%'; fill.style.background = timerSec>=1080?'var(--red)':'var(--amber)'; }
+  if(warn) warn.style.display = timerSec>=1080?'flex':'none';
+}
+
+function resetTimer(){ clearInterval(timerIv); timerActive=false; timerSec=0; updateTimerUI(); const btn=document.getElementById('timerToggleBtn'); if(btn) btn.textContent='▶ RESUME'; }
+
+// ─── SCORE ───────────────────────────────────────────────
+function getTier(t){ return t>=75?'TIER 1':t>=50?'TIER 2':t>=25?'TIER 3':'NOT ICP'; }
+function getTierColor(t){ return t>=75?'var(--green)':t>=50?'var(--yellow)':t>=25?'var(--amber-dim)':'var(--red)'; }
+function getTierAction(tier){
+  if(tier==='TIER 1') return 'Offer Founding Member NOW. Follow up within 24 hrs.';
+  if(tier==='TIER 2') return 'Post-call email within 48 hrs. Nurture 30 days.';
+  if(tier==='TIER 3') return 'Check in Q3 2026.';
+  return 'Thank and close. Note referral potential.';
+}
+
+function calcTotal(){ return SCORE_DIMS.reduce((a,d)=>a+(parseInt(scoreVals[d.key])||0),0); }
+
+function updateScoreUI(){
+  const total = calcTotal();
+  const el = document.getElementById('scoreTotal');
+  const fill = document.getElementById('scoreFill');
+  if(el) el.textContent = total + ' / 100';
+  if(fill){ fill.style.width=total+'%'; fill.style.background=getTierColor(total); }
+}
+
+function buildScoreRows(){
+  const el = document.getElementById('scoreRows');
+  if(!el) return;
+  el.innerHTML = SCORE_DIMS.map(d=>`
+    <div class="score-row">
+      <div style="flex:1;font-size:12px;color:var(--tx2)">${d.label}</div>
+      <div style="font-size:10px;color:var(--tx3);width:26px;text-align:right">/${d.max}</div>
+      <input type="number" class="score-inp" min="0" max="${d.max}" placeholder="—"
+        value="${scoreVals[d.key]||''}"
+        oninput="scoreVals['${d.key}']=this.value;updateScoreUI()">
+    </div>`).join('');
+}
+
+function buildNoteFields(){
+  const el = document.getElementById('noteFields');
+  if(!el) return;
+  el.innerHTML = NOTE_FIELDS.map(f=>`
+    <div style="margin-bottom:10px">
+      <div class="flabel">${f.label}</div>
+      <textarea style="min-height:30px" placeholder="—"
+        oninput="noteVals['${f.key}']=this.value">${noteVals[f.key]||''}</textarea>
+    </div>`).join('');
+}
+
+// ─── COPY UTILITY ────────────────────────────────────────
+function copyToClipboard(text, btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    if(!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = '✓ COPIED';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent=orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ─── GENERATE BRIEF ──────────────────────────────────────
+async function generateBrief(){
+  const key = getKey();
+  if(!key){
+    document.getElementById('apiGate').style.display = 'block';
+    return;
+  }
+  const url = document.getElementById('linkedinUrl').value.trim();
+  const name = document.getElementById('contactName').value.trim();
+  const firm = document.getElementById('firmName').value.trim();
+  const errEl = document.getElementById('step1Error');
+
+  if(!url && !name && !firm){
+    errEl.textContent = 'Enter at least a LinkedIn URL or name + firm.';
+    errEl.style.display = 'block'; return;
+  }
+  errEl.style.display = 'none';
+
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('generateLoading').style.display = 'block';
+  let i=0;
+  const iv = setInterval(()=>{ const m=document.getElementById('loadMsg'); if(m) m.textContent=LOAD_MSGS[i++%LOAD_MSGS.length]; },1800);
+
+  try {
+    const brief = await callClaude(key, buildResearchPrompt(url,name,firm));
+    clearInterval(iv);
+    document.getElementById('generateLoading').style.display = 'none';
+    if(brief){
+      currentBrief = brief;
+      scoreVals = {}; noteVals = {}; flags = {agency:false,beta:false};
+      renderBrief(brief, name, firm);
+      showStep(2);
+    } else { throw new Error('No response'); }
+  } catch(e){
+    clearInterval(iv);
+    document.getElementById('generateLoading').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    errEl.textContent = 'Error: '+e.message+' — Check API key in settings above.';
+    errEl.style.display = 'block';
+  }
+}
+
+// ─── RENDER BRIEF ────────────────────────────────────────
+function renderBrief(b, name, firm){
+  document.getElementById('briefNameDisplay').textContent = name || b.snapshot?.person?.split(' ')[0] || 'PROSPECT';
+  document.getElementById('briefFirmDisplay').textContent = firm || b.snapshot?.firm?.split('—')[0] || '';
+
+  // Snapshot
+  const snap = b.snapshot || {};
+  document.getElementById('snapRows').innerHTML = [
+    ['FIRM', snap.firm||'—'],['CONTACT',snap.person||'—'],
+    ['AI SIGNALS',snap.ai_signals||'None found'],
+    ['WATCH FOR',snap.watch_for||'—'],
+    ['PRE-SCORE',snap.icp_pre_score||'—'],
+    ['GOAL','Extract pain. ZERO pitching. Researcher mode only.']
+  ].map(([k,v])=>`
+    <div class="snap-row">
+      <div class="snap-key">${k}</div>
+      <div style="color:var(--tx1);flex:1;font-size:12px;line-height:1.5">${v}</div>
+    </div>`).join('');
+
+  // Counter warnings
+  const cp = b.counter_pitch || {};
+  document.getElementById('counterList').innerHTML = (cp.warning_signs||[
+    'He pivots to asking about YOUR challenges early',
+    'He name-drops clients or case studies unprompted',
+    "He says 'we help companies like yours'",
+    'He asks about your budget or timeline'
+  ]).map(w=>`<div class="sig"><span class="badge br">WATCH</span><span style="color:var(--tx2);font-size:12px">${w}</span></div>`).join('');
+
+  // Questions
+  const qs = b.tailored_questions || [];
+  const qTimings = {Q1:'MIN 2–5',Q2:'MIN 5–9',Q3:'MIN 9–13',Q4:'MIN 13–16',Q5:'MIN 16–18'};
+  ['Q1','Q2','Q3','Q4','Q5'].forEach(qid=>{
+    const qd = qs.find(q=>q.id===qid)||{};
+    const el = document.getElementById(qid.toLowerCase()+'r');
+    if(!el) return;
+    el.innerHTML = `<div class="card">
+      <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:4px">TARGET: ${qTimings[qid]}</div>
+      <div class="slabel">❓ ${qid} — ${qd.label||qid}</div>
+      <div class="script">"${qd.question||'—'}"</div>
+      ${qd.context_note?`<div style="font-size:11px;color:var(--amber);padding:6px 10px;background:var(--amber-glow);border-radius:4px;margin-bottom:8px;font-family:'Courier New',monospace">⚡ ${qd.context_note}</div>`:''}
+      ${(qd.green||[]).map(g=>`<div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">${g}</span></div>`).join('')}
+      ${(qd.yellow||[]).map(y=>`<div class="sig"><span class="badge by">YELLOW</span><span style="color:var(--tx2);font-size:12px">${y}</span></div>`).join('')}
+      ${(qd.red||[]).map(r=>`<div class="sig"><span class="badge br">RED</span><span style="color:var(--tx2);font-size:12px">${r}</span></div>`).join('')}
+      ${qd.single_tool_followup?`<div style="margin-top:10px;background:#0A0E15;border:1px solid var(--amber-dim);border-radius:5px;padding:9px"><div style="font-size:10px;color:var(--amber);font-family:'Courier New',monospace;margin-bottom:4px">⚡ SINGLE-TOOL FOLLOW-UP</div><div class="script" style="margin:0;font-size:12px">"${qd.single_tool_followup}"</div></div>`:''}
+      ${qd.scoring?`<div style="margin-top:8px">${Object.entries(qd.scoring).map(([p,l])=>`<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid var(--border);align-items:center"><span style="font-size:11px;color:var(--amber);font-weight:700;width:36px;flex-shrink:0;font-family:'Courier New',monospace">${p}</span><span style="font-size:12px;color:var(--tx2)">${l}</span></div>`).join('')}</div>`:''}
+      ${(qd.pain_language||[]).length?`<div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px"><div style="font-size:10px;color:var(--amber);font-family:'Courier New',monospace;margin-bottom:6px;letter-spacing:.1em">🎧 LISTEN FOR</div><div style="display:flex;flex-wrap:wrap;gap:4px">${qd.pain_language.map(p=>`<span style="padding:2px 7px;background:var(--amber-glow);border:1px solid var(--amber-dim);border-radius:3px;font-size:11px;color:var(--amber);font-family:'Courier New',monospace">"${p}"</span>`).join('')}</div></div>`:''}
+    </div>`;
+  });
+
+  buildScoreRows();
+  buildNoteFields();
+}
+
+// ─── ANALYZE TRANSCRIPT ──────────────────────────────────
+async function analyzeTranscript(){
+  const key = getKey();
+  if(!key){ document.getElementById('apiGate').style.display='block'; showStep(1); return; }
+  const text = document.getElementById('transcriptText').value.trim();
+  const errEl = document.getElementById('transcriptError');
+  if(!text){ errEl.textContent='Paste or upload a transcript first.'; errEl.style.display='block'; return; }
+  errEl.style.display='none';
+
+  const name = document.getElementById('contactName').value.trim() || 'the prospect';
+  const firm = document.getElementById('firmName').value.trim() || 'their firm';
+
+  document.querySelector('#step4 .card-amber').style.display = 'none';
+  document.getElementById('analyzeLoading').style.display = 'block';
+
+  try {
+    const result = await callClaude(key, buildAnalysisPrompt(text, name, firm));
+    document.getElementById('analyzeLoading').style.display = 'none';
+    if(result){
+      // Auto-fill scores
+      if(result.icp_score){
+        Object.entries(result.icp_score).forEach(([k,v])=>{ if(k!=='total') scoreVals[k]=v; });
       }
-    };
+      renderSendPanel(result, name, firm);
+      showStep(5);
+    } else { throw new Error('No analysis returned'); }
+  } catch(e){
+    document.getElementById('analyzeLoading').style.display = 'none';
+    document.querySelector('#step4 .card-amber').style.display = 'block';
+    errEl.textContent = 'Error: '+e.message;
+    errEl.style.display = 'block';
+  }
+}
 
-    function renderMessage() {
-      const key = document.getElementById('prospect-select').value;
-      const out = document.getElementById('message-output');
-      if (!key) { out.innerHTML = ''; return; }
-      const m = messages[key];
-      const pillsHtml = m.pills.map(p => `<span class="pill pill-amber">${p}</span>`).join('');
-      out.innerHTML = `
-        <div class="card">
-          <div class="card-title">${m.label}</div>
-          <div style="margin-bottom:10px;">${pillsHtml}</div>
-          <div class="copy-block" id="msg-block">${m.text}<span class="copy-tag" onclick="copyText('msg-block', this)">copy</span></div>
-        </div>`;
-    }
-  </script>
+// ─── RENDER SEND PANEL ───────────────────────────────────
+function renderSendPanel(r, name, firm){
+  const total = r.icp_score?.total || calcTotal();
+  const tier = getTier(total);
+  const tierColor = getTierColor(total);
+  const el = document.getElementById('sendContent');
+
+  // Build action items based on tier
+  const actions = buildActions(tier, name, firm, r);
+
+  el.innerHTML = `
+    <!-- SCORE SUMMARY -->
+    <div class="card-amber">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div class="slabel" style="margin:0">📊 ${name} — ${firm}</div>
+        <span class="badge" style="font-size:12px;padding:4px 12px;background:${tierColor}22;border:1px solid ${tierColor};color:${tierColor};font-family:'Courier New',monospace">${tier}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:11px;color:var(--tx2)">ICP Score</span>
+        <span style="font-size:16px;font-weight:700;color:${tierColor};font-family:'Courier New',monospace">${total} / 100</span>
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:${total}%;background:${tierColor}"></div></div>
+      <div style="font-size:11px;color:var(--tx2);margin-top:8px">${getTierAction(tier)}</div>
+    </div>
+
+    ${(r.pain_quotes||[]).length?`
+    <div class="card">
+      <div class="slabel">🎯 Pain Quotes</div>
+      ${r.pain_quotes.map(q=>`<div style="font-size:13px;font-style:italic;color:var(--tx2);border-left:2px solid var(--amber-dim);padding:5px 10px;margin-bottom:6px;line-height:1.65">"${q}"</div>`).join('')}
+    </div>`:''}
+
+    ${r.call_summary?`
+    <div class="card">
+      <div class="slabel">📋 Call Summary</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.75">${r.call_summary}</div>
+    </div>`:''}
+
+    <!-- ACTION PLAN -->
+    <div class="${tier==='TIER 1'?'card-green':tier==='TIER 2'?'card-amber':'card-red'}">
+      <div class="slabel${tier==='TIER 1'?'-green':tier==='TIER 3'||tier==='NOT ICP'?'-red':''}">🚀 Action Plan — ${tier}</div>
+      ${actions}
+    </div>
+
+    <!-- FOLLOW-UP EMAIL -->
+    ${r.follow_up_email?`
+    <div class="card">
+      <div class="msg-header">
+        <span class="msg-subj">SUBJ: ${r.follow_up_email.subject||'Following up'}</span>
+        <button class="copy-btn" id="emailCopyBtn">COPY EMAIL</button>
+      </div>
+      <div class="msg-box" id="generatedEmailBody">${r.follow_up_email.body||''}</div>
+    </div>`:''}
+
+    <!-- SCORE BREAKDOWN -->
+    <div class="card">
+      <div class="slabel">📊 Score Breakdown</div>
+      ${(r.score_breakdown||[]).map(s=>`
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="font-size:12px;color:var(--tx1);font-weight:700">${s.dimension}</div>
+            <div style="font-size:11px;color:var(--tx2);margin-top:2px;line-height:1.5">${s.rationale}</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--amber);font-family:'Courier New',monospace;flex-shrink:0">${s.score}/${s.max}</div>
+        </div>`).join('')}
+    </div>
+
+    <button class="btn-secondary" id="newCallBtn" style="width:100%;margin-top:6px">↺ NEW CALL</button>
+  `;
+
+  // Wire email copy button
+  setTimeout(()=>{
+    const ecb = document.getElementById('emailCopyBtn');
+    const ebody = document.getElementById('generatedEmailBody');
+    if(ecb && ebody) ecb.addEventListener('click', ()=>copyToClipboard(ebody.textContent, ecb));
+    const ncb = document.getElementById('newCallBtn');
+    if(ncb) ncb.addEventListener('click', resetAll);
+    // Wire action link copy buttons
+    el.querySelectorAll('[data-action-copy]').forEach(btn=>{
+      btn.addEventListener('click', ()=>copyToClipboard(btn.getAttribute('data-action-copy'), btn));
+    });
+  }, 100);
+}
+
+function buildActions(tier, name, firm, r){
+  let items = [];
+  if(tier==='TIER 1'){
+    items = [
+      {n:'1',title:'Send follow-up email',desc:'Below — references their exact words. Send within 2 hours.',link:null},
+      {n:'2',title:'Offer Founding Member — $99/mo locked',desc:'25 slots, closes April 14. Include this link in your email.',copy:ASSETS.fmStripe,label:'COPY FM LINK'},
+      {n:'3',title:'Clone Dock.us room for '+name,desc:'Buying signal confirmed. Clone master → rename → send their unique link.',url:ASSETS.dock,urlLabel:'CLONE DOCK →'},
+      {n:'4',title:'Attach Beta Syllabus',desc:'Sets expectations, builds credibility.',copy:ASSETS.syllabus,label:'COPY SYLLABUS LINK'},
+      {n:'5',title:'Log in Notion as TIER 1',desc:'Set T+24hr follow-up reminder.',url:ASSETS.notion,urlLabel:'OPEN NOTION'},
+    ];
+  } else if(tier==='TIER 2'){
+    items = [
+      {n:'1',title:'Send follow-up email',desc:'Below — references specific friction they named. Send within 48 hrs.',link:null},
+      {n:'2',title:'Share One-Pager v4',desc:'No FM offer yet — just the one-pager.',copy:ASSETS.onepager,label:'COPY ONE-PAGER LINK'},
+      {n:'3',title:'Nurture 30 days',desc:'If engaged at Day 7 and FM slots remain, offer $99/mo.',copy:ASSETS.fmStripe,label:'COPY FM LINK'},
+      {n:'4',title:'Log in Notion as TIER 2',desc:'Set T+48hr follow-up.',url:ASSETS.notion,urlLabel:'OPEN NOTION'},
+    ];
+  } else if(tier==='TIER 3'){
+    items = [
+      {n:'1',title:'Send thank-you email',desc:'Below — brief, warm, close soft with referral ask.',link:null},
+      {n:'2',title:'Log in Notion as TIER 3',desc:'Park. Q3 check-in.',url:ASSETS.notion,urlLabel:'OPEN NOTION'},
+      ...(r.referral_potential?[{n:'3',title:'Ask for referral',desc:r.referral_potential,link:null}]:[]),
+    ];
+  } else {
+    items = [
+      {n:'1',title:'Send thank-you email',desc:'Below — close cleanly. No follow-up unless they reach out.',link:null},
+      {n:'2',title:'Note referral potential',desc:'Not ICP today — may know someone who is.',link:null},
+    ];
+  }
+
+  return items.map(a=>`
+    <div class="action">
+      <div class="action-n">${a.n}</div>
+      <div class="action-body">
+        <div class="action-title">${a.title}</div>
+        <div class="action-desc">${a.desc}</div>
+        ${a.copy?`<button class="action-link" data-action-copy="${a.copy}">${a.label} →</button>`:''}
+        ${a.url?`<a class="action-link" href="${a.url}" target="_blank">${a.urlLabel}</a>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// ─── CLAUDE API ──────────────────────────────────────────
+async function callClaude(key, prompt){
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:2500,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'API '+res.status); }
+  const data = await res.json();
+  const text = data.content?.[0]?.text||'{}';
+  const clean = text.replace(/```json|```/g,'').trim();
+  try{ return JSON.parse(clean); } catch{ return null; }
+}
+
+// ─── PROMPTS ─────────────────────────────────────────────
+function buildResearchPrompt(url, name, firm){
+  return `You are a B2B sales research agent for COMMAND — an Agent Operations Center for boutique consulting and coaching firms (1-15 people, owner-led). COMMAND solves: operators running multiple AI agents simultaneously have no unified dashboard, no handoff layer, no context bridge — they become manual copy-paste relays.
+
+RESEARCH TARGET:
+LinkedIn URL: ${url||'not provided'}
+Contact: ${name||'unknown'}
+Firm: ${firm||'unknown'}
+
+Return ONLY valid JSON, no markdown, no preamble:
+
+{"snapshot":{"firm":"1-line firm description","person":"background: role, history, location","ai_signals":"specific AI tools found publicly OR 'None found'","watch_for":"behavioral risks specific to this person","icp_pre_score":"HIGH / MEDIUM / LOW"},"tailored_questions":[{"id":"Q1","label":"Agent Inventory","question":"Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used.","single_tool_followup":"How many [tool] sessions or tabs are you running simultaneously? How does work move between them?","green":["Multiple tools named","Single tool with multiple simultaneous instances"],"yellow":["Single tool, unclear on instances"],"red":["Just ChatGPT for basic writing only"],"pain_language":["copy-paste","manual relay","re-explain","babysit"],"context_note":"1-sentence note specific to this prospect"},{"id":"Q2","label":"Coordination Behavior","question":"How do you actually move work between those tools? If something starts in one agent and needs to continue in another — walk me through what that looks like.","green":["Copy-paste context manually","Re-explain in new tab","Someone manages the handoffs"],"yellow":["Some automation but it breaks"],"red":["They talk to each other automatically"],"pain_language":["manual relay","copy-paste","re-explain","babysit it","nobody watching"],"context_note":"tailored note"},{"id":"Q3","label":"Failure Mode","question":"Tell me about a time something went wrong — an agent stalled, dropped context, or just didn't work the way you expected.","green":["Specific failure with real business impact","Found out days later — visibility gap confirmed"],"yellow":["Vague frustration, no specific story"],"red":["Nothing has gone wrong"],"pain_language":["lost context","had to start over","client found out"],"context_note":"tailored note"},{"id":"Q4","label":"Time Cost","question":"How much time a week goes into just managing the agents — not using their output, just managing them.","scoring":{"15pts":"2+ hours/week","10pts":"30-120 min/week","5pts":"Can't quantify but real","0pts":"It's pretty automated"},"pain_language":["more than I'd like","too much time","hired someone to do it"],"context_note":"tailored note"},{"id":"Q5","label":"Vision","question":"If you had one place to see everything your agents were doing — status, task queue, handoff state — what would that change for you?","green":["I'd finally know what's running","Could actually delegate properly","Emotional relief response"],"red":["Confused or blank response"],"pain_language":["finally","delegate","trust it","sleep better"],"context_note":"tailored note"}],"counter_pitch":{"warning_signs":["Specific signs THIS person might pitch you based on their background and role"]},"intel_hook":"One sentence tailored to why this specific prospect type cares about agent coordination right now"}`;
+}
+
+function buildAnalysisPrompt(transcript, name, firm){
+  return `You are analyzing a discovery call transcript for COMMAND. Score the ICP rubric and generate a follow-up email in Jason's exact voice.
+
+${VOICE_CONTEXT}
+
+ICP SCORING:
+- firmProfile (max 20): firm 5-20 people=10pts, 1-4 or 51+=2pts; role founder/CEO/COO=10pts, ops lead=6pts, other=2pts
+- stackDepth (max 25): 3+ tools=15pts, 2 tools=10pts, 1 tool 3+ instances=10pts, 1 tool 1-2 instances=3pts; uses Claude/Cursor/Perplexity/GPT=10pts
+- painDepth (max 30): specific failure story=15pts, manual relay/copy-paste=15pts, visibility gap=10pts (max 30)
+- roiAwareness (max 15): 2+hrs/week=15pts, 30-120min=10pts, acknowledged but unclear=5pts
+- buyingIntent (max 10): explicit beta opt-in=10pts, asked product questions=7pts, requested one-pager=5pts, offered referral=3pts
+
+CALL PARTICIPANTS: Jason (founder of COMMAND) and ${name} at ${firm}
+
+TRANSCRIPT:
+${transcript.substring(0,6000)}
+
+Return ONLY valid JSON:
+
+{"icp_score":{"firmProfile":0,"stackDepth":0,"painDepth":0,"roiAwareness":0,"buyingIntent":0,"total":0},"score_breakdown":[{"dimension":"Firm size + role","score":0,"max":20,"rationale":"why"},{"dimension":"Agent stack depth","score":0,"max":25,"rationale":"why"},{"dimension":"Pain depth","score":0,"max":30,"rationale":"why"},{"dimension":"ROI awareness","score":0,"max":15,"rationale":"why"},{"dimension":"Buying intent","score":0,"max":10,"rationale":"why"}],"pain_quotes":["exact quotes from transcript showing pain — empty if none"],"key_signals":["positive ICP signals found"],"disqualifiers":["red flags or mismatches"],"referral_potential":"describe referral opportunity or null","call_summary":"2-3 sentences — what actually happened on this call","follow_up_email":{"template":"A or B or C","subject":"email subject line","body":"FULL email in Jason voice — name-dash opener, dashes over commas, short sentences, references their exact words from transcript, closes warm, signs JCMD — two line breaks between paragraphs"}}`;
+}
+
+// ─── FILE UPLOAD ─────────────────────────────────────────
+function handleDragOver(e){ e.preventDefault(); document.getElementById('dropZone').classList.add('drag'); }
+function handleDragLeave(){ document.getElementById('dropZone').classList.remove('drag'); }
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if(f) loadFile(f);
+}
+function handleFileClick(){ document.getElementById('fileInput').click(); }
+function handleFileSelect(e){ const f=e.target.files[0]; if(f) loadFile(f); }
+function loadFile(f){
+  if(!f.name.match(/\.(txt|md)$/i)){
+    document.getElementById('transcriptError').textContent='Upload a .txt or .md file.';
+    document.getElementById('transcriptError').style.display='block'; return;
+  }
+  document.getElementById('fileName').textContent='✓ '+f.name;
+  const r=new FileReader();
+  r.onload=e=>{ document.getElementById('transcriptText').value=e.target.result; };
+  r.readAsText(f);
+}
+
+// ─── RESET ───────────────────────────────────────────────
+function resetAll(){
+  currentBrief=null; scoreVals={}; noteVals={}; flags={agency:false,beta:false};
+  resetTimer();
+  ['linkedinUrl','contactName','firmName','transcriptText'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('fileName').textContent='';
+  const s4card = document.querySelector('#step4 .card-amber');
+  if(s4card) s4card.style.display='block';
+  document.getElementById('analyzeLoading').style.display='none';
+  document.getElementById('sendContent').innerHTML='';
+  document.getElementById('generateLoading').style.display='none';
+  document.getElementById('step1Error').style.display='none';
+  document.getElementById('transcriptError').style.display='none';
+  showStep(1);
+  document.getElementById('step1').style.display='block';
+}
+
+// ─── INIT ────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function(){
+
+  // Main tab nav
+  document.querySelectorAll('[data-maintab]').forEach(btn=>{
+    btn.addEventListener('click', ()=>switchMainTab(btn.getAttribute('data-maintab')));
+  });
+
+  // Step pipeline nav
+  document.querySelectorAll('[data-step]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const s = parseInt(btn.getAttribute('data-step'));
+      if(s <= currentStep || s === currentStep+1) showStep(s);
+    });
+  });
+
+  // Brief tab nav
+  document.querySelectorAll('[data-btab]').forEach(btn=>{
+    btn.addEventListener('click', ()=>switchBriefTab(btn.getAttribute('data-btab')));
+  });
+
+  // Generate button
+  document.getElementById('generateBtn').addEventListener('click', generateBrief);
+
+  // Start call button
+  document.getElementById('startCallBtn').addEventListener('click', ()=>{
+    showStep(3);
+    buildScoreRows();
+    buildNoteFields();
+    toggleTimer();
+  });
+
+  // Skip to transcript
+  document.getElementById('skipCallBtn').addEventListener('click', ()=>showStep(4));
+
+  // Timer controls
+  document.getElementById('timerToggleBtn').addEventListener('click', toggleTimer);
+  document.getElementById('timerResetBtn').addEventListener('click', resetTimer);
+  document.getElementById('goToTranscriptBtn').addEventListener('click', ()=>{ clearInterval(timerIv); timerActive=false; showStep(4); });
+
+  // New prospect
+  document.getElementById('newProspectBtn').addEventListener('click', resetAll);
+
+  // Analyze transcript
+  document.getElementById('analyzeBtn').addEventListener('click', analyzeTranscript);
+
+  // File upload
+  document.getElementById('dropZone').addEventListener('click', handleFileClick);
+  document.getElementById('dropZone').addEventListener('dragover', handleDragOver);
+  document.getElementById('dropZone').addEventListener('dragleave', handleDragLeave);
+  document.getElementById('dropZone').addEventListener('drop', handleDrop);
+  document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+  // API key management
+  document.getElementById('setKeyBtn').addEventListener('click', ()=>{
+    const row = document.getElementById('keyInputRow');
+    row.style.display = row.style.display==='none'?'block':'none';
+  });
+  document.getElementById('mainSaveBtn').addEventListener('click', ()=>{
+    const k = document.getElementById('mainApiKey').value.trim();
+    if(k){ setKey(k); document.getElementById('mainApiKey').value=''; document.getElementById('keyInputRow').style.display='none'; }
+  });
+  document.getElementById('clearKeyBtn').addEventListener('click', clearKey);
+  document.getElementById('inlineSaveBtn').addEventListener('click', ()=>{
+    const k = document.getElementById('inlineApiKey').value.trim();
+    if(k){ setKey(k); document.getElementById('inlineApiKey').value=''; document.getElementById('apiGate').style.display='none'; }
+  });
+
+  // CLIENT tab copy buttons (data-copy attr)
+  document.querySelectorAll('[data-copy]').forEach(btn=>{
+    btn.addEventListener('click', ()=>copyToClipboard(btn.getAttribute('data-copy'), btn));
+  });
+
+  // CLIENT tab copy-id buttons (data-copy-id attr)
+  document.querySelectorAll('[data-copy-id]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const el = document.getElementById(btn.getAttribute('data-copy-id'));
+      if(el) copyToClipboard(el.textContent.trim(), btn);
+    });
+  });
+
+  // Init key UI
+  updateKeyUI();
+  showStep(1);
+});
+</script>
 </body>
 </html>
