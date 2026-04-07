@@ -134,6 +134,45 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .snap-row{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--amber-dim);font-size:12px}
 .snap-row:last-child{border-bottom:none}
 .snap-key{font-size:10px;color:var(--amber);font-weight:700;width:76px;flex-shrink:0;font-family:'Courier New',monospace;padding-top:1px}
+
+/* ── EXTENDED NAV (6 tabs) */
+.nav{overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0}
+
+/* ── LINK CARD */
+.lc{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lc-left{flex:1;min-width:0}
+.lc-title{font-size:12px;font-weight:700;color:var(--tx1);margin-bottom:2px}
+.lc-url{font-family:'Courier New',monospace;font-size:10px;color:var(--tx3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lc-right{display:flex;gap:6px;flex-shrink:0}
+
+/* ── OUTREACH SEQUENCE */
+.seq-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.seq-num{font-family:'Courier New',monospace;font-size:10px;font-weight:700;color:var(--blue);background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);border-radius:3px;padding:2px 6px;flex-shrink:0;margin-top:1px}
+.seq-title{font-size:12px;font-weight:700;color:var(--tx1);margin-bottom:2px}
+.seq-desc{font-size:11px;color:var(--tx2);line-height:1.45}
+
+/* ── PIPELINE TABLE */
+.ptable{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px}
+.ptable th{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.08em;color:var(--tx3);text-transform:uppercase;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)}
+.ptable td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+.ptable tr:last-child td{border-bottom:none}
+.ptable td:first-child{color:var(--tx1);font-weight:700}
+
+/* ── PIPELINE PILLS */
+.pip{display:inline-block;font-family:'Courier New',monospace;font-size:9px;padding:1px 6px;border-radius:3px;border:1px solid}
+.pip.t1{color:var(--amber);border-color:var(--amber-dim);background:var(--amber-glow)}
+.pip.t2{color:var(--blue);border-color:rgba(88,166,255,.3);background:rgba(88,166,255,.12)}
+.pip.t3{color:var(--tx2);border-color:var(--border)}
+.pip.hot{color:var(--green);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.08)}
+
+/* ── RULE CARD */
+.sh-rule{background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--amber);border-radius:0 6px 6px 0;padding:.625rem .875rem;margin-bottom:5px;margin-top:.75rem}
+.sh-rule-title{font-size:11px;font-weight:700;color:var(--tx1);margin-bottom:2px;font-family:'Courier New',monospace}
+.sh-rule-body{font-size:11px;color:var(--tx2);line-height:1.45}
+
+.sh-divider{height:1px;background:var(--border);margin:1rem 0}
 </style>
 </head>
 <body>
@@ -148,6 +187,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   <button class="nav-btn active" data-maintab="ops">⚙ OPS</button>
   <button class="nav-btn" data-maintab="client">📤 CLIENT</button>
   <button class="nav-btn" data-maintab="surveys">📋 SURVEYS</button>
+  <button class="nav-btn" data-maintab="links">🔗 LINKS</button>
+  <button class="nav-btn" data-maintab="outreach">📨 OUTREACH</button>
+  <button class="nav-btn" data-maintab="setup">🔧 SETUP</button>
 </div>
 
 <!-- ═══════════════════════════════════════════ OPS TAB -->
@@ -551,6 +593,167 @@ JCMD</div>
     </div>
   </div>
 </div><!-- /tab-surveys -->
+
+<!-- ═══════════════════════════════════════════ LINKS TAB -->
+<div id="tab-links" class="tab">
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:14px;letter-spacing:.1em">SALES LINKS — COPY OR OPEN</div>
+
+  <div class="card">
+    <div class="slabel">Send to Prospects</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Landing Page</div><div class="copy-sub">command.globalinkservices.io</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://command.globalinkservices.io">COPY</button>
+        <a class="open-btn" href="https://command.globalinkservices.io" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Navattic Demo</div><div class="copy-sub">globalink.navattic.com/fcr04wg</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://globalink.navattic.com/fcr04wg">COPY</button>
+        <a class="open-btn" href="https://globalink.navattic.com/fcr04wg" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Beta Program Syllabus</div><div class="copy-sub">command.globalinkservices.io/beta-syllabus</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://command.globalinkservices.io/beta-syllabus">COPY</button>
+        <a class="open-btn" href="https://command.globalinkservices.io/beta-syllabus" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Dock.us Master Room</div><div class="copy-sub">Clone per prospect — never send master directly</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://globalinkservices.dock.us/acme-E7sOXt5HpHir">COPY</button>
+        <a class="open-btn" href="https://globalinkservices.dock.us/acme-E7sOXt5HpHir" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="slabel">Stripe Checkout</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Founding Member — $99/mo</div><div class="copy-sub">buy.stripe.com/9B68wRgwAcp8dt2dJp9k407</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407">COPY</button>
+        <a class="open-btn" href="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Standard Pro — $149/mo</div><div class="copy-sub">buy.stripe.com/bJe00lfsw74O74E5cT9k408</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://buy.stripe.com/bJe00lfsw74O74E5cT9k408">COPY</button>
+        <a class="open-btn" href="https://buy.stripe.com/bJe00lfsw74O74E5cT9k408" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="slabel">Booking</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Schedule a Call</div><div class="copy-sub">app.reclaim.ai/m/GlobaLink-Jason</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://app.reclaim.ai/m/GlobaLink-Jason">COPY</button>
+        <a class="open-btn" href="https://app.reclaim.ai/m/GlobaLink-Jason" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-amber">
+    <div class="slabel">Beta Onboarding</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Beta Syllabus</div><div class="copy-sub">command.globalinkservices.io/beta-syllabus</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://command.globalinkservices.io/beta-syllabus">COPY</button>
+        <a class="open-btn" href="https://command.globalinkservices.io/beta-syllabus" target="_blank">OPEN</a>
+      </div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">FM Checkout</div><div class="copy-sub">buy.stripe.com/9B68wRgwAcp8dt2dJp9k407 · $99/mo locked</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="copy-btn" data-copy="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407">COPY</button>
+        <a class="open-btn" href="https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407" target="_blank">OPEN</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh-rule">
+    <div class="sh-rule-title">Dock.us rule</div>
+    <div class="sh-rule-body">Clone master room per prospect — never send master directly. Build prospect room AFTER positive signal only.</div>
+  </div>
+</div><!-- /tab-links -->
+
+<!-- ═══════════════════════════════════════════ OUTREACH TAB -->
+<div id="tab-outreach" class="tab">
+
+  <div class="card-amber">
+    <div class="slabel" style="color:var(--amber)">FM Close Push (closes Apr 14)</div>
+    <div style="font-family:'Courier New',monospace;font-size:10px;color:var(--tx2);margin-bottom:1.25rem">25 slots · $99/mo locked · use FM Stripe link only</div>
+    <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:.1em">SEND ORDER</div>
+    <div class="seq-item">
+      <div class="seq-num">T1</div>
+      <div>
+        <div class="seq-title">Research frame — Day 1</div>
+        <div class="seq-desc">Pain question only. No product pitch. "Running multi-agent AI at [Company]?" — observe and listen, don't compare notes as a peer.</div>
+      </div>
+    </div>
+    <div class="seq-item">
+      <div class="seq-num">T2</div>
+      <div>
+        <div class="seq-title">FM offer — Day 4</div>
+        <div class="seq-desc">Feature list + protocol-agnostic line + FM terms. Stripe link goes here. Never remove the "works with Claude, ChatGPT, Perplexity" line.</div>
+      </div>
+    </div>
+    <div class="seq-item">
+      <div class="seq-num">T3</div>
+      <div>
+        <div class="seq-title">Last call + referral ask — Day 10</div>
+        <div class="seq-desc">One line close. Referral P.S. Then done — no follow-up after T3.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh-divider"></div>
+
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:.1em">ACTIVE PIPELINE</div>
+  <div class="card">
+    <table class="ptable">
+      <thead><tr><th>Contact</th><th>Firm</th><th>Stage</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr><td>Blaz Marolt</td><td>Prime Momentum</td><td><span class="pip hot">CALL Apr 6</span></td><td>Warm · Tier 1</td></tr>
+        <tr><td>Jon Smith</td><td>Veteran Horizons</td><td><span class="pip t1">T1 sent</span></td><td>"manual relay best I've found"</td></tr>
+        <tr><td>Eric</td><td>—</td><td><span class="pip hot">BETA #1</span></td><td>Security bg · warm · invite ready</td></tr>
+        <tr><td>Suresh V.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Bruce W.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Andriy C.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Rodrigo P.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>John R.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Josh C.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Jerry H.</td><td>—</td><td><span class="pip t2">T2 sent</span></td><td>Apr 1 batch</td></tr>
+        <tr><td>Matt Beck</td><td>Quartermaster AI</td><td><span class="pip t3">Reset</span></td><td>Sequence reset</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh-rule">
+    <div class="sh-rule-title">Voice rule</div>
+    <div class="sh-rule-body">Casual but direct. No preamble. Dashes over commas. Never salesy. Sign off: JCMD only. Military contacts: short, low obligation.</div>
+  </div>
+</div><!-- /tab-outreach -->
+
+<!-- ═══════════════════════════════════════════ SETUP TAB -->
+<div id="tab-setup" class="tab">
+  <div style="font-size:10px;color:var(--tx3);font-family:'Courier New',monospace;margin-bottom:14px;letter-spacing:.1em">ONBOARDING DOCS</div>
+  <div class="card">
+    <div class="slabel">Onboarding Docs</div>
+    <div class="copy-row">
+      <div>
+        <div class="copy-label">NDA — DocuSign Link</div>
+        <div class="copy-sub">[PENDING]</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /tab-setup -->
 
 <script>
 // ─── CONSTANTS ─────────────────────────────────────────
