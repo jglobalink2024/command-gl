@@ -86,7 +86,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 /* ── BODY AREA ── */
 .body-area{flex:1;display:flex;overflow:hidden;position:relative;}
-.main-scroll{flex:1;overflow-y:auto;padding:12px 16px;transition:margin-right .25s;}
+.main-scroll{flex:1;overflow-y:auto;padding:16px 24px;transition:margin-right .25s;}
 .main-scroll.drawer-open{margin-right:var(--drawer-w);}
 
 /* ── TAB PANES ── */
@@ -351,6 +351,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ::-webkit-scrollbar-thumb:hover{background:var(--border-focus);}
 
 .spin-sm{display:inline-block;animation:spin .8s linear infinite;font-size:10px;}
+
+@media(max-width:390px){
+  .main-scroll{padding:16px 16px}
+}
 </style>
 </head>
 <body>
@@ -574,7 +578,7 @@ loadS(); loadChat();
 // ═══════════════════════════════════════
 const NOW_HOT=[
   {id:'now1',title:'T3 follow-ups — 7 ICP contacts',desc:'Suresh, Bruce, Andriy, Rodrigo, John, Josh, Jerry',due:'DUE APR 4',tag:'hot'},
-  {id:'now2',title:'CURSOR_BRIEF.md refresh',desc:'Old contrast token #7a8099 → update to #9DA8B5. Located at project root.',due:'THIS WEEK',tag:'hot'},
+  {id:'now2',title:'CURSOR_BRIEF.md refresh',desc:'Contrast token refresh: legacy muted gray → canonical tx2 (#9DA8B5). Located at project root.',due:'THIS WEEK',tag:'hot'},
   {id:'now3',title:'Sprint F — n8n dead code cleanup',desc:'Remove all n8n customer-facing references. Flagged in E-4.',due:'THIS WEEK',tag:'hot'},
   {id:'now4',title:'Matt Beck (Quartermaster AI) — T3 due Mar 31',desc:'Corrective T2 sent Mar 23. Separate track.',due:'MAR 31',tag:'hot'},
   {id:'now5',title:'Jon Smith — Tier 1 signal',desc:'"Manual relay is best I\'ve found." Only validated pain language in full batch. Prioritize.',due:'THIS WEEK',tag:'hot'},
@@ -628,7 +632,7 @@ const PRODUCT_TRACKS=[
     {id:'sh7',text:'Stripe Solo $49 + Pro $149 — payment links confirmed',tag:'done',due:'DONE',howto:'Sprint D. Webhook handler, trial countdown enforcement, plan caps active.'},
   ]},
   {id:'cursor',icon:'🖱',title:'CURSOR QUEUE',sub:'Next Build Sprint',color:'var(--accent)',dl:'EXECUTE IN SEQUENCE',dlc:'dl-info',items:[
-    {id:'cur1',text:'CURSOR_BRIEF.md refresh — update contrast token',tag:'hot',due:'TODAY',howto:'Update CURSOR_BRIEF.md: old value #7a8099 → new value #9DA8B5. Single change needed — tailwind.config.ts and globals.css already updated in production.'},
+    {id:'cur1',text:'CURSOR_BRIEF.md refresh — update contrast token',tag:'hot',due:'TODAY',howto:'Update CURSOR_BRIEF.md: replace legacy muted gray with canonical tx2 (#9DA8B5). Single change — tailwind.config.ts and globals.css already updated in production.'},
     {id:'cur2',text:'Sprint F — n8n dead code removal',tag:'hot',due:'THIS WEEK',howto:'Cursor @codebase audit: search "n8n" across all files. Remove from any customer-facing paths. n8n = GL internal only.'},
     {id:'cur3',text:'ORACLE Design Layer — 5 changes from CURSOR_BRIEF-260329',tag:'warn',due:'APR 7',howto:'Order:\n1. CHANGE 01 — Token additions ~15min\n2. CHANGE 02 — Left-border triage (agent card) ~20min\n3. CHANGE 04 — Sync status indicator (AppShell nav) ~20min\n4. CHANGE 03 — Stall cost component ~30min\n5. CHANGE 05 — Warmth audit (onboarding/empty state/handoff) ~20min\nTotal: ~105 min. Do not parallelize.'},
     {id:'cur4',text:'Mobile CSS fixes',tag:'warn',due:'APR 14',howto:'Review on actual mobile device. Target: same experience for core flows. Not blocking beta but needs to be clean before public launch.'},
