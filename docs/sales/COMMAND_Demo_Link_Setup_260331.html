@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COMMAND — Demo & Link Infrastructure Setup</title>
+  <title>COMMAND — Demo & Link Infrastructure Setup | GlobaLink</title>
+  <meta name="description" content="COMMAND demo infrastructure — GlobaLink LLC" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
+      --cmd-bg-deep: #080B11;
       --bg: #080B11; --surface: #0D1117; --card: #161B22; --border: #21262D;
-      --amber: #F0A030; --blue: #1F6FEB; --green: #2EA043; --violet: #A78BFA;
-      --tx1: #E6EDF3; --tx2: #9DA8B5; --tx3: #4A5568;
+      --amber: #F0A030; --blue: #1F6FEB; --green: #238636; --violet: #A78BFA;
+      --tx1: #E6EDF3; --tx2: #8B949E; --tx3: #9DA8B5;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: var(--tx1); font-family: Inter, sans-serif; line-height: 1.6; padding: 40px 20px 80px; max-width: 860px; margin: 0 auto; }
@@ -24,15 +26,15 @@
     .notice { background: rgba(240,160,48,0.08); border: 1px solid rgba(240,160,48,0.3); border-radius: 8px; padding: 14px 16px; font-size: 13px; color: var(--tx2); margin-bottom: 20px; }
     .notice strong { color: var(--amber); }
     .step { display: flex; gap: 14px; margin-bottom: 20px; }
-    .step-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(31,111,235,0.15); border: 1px solid var(--blue); font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #9BC1FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(31,111,235,0.15); border: 1px solid var(--blue); font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #79b8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
     .step-body { font-size: 13px; color: var(--tx2); flex: 1; }
     .step-body strong { color: var(--tx1); display: block; margin-bottom: 4px; font-size: 14px; }
     code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; color: var(--amber); }
     .code-block { background: #0A0F16; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--tx2); margin: 10px 0; white-space: pre-wrap; line-height: 1.8; }
     .pill { display: inline-block; font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 3px 9px; border-radius: 999px; margin-right: 6px; margin-bottom: 6px; border: 1px solid; }
     .pill-amber { color: var(--amber); border-color: rgba(240,160,48,0.4); background: rgba(240,160,48,0.08); }
-    .pill-blue { color: #9BC1FF; border-color: rgba(31,111,235,0.4); background: rgba(31,111,235,0.08); }
-    .pill-green { color: #7FE3A0; border-color: rgba(46,160,67,0.4); background: rgba(46,160,67,0.08); }
+    .pill-blue { color: #79b8ff; border-color: rgba(31,111,235,0.4); background: rgba(31,111,235,0.08); }
+    .pill-green { color: #238636; border-color: rgba(35,134,54,0.4); background: rgba(35,134,54,0.1); }
     .pill-violet { color: var(--violet); border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.08); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
     th { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--tx3); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }

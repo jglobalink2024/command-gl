@@ -3,21 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COMMAND — Agent Operations Center</title>
+<title>COMMAND — Agent Operations Center | GlobaLink</title>
+<meta name="description" content="COMMAND by GlobaLink — agent operations center for boutique operators.">
 <link rel="icon" type="image/svg+xml" href="/command-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#080b11;--bg2:#0c1018;--bg3:#10141f;
-  --surf:#151c2c;--surf2:#1a2235;
-  --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.11);
-  --amber:#f0a030;--teal:#1fd4a0;--red:#e85050;
-  --tx:#eceef4;--tx2:#9da8b5;--tx3:#404660;
-  --mono:'Space Mono',monospace;
+  --cmd-bg-deep:#080B11;--bg:#080b11;--bg2:#0d1117;--bg3:#0d1117;
+  --surf:#161b22;--surf2:#1c2128;
+  --brd:#21262d;--brd2:#21262d;--brd3:rgba(230,237,243,0.12);
+  --amber:#f0a030;--blue:#1f6feb;--blue2:rgba(31,111,235,0.15);
+  --teal:#238636;--teal2:rgba(35,134,54,0.15);
+  --red:#da3633;--red2:rgba(218,54,51,0.15);
+  --tx:#e6edf3;--tx2:#8b949e;--tx3:#9da8b5;--tx4:#6e7681;
+  --mono:'JetBrains Mono','Fira Code',monospace;
   --display:'Syne',sans-serif;
-  --sans:'DM Sans',sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--tx);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -30,8 +33,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links{display:flex;gap:32px;list-style:none}
 .nav-links a{font-size:13px;color:var(--tx2);text-decoration:none;letter-spacing:.03em;transition:color .2s}
 .nav-links a:hover{color:var(--tx)}
-.nav-cta{background:var(--amber);color:#080b11;border:none;padding:9px 22px;border-radius:4px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.nav-cta:hover{background:#f5b84a;transform:translateY(-1px)}
+.nav-cta{background:var(--blue);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;min-height:36px}
+.nav-cta:hover{background:rgba(31,111,235,0.9);transform:translateY(-1px)}
 
 /* TICKER */
 .ticker-wrap{margin-top:58px;overflow:hidden;border-bottom:1px solid var(--brd);background:var(--bg3);padding:9px 0}
@@ -42,7 +45,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* HERO SPLIT */
 .hero{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 0 0 64px;position:relative;overflow:hidden}
-.hgrid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.hgrid{display:none}
 .hglow{position:absolute;top:25%;left:-8%;width:520px;height:420px;pointer-events:none;background:radial-gradient(ellipse,rgba(240,160,48,.06) 0%,transparent 65%)}
 .hleft{position:relative;z-index:2;padding:80px 0;display:flex;flex-direction:column}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--amber);text-transform:uppercase;border:1px solid rgba(240,160,48,.22);border-radius:3px;padding:5px 12px;margin-bottom:28px;width:fit-content}
@@ -61,8 +64,8 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 
 /* BUTTONS */
 .hactions{display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
-.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:#080b11;border:none;padding:15px 30px;border-radius:4px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;align-self:flex-start}
-.btn-p:hover{background:#f5b84a;transform:translateY(-2px);box-shadow:0 10px 30px rgba(240,160,48,.25)}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#fff;border:none;padding:12px 24px;border-radius:6px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;align-self:flex-start;min-height:36px}
+.btn-p:hover{background:rgba(31,111,235,0.9);transform:translateY(-2px);box-shadow:0 10px 30px rgba(31,111,235,.2)}
 .btn-s{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--tx2);border:1px solid var(--brd2);padding:13px 26px;border-radius:4px;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .2s;align-self:flex-start}
 .btn-s:hover{border-color:rgba(255,255,255,.28);color:var(--tx)}
 .hfine{font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.06em}
@@ -98,11 +101,11 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .ar:hover{background:rgba(255,255,255,.02)}
 .an{font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px}
 .adot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.don{background:var(--teal);box-shadow:0 0 4px var(--teal)}
+.don{background:var(--blue);box-shadow:0 0 4px rgba(31,111,235,.45)}
 .dwarn{background:var(--amber);animation:beat 1.4s infinite}
 .doff{background:var(--tx3)}
 .ap{display:inline-flex;align-items:center;font-family:var(--mono);font-size:7px;font-weight:700;padding:3px 6px;border-radius:2px;letter-spacing:.07em;text-transform:uppercase}
-.pon{background:rgba(31,212,160,.12);color:var(--teal)}
+.pon{background:var(--blue2);color:var(--blue)}
 .pwarn{background:rgba(240,160,48,.12);color:var(--amber)}
 .poff{background:rgba(130,140,170,.08);color:var(--tx3)}
 .atask{font-size:10px;color:var(--tx2)}
@@ -118,8 +121,8 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .lt{font-family:var(--mono);font-size:8px;color:var(--tx3);white-space:nowrap;min-width:44px;padding-top:1px}
 .ltag{font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 5px;border-radius:2px;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;margin-top:2px;display:inline-block}
 .tgh{background:rgba(240,160,48,.15);color:var(--amber)}
-.tge{background:rgba(232,80,80,.12);color:var(--red)}
-.tgr{background:rgba(31,212,160,.12);color:var(--teal)}
+.tge{background:var(--red2);color:var(--red)}
+.tgr{background:var(--teal2);color:var(--teal)}
 
 /* PROOF BAR */
 .pbar{border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);background:var(--bg3);padding:28px 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
@@ -155,7 +158,7 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .fnum{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:8px}
 .ftitle{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:9px}
 .fdesc{font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:14px}
-.ftag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;border:1px solid rgba(31,212,160,.2);padding:3px 8px;border-radius:3px}
+.ftag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;border:1px solid rgba(35,134,54,.25);padding:3px 8px;border-radius:3px}
 
 /* ROI */
 .roi-wrap{padding-top:84px;padding-bottom:84px}
@@ -194,7 +197,7 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .ttrack.on{background:rgba(240,160,48,.2);border-color:rgba(240,160,48,.4)}
 .tthumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--tx3);transition:all .2s}
 .ttrack.on .tthumb{transform:translateX(20px);background:var(--amber)}
-.stag{background:rgba(31,212,160,.12);color:var(--teal);border:1px solid rgba(31,212,160,.2);font-family:var(--mono);font-size:8px;font-weight:700;padding:4px 9px;border-radius:3px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+.stag{background:rgba(35,134,54,.15);color:var(--teal);border:1px solid rgba(35,134,54,.25);font-family:var(--mono);font-size:8px;font-weight:700;padding:4px 9px;border-radius:3px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .2s}
 .stag.show{opacity:1}
 .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--brd)}
 .qc{background:var(--bg2);padding:30px 24px;position:relative;transition:background .15s}
@@ -213,14 +216,14 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
 .qfeats li{font-size:12px;color:var(--tx2);display:flex;align-items:flex-start;gap:7px;line-height:1.4}
 .qck{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;border:1px solid}
 .qck.a{background:rgba(240,160,48,.12);border-color:rgba(240,160,48,.3)}
-.qck.t{background:rgba(31,212,160,.12);border-color:rgba(31,212,160,.25)}
+.qck.t{background:rgba(35,134,54,.15);border-color:rgba(35,134,54,.3)}
 .qck.n{background:var(--surf2);border-color:var(--brd)}
 .qfeats li.dim{color:var(--tx3)}
 .qbtn{width:100%;padding:11px;border-radius:4px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
 .qbtn.o{background:transparent;color:var(--tx2);border:1px solid var(--brd2)}
 .qbtn.o:hover{border-color:rgba(255,255,255,.28);color:var(--tx)}
-.qbtn.f{background:var(--amber);color:#080b11;border:none;font-weight:600}
-.qbtn.f:hover{background:#f5b84a}
+.qbtn.f{background:var(--blue);color:#fff;border:none;font-weight:600}
+.qbtn.f:hover{background:rgba(31,111,235,0.9)}
 
 /* ── WAITLIST / EMAIL CAPTURE SECTION ── */
 .wl-section{border-top:1px solid var(--brd);background:var(--bg2)}
@@ -247,11 +250,11 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
   transition:border-color .2s;
   min-width:0;
 }
-.embeddable-buttondown-form input[type="email"]:focus{border-color:rgba(240,160,48,.5)}
+.embeddable-buttondown-form input[type="email"]:focus{border-color:rgba(31,111,235,.55)}
 .embeddable-buttondown-form input[type="email"]::placeholder{color:var(--tx3)}
 .embeddable-buttondown-form input[type="submit"]{
-  background:var(--amber);
-  color:#080b11;
+  background:var(--blue);
+  color:#fff;
   border:none;
   padding:14px 28px;
   border-radius:0 4px 4px 0;
@@ -263,7 +266,7 @@ h1{font-family:var(--display);font-size:clamp(40px,4.2vw,66px);font-weight:800;l
   white-space:nowrap;
   flex-shrink:0;
 }
-.embeddable-buttondown-form input[type="submit"]:hover{background:#f5b84a;transform:translateY(-1px)}
+.embeddable-buttondown-form input[type="submit"]:hover{background:rgba(31,111,235,0.9);transform:translateY(-1px)}
 .embeddable-buttondown-form p{margin-top:12px;font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em}
 .embeddable-buttondown-form p a{color:var(--tx3);text-decoration:none}
 .embeddable-buttondown-form p a:hover{color:var(--tx2)}
@@ -283,9 +286,6 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 .fright{display:flex;align-items:center;flex-wrap:wrap;gap:0;justify-content:flex-end}
 .fright a{color:var(--tx3);text-decoration:none;transition:color .2s}
 .fright a:hover{color:var(--tx)}
-
-/* SCANLINES */
-.scanlines{pointer-events:none;position:fixed;inset:0;z-index:9999;opacity:.022;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px)}
 
 @media(max-width:1060px){.hero{grid-template-columns:1fr;padding:80px 24px 60px}.hright{display:none}.pgrid,.qgrid,.fgrid,.audgrid{grid-template-columns:1fr 1fr}.pbar{padding:24px 24px}}
 @media(max-width:680px){nav{padding:0 16px}.nav-links{display:none}.hero{padding:72px 16px 40px}.swrap{padding:48px 16px}.pgrid,.qgrid,.fgrid,.audgrid,.roi-grid,.roi-outputs{grid-template-columns:1fr}.pbar{flex-direction:column;padding:24px 16px;text-align:center}.pdiv{display:none}.ctasec{padding:48px 16px}footer{flex-direction:column;text-align:center;padding:24px 16px;margin-top:32px}.fright{justify-content:center}.wl-inner{padding:48px 16px}.bd-row{flex-direction:column}.embeddable-buttondown-form input[type="email"]{border-radius:4px}.embeddable-buttondown-form input[type="submit"]{border-radius:4px}}
@@ -307,7 +307,6 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 </style>
 </head>
 <body>
-<div class="scanlines"></div>
 <nav>
   <div class="nav-logo"><div class="logo-pulse"></div>COMMAND</div>
   <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="/pricing">Pricing</a></li><li><a href="#audience">Who it&rsquo;s for</a></li><li><a href="#waitlist">Start Now</a></li></ul>
@@ -351,9 +350,9 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <div class="hright">
     <div class="shell">
       <div class="dbar">
-        <div class="dd" style="background:#e85050"></div>
+        <div class="dd" style="background:#da3633"></div>
         <div class="dd" style="background:#f0a030"></div>
-        <div class="dd" style="background:#1fd4a0"></div>
+        <div class="dd" style="background:#238636"></div>
         <div class="dbar-t">COMMAND &mdash; Agent Operations Center</div>
         <div style="font-family:var(--mono);font-size:9px;color:var(--amber)" id="hclock">&mdash;</div>
       </div>
@@ -374,15 +373,15 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
             <div class="dclock" id="dclock">&mdash;</div>
           </div>
           <div class="srow">
-            <div class="sc"><div class="scl">Active</div><div class="scv" style="color:var(--teal)">2</div><div class="scm">of 4</div></div>
+            <div class="sc"><div class="scl">Active</div><div class="scv" style="color:var(--blue)">2</div><div class="scm">of 4</div></div>
             <div class="sc"><div class="scl">Queued</div><div class="scv" style="color:var(--amber)">3</div><div class="scm">tasks</div></div>
             <div class="sc"><div class="scl">Handoffs</div><div class="scv">7</div><div class="scm">today</div></div>
             <div class="sc"><div class="scl">Warnings</div><div class="scv" style="color:var(--amber)">1</div><div class="scm">Ops Agent</div></div>
           </div>
           <div class="at">
             <div class="ah"><div>Agent</div><div>Status</div><div>Task</div><div>Prog.</div></div>
-            <div class="ar"><div class="an"><div class="adot don"></div>Research Agent</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Gap audit</div><div class="pw"><div class="pb"><div class="pf" id="pf0" style="width:0%;background:var(--teal)"></div></div><div class="pp">78%</div></div></div>
-            <div class="ar"><div class="an"><div class="adot don"></div>Draft Writer</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Repo scaffold</div><div class="pw"><div class="pb"><div class="pf" id="pf1" style="width:0%;background:var(--teal)"></div></div><div class="pp">45%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>Research Agent</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Gap audit</div><div class="pw"><div class="pb"><div class="pf" id="pf0" style="width:0%;background:var(--blue)"></div></div><div class="pp">78%</div></div></div>
+            <div class="ar"><div class="an"><div class="adot don"></div>Draft Writer</div><div><span class="ap pon">&#9679; Active</span></div><div class="atask">Repo scaffold</div><div class="pw"><div class="pb"><div class="pf" id="pf1" style="width:0%;background:var(--blue)"></div></div><div class="pp">45%</div></div></div>
             <div class="ar"><div class="an"><div class="adot dwarn"></div>Ops Agent</div><div><span class="ap pwarn">&#9888; Stalled</span></div><div class="atask">ICP research</div><div class="pw"><div class="pb"><div class="pf" id="pf2" style="width:0%;background:var(--amber)"></div></div><div class="pp">33%</div></div></div>
             <div class="ar"><div class="an"><div class="adot doff"></div>GTM Agent</div><div><span class="ap poff">&mdash; Idle</span></div><div class="atask" style="color:var(--tx3)">Awaiting task</div><div class="pw"><div class="pb"><div class="pf" style="width:0%"></div></div><div class="pp">&mdash;</div></div></div>
           </div>
@@ -498,10 +497,10 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
     <button type="button" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')" style="background:#F0A030;color:#080B11;border:none;border-radius:6px;padding:10px 20px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">Claim your slot &rarr;</button>
   </div>
   <div class="qgrid">
-    <div class="qc"><div class="qtier">Solo</div><div class="qdescriptor">Lightweight monitoring for a solo operator with a small agent stack.</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button type="button" class="qbtn o" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
+    <div class="qc"><div class="qtier">Solo</div><div class="qdescriptor">Lightweight monitoring for a solo operator with a small agent stack.</div><div class="qamt"><sup>$</sup><span id="qp0">49</span></div><div class="qper">/ month</div><div class="qann" id="qa0">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>1 operator seat</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 3 agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Agent Status Dashboard</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Basic task routing</li><li class="dim"><span class="qck n"></span>Context Bridge</li><li class="dim"><span class="qck n"></span>Approval queue</li></ul><button type="button" class="qbtn o" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
     <div class="qc feat"><div class="qbest">Most Popular</div><div class="qtier">Pro</div><div class="qdescriptor">Where most boutique operators land: full Phase 1 &mdash; status, routing, and context handoffs.</div><div class="qamt"><sup>$</sup><span id="qp1">149</span></div><div class="qper">/ month</div><div class="qann" id="qa1">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>3 operator seats</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Up to 10 agents</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Full Agent Status Dashboard</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Advanced Task Router</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Context Handoff Bridge</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Approval queue layer</li><li><span class="qck a"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#f0a030" stroke-width="1.1" stroke-linecap="round"/></svg></span>Priority support</li></ul><button type="button" class="qbtn f" data-testid="cta-trial-pricing" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
-    <div class="qc"><div class="qtier">Studio</div><div class="qdescriptor">Small teams and multi-client workflows with room to grow.</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button type="button" class="qbtn o" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
-    <div class="qc"><div class="qtier">Agency</div><div class="qdescriptor">White-label, SLA, and dedicated support for larger operator-led shops.</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#1fd4a0" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
+    <div class="qc"><div class="qtier">Studio</div><div class="qdescriptor">Small teams and multi-client workflows with room to grow.</div><div class="qamt"><sup>$</sup><span id="qp2">349</span></div><div class="qper">/ month</div><div class="qann" id="qa2">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>10 operator seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Pro features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Custom workflows</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Multi-client workspaces</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Dedicated onboarding</li></ul><button type="button" class="qbtn o" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start free trial</button></div>
+    <div class="qc"><div class="qtier">Agency</div><div class="qdescriptor">White-label, SLA, and dedicated support for larger operator-led shops.</div><div class="qamt"><sup>$</sup><span id="qp3">799</span></div><div class="qper">/ month</div><div class="qann" id="qa3">&nbsp;</div><div class="qdiv"></div><ul class="qfeats"><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited seats</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>Unlimited agents</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>All Studio features</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>White-label option</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>LATAM localization</li><li><span class="qck t"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 3.5l1.8 1.8 3-3" stroke="#238636" stroke-width="1.1" stroke-linecap="round"/></svg></span>SLA + dedicated manager</li></ul><button class="qbtn o">Contact us</button></div>
   </div>
 </div></div>
 
@@ -583,7 +582,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 
 <footer>
   <div class="flogo"><div style="width:6px;height:6px;border-radius:50%;background:var(--amber);opacity:.5"></div>COMMAND &mdash; AGENT OPERATIONS CENTER</div>
-  <div class="fmid">GLOBALINK (GL) &nbsp;&middot;&nbsp; FLORIDA LLC &nbsp;&middot;&nbsp; MIAMI, FL</div>
+  <div class="fmid">GLOBALLINK (GL) &nbsp;&middot;&nbsp; FLORIDA LLC &nbsp;&middot;&nbsp; MIAMI, FL</div>
   <div class="fright"><a href="https://app.command.globalinkservices.io/privacy" data-testid="privacy-link" target="_blank" rel="noopener noreferrer">Privacy Policy</a><span aria-hidden="true">&nbsp;&middot;&nbsp;</span><a href="https://app.command.globalinkservices.io/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a><span aria-hidden="true">&nbsp;&middot;&nbsp;</span><a href="mailto:support@globalinkservices.io">support@globalinkservices.io</a></div>
 </footer>
 

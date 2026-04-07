@@ -17,6 +17,17 @@ This repo is static HTML, CSS, JS files only. No build step. No npm. No TypeScri
 
 ---
 
+## SESSION STARTUP CHECKLIST
+
+1. Confirm repo: **command-gl** (PUBLIC — no secrets, ever)
+2. Read this file fully before touching any file
+3. State the target file path explicitly in every prompt
+4. No build step — edit HTML/CSS/JS directly, commit, push
+5. Version working files: `filename_v[N]_[YYMMDD].html` — deploy always overwrites production filename
+6. After push: Vercel auto-deploys in ~60 seconds — confirm live URL
+
+---
+
 ## WHAT LIVES HERE
 
 | Path | What it is |

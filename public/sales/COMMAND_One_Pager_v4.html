@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>COMMAND — Agent Operations Center</title>
+  <title>COMMAND — Agent Operations Center | GlobaLink</title>
+  <meta name="description" content="COMMAND one-pager — GlobaLink LLC" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -14,12 +15,14 @@
 
   <style>
     :root {
+      --cmd-bg-deep: #080b11;
       --bg: #0d1117;
       --surface: #161b22;
-      --line: #1c2333;
+      --line: #21262d;
       --blue: #1f6feb;
       --green: #238636;
-      --amber: #d29922;
+      --amber: #f0a030;
+      --amber-warn: #d29922;
       --red: #da3633;
       --violet: #a78bfa;
       --tx1: #e6edf3;
@@ -93,7 +96,7 @@
     }
     .terminal-panel, .problem-copy { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
     .terminal-panel { padding: 18px; position: relative; overflow: hidden; }
-    .terminal-screen { background: #0a0f16; border: 1px solid #222b36; border-radius: 10px; height: 100%; padding: 18px; }
+    .terminal-screen { background: #0a0f16; border: 1px solid #21262d; border-radius: 10px; height: 100%; padding: 18px; }
     .term-line { margin: 0 0 12px; font-size: 14px; opacity: 0; transform: translateY(8px); }
     .term-amber { color: var(--amber); }
     .term-red { color: var(--red); }
@@ -103,7 +106,7 @@
       position: absolute;
       inset: 18px;
       background: #0f141b;
-      border: 1px solid #26303d;
+      border: 1px solid #21262d;
       border-radius: 10px;
       padding: 14px;
       opacity: 0;
