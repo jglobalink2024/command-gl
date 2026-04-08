@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -785,288 +785,513 @@ JCMD</div>
 <!-- ═══════════════════════════════════════════ INTEL TAB -->
 <div id="tab-intel" class="tab">
 
-  <!-- INTEL SUB-TAB NAV -->
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
-    <button onclick="showIntel('buyer',this)" class="intel-sub active" id="isub-buyer">🧠 Buyer Psychology</button>
-    <button onclick="showIntel('pain',this)" class="intel-sub" id="isub-pain">💬 Pain Language</button>
-    <button onclick="showIntel('icp',this)" class="intel-sub" id="isub-icp">🎯 ICP + Niche</button>
-    <button onclick="showIntel('market',this)" class="intel-sub" id="isub-market">📊 Market & Moat</button>
-    <button onclick="showIntel('investor',this)" class="intel-sub" id="isub-investor">💼 Investor FAQ</button>
-    <button onclick="showIntel('tech',this)" class="intel-sub" id="isub-tech">⚙️ Tech + Military</button>
+<!-- INTEL TAB: CALL BRIEF FOLIO ENGINE — 260408 -->
+<div class="intel-folio-wrap">
+
+  <div class="intel-header">
+    <div class="intel-title">Call Brief</div>
+    <div class="intel-sub">Paste a LinkedIn URL. Get a full prospect folio.</div>
   </div>
 
-  <!-- SUB-TAB: BUYER PSYCHOLOGY -->
-  <div id="intel-buyer" class="intel-panel">
-    <p class="intel-section-title">Why they stall — it's never the price</p>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🔑 Primary driver of ghosting</div>
-      <div class="intel-card-body"><strong>Loss aversion.</strong> Boutique founders fear the ego cost of a failed adoption more than they value the gain. Every ghost is identity protection, not budget protection. They've already paid for 2–4 tools — admitting those don't work means admitting those choices were wrong.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">📊 Behavioral science finding</div>
-      <div class="intel-card-body"><strong>2.3x more likely to act</strong> when their current situation is reframed as risky vs. when future benefits are emphasized. Lead with cost of inaction, not product features. "Here's what you're losing every day" beats "imagine what's possible."</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🪪 Identity exposure</div>
-      <div class="intel-card-body">Owner = firm. Every tool decision is personal. These operators sell their own judgment to clients — admitting their stack is broken contradicts their professional self-image. Make adoption the sophisticated move, not the risky one.<br><br><strong>Use:</strong> "You already know your tools aren't working together. That's not a character flaw — it's a structural problem nobody's solved."</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⏱️ Time is the ROI currency</div>
-      <div class="intel-card-body">Willingness to pay is tied to <strong>hours recovered</strong>, not feature count. Platforms with 40+ features consistently lose to those with 15 clearly presented ones. Cognitive overload = soft no. Keep onboarding under 20 minutes or loss aversion activates.</div>
-    </div>
-
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">💡 Inaction cost frame (use post-call, not during)</div>
-      <div class="intel-card-body">Operators running 3 AI tools spend 5–15 hours/week as the manual relay. At $200/hr billing rate: <strong>$1,000–$3,000/month in invisible overhead.</strong> COMMAND pilot: $99/month. ROI payback: first week.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🗣️ Always say "pilot" not "trial"</div>
-      <div class="intel-card-body">These operators use "pilot" with their own clients. It signals peer-level sophistication, lowers identity exposure, and frames the test as professional — not consumer software. This is a hard language rule across all copy.</div>
-    </div>
+  <div class="folio-input-row">
+    <input
+      type="text"
+      id="folioUrl"
+      class="folio-url-input"
+      placeholder="linkedin.com/in/grantcarlsonfrazier or full URL"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="folio-gen-btn" id="folioGenBtn" onclick="generateProspectFolio()">
+      Generate ↗
+    </button>
   </div>
 
-  <!-- SUB-TAB: PAIN LANGUAGE -->
-  <div id="intel-pain" class="intel-panel" style="display:none">
-    <p class="intel-section-title">What they actually say — community-sourced, organic, not assumed</p>
-
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">⚡ Highest signal phrases — GREEN on discovery calls</div>
-      <div class="intel-card-body">
-        <div class="intel-quote">"I got tired of being the human middleware between my AI agent"</div>
-        <div class="intel-quote">"Every new session feels like starting over — I have to re-explain everything"</div>
-        <div class="intel-quote">"Nothing talks to each other and I spend more time managing tools than working"</div>
-        <div class="intel-quote">"The AI doesn't know my client"</div>
-        <div class="intel-quote">"I deleted half my tool stack — best decision I made"</div>
-        <div class="intel-quote">"I swear to god if I have to manually update this one more time"</div>
-        <div class="intel-quote">"Copying and pasting between tabs"</div>
-        <div class="intel-quote">"Juggling multiple tools"</div>
-      </div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚠️ Resistance signals — handle with care</div>
-      <div class="intel-card-body">
-        <div class="intel-quote intel-quote-warn">"Another tool to adopt" — stack fatigue. Don't push. Reframe: COMMAND coordinates what they already have.</div>
-        <div class="intel-quote intel-quote-warn">"I've been burned before" — loss aversion. Say: "That's exactly why this is a limited pilot, not an open launch."</div>
-        <div class="intel-quote intel-quote-warn">"I don't have time to set it up" — cognitive overload fear. Say: "20 minutes to connect your first agent. Most operators recover that in the first week."</div>
-      </div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">📢 LinkedIn vs Reddit — the public/private gap</div>
-      <div class="intel-card-body"><strong>LinkedIn:</strong> They perform AI competence. Posts about efficiency wins, AI as competitive advantage.<br><br><strong>Reddit/Slack/Discord:</strong> They confess exhaustion, tool abandonment, sunk money, relay frustration.<br><br><strong>Write copy for the Reddit voice, not the LinkedIn performance.</strong> "You're still the one copy-pasting between them" will outperform "Streamline your AI operations" every time.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🗑️ Deletion signal — maximum receptivity</div>
-      <div class="intel-card-body">When someone says "I deleted half my tools" — they are at peak pain and have already proven they'll take action. The pain exceeded the fear of losing capability. Find these operators actively on LinkedIn and Reddit. They are the most conversion-ready cohort in the market right now.<br><br>Use Template D post-call followup for these prospects.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🏷️ COMMAND-owned vocabulary — use freely, no attribution</div>
-      <div class="intel-card-body">
-        <strong>Human middleware</strong> — operator as connective tissue between broken tools. Found independently across dozens of communities.<br>
-        <strong>Persistent context</strong> — what COMMAND provides. "Your AI always knows where you left off."<br>
-        <strong>Agent Debt</strong> — unhandled context and missed handoffs that accumulate.<br>
-        <strong>Shift Change Brief</strong> — formal handoff protocol name.<br>
-        <strong>BYOA</strong> — Bring Your Own Agents.
-      </div>
-    </div>
+  <div id="folioPill" class="folio-pill" style="display:none;">
+    <span class="folio-dot" id="folioDot"></span>
+    <span id="folioPillText">Ready</span>
   </div>
 
-  <!-- SUB-TAB: ICP + NICHE -->
-  <div id="intel-icp" class="intel-panel" style="display:none">
-    <p class="intel-section-title">Who to target, in what order, and why</p>
+  <div id="folioOutput" class="folio-output"></div>
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">🥇 #1 — Sales / RevOps consulting (START HERE)</div>
-      <div class="intel-card-body">Highest AI tool density. Most vocal community. Fastest credit card decision. Already paying $300+/mo for fragmented tools (Gong, Clay, Apollo, Claude, GPT-4).<br><br><strong>Pain language:</strong> "Manual reporting. Copy-paste workflows. Human middleware between tools." Sales reps spend only 28% of time actually selling — the rest is tool management.<br><br><strong>Find them:</strong> LinkedIn Sales Navigator → "revenue operations consultant" + "1–10 employees" · Slack: RevGenius, Pavilion · Reddit: r/sales, r/salesengineering</div>
-    </div>
+</div>
 
-    <div class="intel-card">
-      <div class="intel-card-label">🥈 #2 — Operations consulting</div>
-      <div class="intel-card-body">Systems thinkers — "human middleware" violates their professional identity. They calculate hours-to-payback without prompting. <strong>Fastest ROI articulation</strong> of any vertical.<br><br><strong>Pain language:</strong> "My AI stack has no SOP." "I can't see what's running or what dropped."<br><br><strong>Find them:</strong> LinkedIn → "operations consultant" + "boutique" · Reddit: r/operations, r/AI_Agents</div>
-    </div>
+<style>
+/* ── INTEL FOLIO ENGINE STYLES ── */
+.intel-folio-wrap {
+  padding: 20px 0 40px;
+  max-width: 780px;
+}
+.intel-header {
+  margin-bottom: 18px;
+}
+.intel-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #F0A030;
+  margin-bottom: 4px;
+}
+.intel-sub {
+  font-size: 13px;
+  color: #9DA8B5;
+}
+.folio-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.folio-url-input {
+  flex: 1;
+  min-width: 240px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: 'Space Mono', monospace;
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  color: #E6EDF3;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.folio-url-input:focus {
+  border-color: rgba(240,160,48,0.5);
+}
+.folio-gen-btn {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: 'Space Mono', monospace;
+  background: #0D1117;
+  border: 0.5px solid rgba(240,160,48,0.4);
+  border-radius: 6px;
+  color: #F0A030;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.folio-gen-btn:hover { background: rgba(240,160,48,0.08); border-color: #F0A030; }
+.folio-gen-btn:disabled { opacity: 0.35; cursor: default; }
 
-    <div class="intel-card">
-      <div class="intel-card-label">🥉 #3 — Executive coaching</div>
-      <div class="intel-card-body">High LTV but longer trust cycle. Pain is relational — "the AI doesn't know my client." LinkedIn-native community.<br><br><strong>Pain language:</strong> "AI flops without full context." "Context gaps — it didn't understand incentives, org history, or culture."<br><br><strong>Find them:</strong> LinkedIn (dominant) · ICF forums · Professional Slack groups for coaches</div>
-    </div>
+.folio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  color: #9DA8B5;
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
+}
+.folio-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: inline-block;
+}
+.folio-dot.pulse { background: #378ADD; animation: folioPulse 1.1s infinite; }
+.folio-dot.done  { background: #22C55E; animation: none; }
+.folio-dot.error { background: #E24B4A; animation: none; }
+@keyframes folioPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    <div class="intel-card">
-      <div class="intel-card-label">4️⃣ Marketing consulting — secondary expansion only</div>
-      <div class="intel-card-body">High tool proliferation but low pain signal clarity. High churn risk. Better as expansion target after beachhead is proven — not primary ICP.</div>
-    </div>
+/* ── FOLIO PANELS ── */
+.folio-output { display: none; }
+.folio-output.visible { display: block; }
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">⭐ Double-Pain Operator — highest conversion target</div>
-      <div class="intel-card-body">Running own consulting practice <strong>AND</strong> advising clients on AI adoption simultaneously. Personal stack is broken while selling AI strategy to others. Cognitive dissonance is acute and personal.<br><br><strong>Signals:</strong> LinkedIn shows consulting practice + AI advisory content · Posts about AI efficiency while their own stack is fragmented · Billing clients for AI strategy while copy-pasting between their own tools.<br><br><strong>Action:</strong> Invite to pilot immediately. Do not nurture — close same day.</div>
-    </div>
+.fp-person {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+.fp-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(55,138,221,0.15);
+  border: 0.5px solid rgba(55,138,221,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 600;
+  color: #378ADD;
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+}
+.fp-name { font-size: 17px; font-weight: 500; color: #E6EDF3; margin-bottom: 2px; }
+.fp-role { font-size: 12px; color: #9DA8B5; margin-bottom: 8px; }
+.fp-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.ftag {
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  color: #9DA8B5;
+  background: rgba(255,255,255,0.04);
+}
+.ftag-amber { border-color: rgba(240,160,48,0.4); color: #F0A030; background: rgba(240,160,48,0.08); }
+.ftag-blue  { border-color: rgba(55,138,221,0.4); color: #378ADD; background: rgba(55,138,221,0.08); }
+.ftag-green { border-color: rgba(34,197,94,0.4);  color: #22C55E; background: rgba(34,197,94,0.08); }
 
-    <div class="intel-card">
-      <div class="intel-card-label">📋 ICP Score quick-ref</div>
-      <div class="intel-card-body">
-        <strong>85–110 pts → T1 HOT:</strong> Pilot invite within 24h. FM offer immediately.<br>
-        <strong>60–84 pts → T2 WARM:</strong> Send one-pager. Follow up in 48h. Nurture 30 days.<br>
-        <strong>30–59 pts → T3 COOL:</strong> Template C. Check in Q3 2026.<br>
-        <strong>0–29 pts → NOT ICP:</strong> Close. Note referral potential.<br><br>
-        Full rubric: ICP Scoring Rubric v3
-      </div>
-    </div>
-  </div>
+.fp-oneliner {
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #9DA8B5;
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+.fp-oneliner strong { color: #E6EDF3; font-weight: 500; }
 
-  <!-- SUB-TAB: MARKET & MOAT -->
-  <div id="intel-market" class="intel-panel" style="display:none">
-    <p class="intel-section-title">Numbers to know cold — say these without hesitation</p>
+.fp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+@media (max-width: 560px) { .fp-grid { grid-template-columns: 1fr; } }
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">📊 Market numbers</div>
-      <div class="intel-card-body">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">TAM — AI agent mgmt</div><div style="font-size:18px;font-weight:600;">$14.6B</div></div>
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Beachhead TAM</div><div style="font-size:18px;font-weight:600;">$230M</div></div>
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Expanded TAM</div><div style="font-size:18px;font-weight:600;">$2.1B</div></div>
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Market CAGR</div><div style="font-size:18px;font-weight:600;">43.7%</div></div>
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Funded competitors (boutique UI layer)</div><div style="font-size:18px;font-weight:600;color:#F0A030;">0</div></div>
-          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Brazil consulting market</div><div style="font-size:18px;font-weight:600;">$18.4B</div></div>
+.fp-panel {
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 13px 14px;
+}
+.fp-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240,160,48,0.6);
+  margin-bottom: 7px;
+}
+.fp-body {
+  font-size: 12.5px;
+  color: #9DA8B5;
+  line-height: 1.65;
+}
+.fp-body strong { color: #E6EDF3; font-weight: 500; }
+
+.fp-full {
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+}
+
+.fp-row {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  font-size: 12.5px;
+  align-items: flex-start;
+}
+.fp-row:last-child { border-bottom: none; }
+.fp-row-icon { color: #9DA8B5; flex-shrink: 0; width: 14px; margin-top: 1px; font-size: 12px; }
+.fp-row-text { color: #9DA8B5; line-height: 1.55; }
+.fp-row-text strong { color: #E6EDF3; font-weight: 500; }
+
+.fp-q-item {
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.fp-q-item:last-child { border-bottom: none; }
+.fp-q-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: rgba(240,160,48,0.5);
+  margin-bottom: 3px;
+  letter-spacing: 0.06em;
+}
+.fp-q-text { font-size: 12.5px; color: #E6EDF3; line-height: 1.5; margin-bottom: 2px; }
+.fp-q-why { font-size: 11px; color: #9DA8B5; font-style: italic; }
+
+.fp-opener {
+  background: rgba(55,138,221,0.05);
+  border-left: 2px solid #378ADD;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #E6EDF3;
+  line-height: 1.75;
+  margin-top: 6px;
+  white-space: pre-wrap;
+}
+
+.fp-signal-green { color: #22C55E; font-weight: 500; }
+.fp-signal-yellow { color: #F0A030; font-weight: 500; }
+.fp-signal-red { color: #E24B4A; font-weight: 500; }
+
+.fp-risk-badge {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  letter-spacing: 0.05em;
+}
+.fp-risk-high   { background: rgba(226,75,74,0.12);   color: #E24B4A; border: 0.5px solid rgba(226,75,74,0.3); }
+.fp-risk-medium { background: rgba(240,160,48,0.1);   color: #F0A030; border: 0.5px solid rgba(240,160,48,0.3); }
+.fp-risk-low    { background: rgba(34,197,94,0.08);   color: #22C55E; border: 0.5px solid rgba(34,197,94,0.25); }
+
+.fp-next {
+  background: #0D1117;
+  border: 0.5px solid rgba(240,160,48,0.3);
+  border-radius: 8px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+}
+.fp-next-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #E6EDF3;
+}
+
+.fp-error {
+  background: #0D1117;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 13px;
+  color: #9DA8B5;
+  line-height: 1.65;
+}
+</style>
+
+<script>
+(function() {
+  const FOLIO_SYSTEM = `You are the strategic intel agent for COMMAND — an Agent Operations Center built by GlobaLink LLC for boutique consulting and coaching firms (1-15 people, owner-led).
+
+Your job: given a LinkedIn URL or LinkedIn handle, produce a full prospect folio for a discovery call. The operator (Jason Davis, LTC U.S. Army ret., INTJ) is a solo founder doing research-mode discovery calls. No pitching. Pain extraction only. Goal: extract ONE confirmed pain story.
+
+COMMAND solves: multi-agent coordination for operators running Claude, Cursor, Perplexity, and other AI tools simultaneously. They become manual copy-paste relays. COMMAND eliminates that with three features: (1) Agent Status Dashboard, (2) Task Router, (3) Handoff & Context Bridge.
+
+POSITIONING: "The cockpit, not the engines." BYOA — Bring Your Own Agents. Model-agnostic.
+TAGLINE: "Stop being the middleware. Start being the boss."
+PILOT price: $99/mo FM (Founding Member) locked for life vs $149/mo standard.
+
+ICP priority: #1 Sales/RevOps consulting, #2 Operations consulting, #3 Executive coaching.
+Double-pain operator = highest priority: running own practice AND advising clients on AI. Invite to pilot immediately.
+Deletion signal = maximum receptivity: reduced their tool stack from overwhelm. "I deleted half my tools" = ready to buy.
+
+Pain language that resonates (verbatim community vocabulary):
+- "copying and pasting between tabs"
+- "re-briefing from scratch every session"
+- "no way to see what's running or what dropped"
+- "my AI stack has no SOP"
+- "I'm the one carrying context between tools"
+
+Buyer psychology notes:
+- 2.3x more likely to act when framed as "at risk" vs "future benefit" — always lead with loss
+- "Pilot" triggers professional identity — they use this word with their own clients
+- Complexity = cognitive kill switch — keep everything under 20 minutes
+- Status quo bias: COMMAND coordinates what they already have, doesn't replace it
+
+Jason's voice rules for opener scripts:
+- Opener: "Name —" (dash after name)
+- Short blocks, plain language, no jargon
+- Peer frame always — "I noticed" not "I can fix"
+- Research mode framing — "no pitch, no demo"
+- "Great to meet you electronically" if cold
+- Sign-off: JCMD
+
+OUTPUT: Return a single valid JSON object. No markdown fences. No preamble. Only JSON.
+
+{
+  "name": "Full name",
+  "initials": "XX",
+  "title": "Current role / company",
+  "company": "Company name",
+  "location": "City, State or Country",
+  "icp_tier": "P1 or T1 or T2 or T3",
+  "icp_label": "Sales/RevOps or Operations or Coaching or Other",
+  "double_pain": true or false,
+  "deletion_signal": true or false,
+  "tags": ["tag1","tag2","tag3"],
+  "one_line": "One sentence: who they are and why they matter to COMMAND right now",
+  "background": "2-3 sentences on their professional history and current focus. What they built. Where they came from.",
+  "ai_signal": "2-3 sentences on their AI posture — tools mentioned, automation signals, AI interest from profile or posts. Be specific.",
+  "pain_hypothesis": "2-3 sentences on the specific multi-agent coordination pain they likely have. Tie to their sub-vertical and role.",
+  "company_intel": "2-3 sentences on their firm — size, what they do, any signals. If solo, say so.",
+  "rapport_hooks": [
+    {"label": "short label", "detail": "one specific sentence for building rapport or connection"},
+    {"label": "short label", "detail": "one specific sentence"},
+    {"label": "short label", "detail": "one specific sentence"}
+  ],
+  "discovery_questions": [
+    {"q": "Full question text — specific to this person", "why": "Why this question unlocks pain for this specific person"},
+    {"q": "Full question text", "why": "Why"},
+    {"q": "Full question text", "why": "Why"},
+    {"q": "Full question text", "why": "Why"},
+    {"q": "Full question text", "why": "Why"}
+  ],
+  "opener_script": "3-4 sentences. Research frame not sales frame. Peer-level. Acknowledge any shared background briefly. Use first name. JCMD voice.",
+  "listen_for": [
+    {"signal": "GREEN", "phrase": "phrase or signal = advance", "action": "what Jason does next"},
+    {"signal": "YELLOW", "phrase": "phrase = probe deeper", "action": "what Jason does next"},
+    {"signal": "RED", "phrase": "phrase = park this contact", "action": "what Jason does next"}
+  ],
+  "risk_flags": [
+    {"level": "low or medium or high", "flag": "specific risk", "mitigation": "how to handle it"}
+  ],
+  "recommended_next": "One clear action after the call — FM pilot invite, Dock room, follow-up sequence, park 60 days, etc."
+}
+
+If profile cannot be confirmed, fill what you can with placeholders. Use 'unknown' for unconfirmed specifics. Never hallucinate specific facts. Tailor every field — generic answers are useless.`;
+
+  window.generateProspectFolio = async function() {
+    const url = document.getElementById('folioUrl').value.trim();
+    if (!url) { alert('Paste a LinkedIn URL or handle first.'); return; }
+
+    const btn = document.getElementById('folioGenBtn');
+    const pill = document.getElementById('folioPill');
+    const dot = document.getElementById('folioDot');
+    const pillTxt = document.getElementById('folioPillText');
+    const out = document.getElementById('folioOutput');
+
+    btn.disabled = true;
+    pill.style.display = 'inline-flex';
+    dot.className = 'folio-dot pulse';
+    pillTxt.textContent = 'Pulling intel...';
+    out.className = 'folio-output visible';
+    out.innerHTML = '<div class="fp-error">Researching profile. 20\u201340 seconds...</div>';
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          system: FOLIO_SYSTEM,
+          messages: [{
+            role: 'user',
+            content: `Generate a full prospect folio for this LinkedIn profile: ${url}\n\nSearch LinkedIn and the web for this person. Find their current role, company, recent posts, AI tool signals, and anything relevant to multi-agent coordination pain. Then produce the JSON folio exactly as specified.`
+          }]
+        })
+      });
+
+      const data = await resp.json();
+      let raw = '';
+      for (const block of (data.content || [])) {
+        if (block.type === 'text') raw += block.text;
+      }
+
+      raw = raw.replace(/```json|```/g, '').trim();
+      const i1 = raw.indexOf('{'), i2 = raw.lastIndexOf('}');
+      if (i1 === -1 || i2 === -1) throw new Error('No JSON in response');
+      const p = JSON.parse(raw.slice(i1, i2 + 1));
+
+      dot.className = 'folio-dot done';
+      pillTxt.textContent = 'Folio ready \u2014 ' + (p.icp_tier || '\u2014');
+      renderFolio(p, out);
+
+    } catch(err) {
+      dot.className = 'folio-dot error';
+      pillTxt.textContent = 'Error';
+      out.innerHTML = `<div class="fp-error"><strong>Folio failed.</strong><br><br>${err.message}<br><br>Check the URL or try a LinkedIn handle (e.g. grantcarlsonfrazier).</div>`;
+    }
+    btn.disabled = false;
+  };
+
+  function renderFolio(p, el) {
+    const tierClass = p.icp_tier === 'P1' ? 'ftag-amber' : p.icp_tier === 'T1' ? 'ftag-green' : '';
+    const tags = (p.tags || []).map(t => `<span class="ftag">${t}</span>`).join('');
+
+    const signalColor = s => s === 'GREEN' ? 'fp-signal-green' : s === 'YELLOW' ? 'fp-signal-yellow' : 'fp-signal-red';
+
+    el.innerHTML = `
+      <div class="fp-person">
+        <div class="fp-avatar">${p.initials || '??'}</div>
+        <div>
+          <div class="fp-name">${p.name || 'Unknown'}</div>
+          <div class="fp-role">${p.title || ''} ${p.location ? '\u00b7 ' + p.location : ''}</div>
+          <div class="fp-tags">
+            <span class="ftag ${tierClass}">${p.icp_tier || '\u2014'}</span>
+            <span class="ftag ftag-blue">${p.icp_label || '\u2014'}</span>
+            ${p.double_pain ? '<span class="ftag ftag-amber">Double-pain</span>' : ''}
+            ${p.deletion_signal ? '<span class="ftag ftag-amber">Deletion signal</span>' : ''}
+            ${tags}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="intel-card">
-      <div class="intel-card-label">🗺️ Competitive map — where COMMAND sits</div>
-      <div class="intel-card-body">
-        <strong>Enterprise layer (above us — over-serve):</strong> Salesforce Agentforce, Microsoft Agent 365, Kore.ai. Require IT, procurement, 6-month cycles. Not competition — they define the ceiling.<br><br>
-        <strong>Developer layer (below us — under-serve):</strong> AutoGen, CrewAI, LangGraph, n8n. Require engineering depth boutique operators don't have. Not competition — they define the floor.<br><br>
-        <strong>Closest adjacent:</strong> Epicenter (YC-backed) — individual-focused, local-first, open-source. Different buyer entirely. No ICP overlap, no pricing overlap, no distribution overlap.<br><br>
-        <strong>COMMAND's lane:</strong> The boutique operator UI layer. Unaddressed. Zero funded competitors. We own it by default.
+      <div class="fp-oneliner">${p.one_line || '\u2014'}</div>
+
+      <div class="fp-grid">
+        <div class="fp-panel"><div class="fp-label">Background</div><div class="fp-body">${p.background || '\u2014'}</div></div>
+        <div class="fp-panel"><div class="fp-label">AI signal</div><div class="fp-body">${p.ai_signal || '\u2014'}</div></div>
       </div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🏰 Three-pillar moat</div>
-      <div class="intel-card-body">
-        <strong>1. Structural monopoly:</strong> No single AI vendor can solve cross-vendor coordination by definition. Anthropic can coordinate Anthropic agents — that's a feature, not a platform. This is an architectural truth, not a positioning claim.<br><br>
-        <strong>2. Operator identity accumulation:</strong> Every month a firm uses COMMAND, their workspace accumulates agent configs, workflow history, and context data. Switching costs compound. Invisible at month 1 — obvious at month 6.<br><br>
-        <strong>3. MCP host position:</strong> Unclaimed at the boutique operator layer. COMMAND claims it. Once operators register agents through COMMAND as their MCP host, Anthropic's native features become additive, not competitive. The relationship inverts.
+      <div class="fp-grid" style="margin-bottom:10px;">
+        <div class="fp-panel"><div class="fp-label">Pain hypothesis</div><div class="fp-body">${p.pain_hypothesis || '\u2014'}</div></div>
+        <div class="fp-panel"><div class="fp-label">Company intel</div><div class="fp-body">${p.company_intel || '\u2014'}</div></div>
       </div>
-    </div>
 
-    <div class="intel-card">
-      <div class="intel-card-label">🌎 LATAM first-mover</div>
-      <div class="intel-card-body">Jason arrives in São Paulo June 1, 2026. $18.4B consulting market. Sub-8% AI adoption at boutique layer. Zero US boutique-layer competitors present. Trust in Brazilian business culture is built in person — no remote-first competitor can replicate this for years.<br><br>12,000–18,000 boutique firms in São Paulo metro. Conservative 2-year LATAM ARR target: <strong>$900K by end of 2028.</strong></div>
-    </div>
+      <div class="fp-full">
+        <div class="fp-label">Rapport hooks</div>
+        ${(p.rapport_hooks || []).map(h => `
+          <div class="fp-row">
+            <div class="fp-row-icon">\u2192</div>
+            <div class="fp-row-text"><strong>${h.label}</strong> \u2014 ${h.detail}</div>
+          </div>`).join('')}
+      </div>
 
-    <div class="intel-card">
-      <div class="intel-card-label">⏰ Why now — say this cold</div>
-      <div class="intel-card-body">MCP (Model Context Protocol) and A2A (Agent-to-Agent) protocols standardized 2025–2026 — the integration layer COMMAND sits above. Boutique firms began operationalizing agents in 2025. The coordination problem didn't exist at scale before that. COMMAND is <strong>18–24 months ahead</strong> of when this problem becomes undeniable. That is the category-defining window.</div>
-    </div>
-  </div>
+      <div class="fp-full">
+        <div class="fp-label">Call opener</div>
+        <div class="fp-opener">${p.opener_script || '\u2014'}</div>
+      </div>
 
-  <!-- SUB-TAB: INVESTOR FAQ -->
-  <div id="intel-investor" class="intel-panel" style="display:none">
-    <p class="intel-section-title">The hardest questions — answers ready to go</p>
+      <div class="fp-full">
+        <div class="fp-label">Discovery questions</div>
+        ${(p.discovery_questions || []).map((q, i) => `
+          <div class="fp-q-item">
+            <div class="fp-q-num">Q${i + 1}</div>
+            <div class="fp-q-text">"${q.q}"</div>
+            <div class="fp-q-why">${q.why}</div>
+          </div>`).join('')}
+      </div>
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">🔴 Hardest: "Won't Anthropic or OpenAI just build this?"</div>
-      <div class="intel-card-body">They literally can't solve the cross-vendor problem — a single vendor coordinating its own agents is a product feature, not a coordination layer. COMMAND sits above all of them. When Anthropic ships Coordinator Mode (May 2026), Claude becomes a registered COMMAND instrument — not a competitor. The relationship inverts. Cross-vendor coordination structurally cannot be solved by any single vendor. That's not mitigation — it's an architectural truth.</div>
-    </div>
+      <div class="fp-full">
+        <div class="fp-label">Listen for</div>
+        ${(p.listen_for || []).map(l => `
+          <div class="fp-row">
+            <div class="fp-row-icon ${signalColor(l.signal)}">&#9679;</div>
+            <div class="fp-row-text"><span class="${signalColor(l.signal)}">${l.signal}</span> \u2014 "${l.phrase}" \u2192 ${l.action}</div>
+          </div>`).join('')}
+      </div>
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">🔴 Hardest: "What's your moat? Why can't someone copy this in 6 months?"</div>
-      <div class="intel-card-body">Three things. First: structural — no single vendor can solve cross-vendor by definition. Second: operator identity — workspace data, agent configs, workflow history compound monthly. Switching costs grow with every week of use. Third: MCP host position — once we're your host, every agent in your stack reports to us. That's infrastructure, not a feature.</div>
-    </div>
+      <div class="fp-full">
+        <div class="fp-label">Risk flags</div>
+        ${(p.risk_flags || []).map(r => `
+          <div class="fp-row">
+            <span class="fp-risk-badge fp-risk-${r.level}">${r.level}</span>
+            <div class="fp-row-text"><strong>${r.flag}</strong> \u2014 ${r.mitigation}</div>
+          </div>`).join('')}
+      </div>
 
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">🔴 Hardest: "Solo founder, no technical co-founder?"</div>
-      <div class="intel-card-body">Phase 1 is built, shipped, running in production. Built solo with Claude Code and Cursor. The build model is already proven. The bottleneck is distribution, not engineering. Scale beyond first revenue is a hiring decision, not a capability question.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">💬 "How big is the market?"</div>
-      <div class="intel-card-body">AI agent management TAM: $14.6B, growing 44% annually. Beachhead — US boutique consulting firms already running AI: $230M. Expanded including LATAM and mid-market: $2.1B. Zero funded competitors at the boutique operator UI layer today.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">💬 "Why are you the right person?"</div>
-      <div class="intel-card-body">23 years in the Army as an Infantry officer running command-and-control architectures. Not a developer who found a market. An operator who lived the multi-agent coordination problem before it had a name — and recognized it immediately when boutique operators started running AI stacks manually. The product is the operational model. Nobody else has this insight from lived experience at scale.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">💬 "What's your GTM?"</div>
-      <div class="intel-card-body"><strong>One ICP:</strong> Sales/RevOps consulting firms, 1–15 people, already running 3+ AI tools.<br><strong>One channel:</strong> LinkedIn DM → 20-min discovery call → pilot.<br><strong>One message:</strong> "You're still the one copy-pasting between them."<br><br>Research finding: GTM clarity is the #1 pre-seed pitch rejection trigger — more than product, team, or market size. This is the answer.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">💬 "What if you get zero customers by May?"</div>
-      <div class="intel-card-body">Kill criteria are defined: zero paying customers or LOIs by May 15 triggers a hard pivot review. Founding Member cohort closes August 1 — that's the first validation gate. Discovery calls are active now. Current verdict: do not kill.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🎯 Investor pitch opener — use this verbatim</div>
-      <div class="intel-card-body" style="font-style:italic;">"I spent 23 years in the Army running command-and-control architectures — 14 systems, simultaneous inputs, nothing allowed to drop in the handoff. Today I'm watching one-person consulting firms collapse under three AI tools that can't speak to each other. I built the thing that was missing."</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🏦 Military-specific VC channels (gate: 2–3 paying customers first)</div>
-      <div class="intel-card-body"><strong>Moonshots Capital</strong> — co-founded by West Point grad (Kelly Perdew) + NSA officer (Craig Cummings). Active seed fund.<br><strong>The Veteran Fund</strong> — "Veteran leadership at the core, critical tech at the center."<br><strong>Context VC</strong> — runs Military Ventures Summit. Rich Wong (Accel) is an ally in this network.</div>
-    </div>
-  </div>
-
-  <!-- SUB-TAB: TECH + MILITARY -->
-  <div id="intel-tech" class="intel-panel" style="display:none">
-    <p class="intel-section-title">Technical terms in plain English + military narrative guide</p>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ MCP — Model Context Protocol</div>
-      <div class="intel-card-body">Open protocol created by Anthropic in 2024. Lets AI agents report their state, capabilities, and outputs to a central host in a standardized way. <strong>COMMAND becomes the MCP host</strong> — the thing that receives and coordinates those reports. Anthropic made the protocol but doesn't own the host layer. We claim it. Once an operator registers agents through COMMAND as their MCP host, Anthropic's native features become additive, not competitive.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ A2A — Agent-to-Agent Protocol</div>
-      <div class="intel-card-body">Standardized protocol (finalized 2025–2026) for agents to communicate with each other across different platforms. MCP + A2A together are the integration layer COMMAND sits above. These protocols are <strong>why now is the right time</strong> — the coordination problem couldn't be solved at scale before they existed.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ CCF — Context Checkpoint Format</div>
-      <div class="intel-card-body">COMMAND's proprietary format for packaging and transferring context between agents. When one agent hands off work to another, the CCF ensures nothing is lost. Stored as JSONB in Supabase. Part of the MACP patent claim. Trade secret — private repo + NDA.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ MACP — Multi-Agent Coordination Protocol</div>
-      <div class="intel-card-body">AEP (Agent Event Protocol) + CCF + Task Router routing schema combined into a unified cross-vendor coordination protocol. Primary patentable asset. Provisional spec complete. Gate: first paying customer. Jason qualifies as micro entity — 75% USPTO fee discount.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ BYOA — Bring Your Own Agents</div>
-      <div class="intel-card-body">COMMAND does not provide AI models. Customers bring their existing Claude, GPT, Perplexity, Cursor subscriptions. COMMAND coordinates them. Model-agnostic by architecture. No lock-in to any single vendor.</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">⚙️ Stack (say this simply)</div>
-      <div class="intel-card-body">Next.js 15 / React 19 — modern web framework. Supabase — database + auth + real-time (AES-256 encryption confirmed). Vercel — deployment (same platform as Anthropic, Linear). Stripe — payments.<br><br><strong>Simple version:</strong> "Production-grade SaaS stack. Same infrastructure that runs billion-dollar products."</div>
-    </div>
-
-    <div class="intel-card intel-card-amber">
-      <div class="intel-card-label">🪖 Military vocabulary — USE these (civilian-readable)</div>
-      <div class="intel-card-body">mission · command center · situational awareness · persistent context · handoff protocol · coordination layer · reconnaissance · pilot</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🚫 Military vocabulary — AVOID these (create authority distance)</div>
-      <div class="intel-card-body">chain of command · subordinates · battle rhythm · deconfliction · "I commanded X soldiers" · any rank-based framing ("as a Lieutenant Colonel...")</div>
-    </div>
-
-    <div class="intel-card">
-      <div class="intel-card-label">🪖 Military narrative frame — insight claim, not credential claim</div>
-      <div class="intel-card-body"><strong>CORRECT (peer-level observation):</strong><br>"I spent 23 years making sure information didn't drop between stations under pressure. That's exactly what I saw happening in your AI stack."<br><br><strong>INCORRECT (authority claim — creates distance):</strong><br>"I commanded 800 soldiers and I can fix your broken operation."<br><br>The moment they say "oh — you built this because of what you already knew" is the credibility transfer completing in real time. Don't rush it.</div>
-    </div>
-  </div>
+      <div class="fp-next">
+        <div class="fp-label">Recommended next</div>
+        <div class="fp-next-text">${p.recommended_next || '\u2014'}</div>
+      </div>
+    `;
+  }
+})();
+</script>
+<!-- END INTEL TAB: CALL BRIEF FOLIO ENGINE -->
 
 </div><!-- /tab-intel -->
 
