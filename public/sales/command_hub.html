@@ -181,6 +181,21 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   .tab{padding:16px 16px}
   .header{padding:11px 16px}
 }
+
+/* INTEL SUB-TABS */
+.intel-sub{padding:5px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:rgba(255,255,255,0.5);transition:all 0.15s}
+.intel-sub:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)}
+.intel-sub.active{background:rgba(240,160,48,0.12);color:#F0A030;border-color:rgba(240,160,48,0.3)}
+.intel-panel{display:block}
+.intel-section-title{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px}
+.intel-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.intel-card-amber{border-color:rgba(240,160,48,0.2);background:rgba(240,160,48,0.04)}
+.intel-card-label{font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:0.03em}
+.intel-card-body{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.65}
+.intel-card-body strong{color:rgba(255,255,255,0.95);font-weight:600}
+.intel-quote{border-left:2px solid #F0A030;padding:6px 10px;margin-bottom:6px;font-size:12px;color:rgba(255,255,255,0.8);font-style:italic;background:rgba(240,160,48,0.05);border-radius:0 4px 4px 0}
+.intel-quote:last-child{margin-bottom:0}
+.intel-quote-warn{border-left-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.02)}
 </style>
 </head>
 <body>
@@ -773,110 +788,287 @@ JCMD</div>
 
 <!-- ═══════════════════════════════════════════ INTEL TAB -->
 <div id="tab-intel" class="tab">
-  <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:14px;letter-spacing:.1em">RESEARCH SYNTHESIS — BUYER PSYCHOLOGY + ICP</div>
 
-  <!-- SECTION 1: BUYER PSYCHOLOGY -->
-  <div class="card">
-    <div class="slabel">Why they stall (not why they object)</div>
-    <div class="sig"><span class="badge ba">PSYCH</span><span style="color:var(--tx2);font-size:12px">Loss aversion drives ghosting — they fear ego cost of a failed adoption more than value of gain</span></div>
-    <div class="sig"><span class="badge ba">PSYCH</span><span style="color:var(--tx2);font-size:12px">Identity exposure: owner = firm. Every tool decision is personal. Make adoption the sophisticated move, not the risky one.</span></div>
-    <div class="sig"><span class="badge ba">PSYCH</span><span style="color:var(--tx2);font-size:12px">2.3x more likely to act when reframed as "at risk" vs. "future benefit" — lead with cost of inaction, not product features</span></div>
-    <div class="sig"><span class="badge ba">PSYCH</span><span style="color:var(--tx2);font-size:12px">Complexity kills: cognitive overload = soft no. 15 features beats 40 features every time.</span></div>
-    <div class="sig"><span class="badge ba">PSYCH</span><span style="color:var(--tx2);font-size:12px">Time is the ROI currency: willingness to pay is tied to hours recovered, not feature count</span></div>
-    <div class="sig"><span class="badge ba">KEY</span><span style="color:var(--tx1);font-size:12px;font-style:italic">"You already know your tools aren't working together. That's not a character flaw — it's a structural problem nobody's solved."</span></div>
+  <!-- INTEL SUB-TAB NAV -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <button onclick="showIntel('buyer',this)" class="intel-sub active" id="isub-buyer">🧠 Buyer Psychology</button>
+    <button onclick="showIntel('pain',this)" class="intel-sub" id="isub-pain">💬 Pain Language</button>
+    <button onclick="showIntel('icp',this)" class="intel-sub" id="isub-icp">🎯 ICP + Niche</button>
+    <button onclick="showIntel('market',this)" class="intel-sub" id="isub-market">📊 Market & Moat</button>
+    <button onclick="showIntel('investor',this)" class="intel-sub" id="isub-investor">💼 Investor FAQ</button>
+    <button onclick="showIntel('tech',this)" class="intel-sub" id="isub-tech">⚙️ Tech + Military</button>
   </div>
 
-  <!-- SECTION 2: PAIN LANGUAGE -->
-  <div class="card">
-    <div class="slabel">What they actually say — use these to recognize GREEN signals</div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"I got tired of being the human middleware between my AI agent"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"Every new session feels like starting over — I have to re-explain everything"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"Nothing talks to each other and I spend more time managing tools than doing actual work"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"The AI doesn't know my client"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"I deleted half my tool stack — best decision I made"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"I swear to god if I have to manually update this one more time"</span></div>
-    <div class="sig"><span class="badge bg">GREEN</span><span style="color:var(--tx2);font-size:12px">"Copying and pasting between tabs"</span></div>
-    <div class="sig"><span class="badge by">WATCH</span><span style="color:var(--tx2);font-size:12px">"Another tool to adopt" — stack fatigue resistance signal</span></div>
-  </div>
+  <!-- SUB-TAB: BUYER PSYCHOLOGY -->
+  <div id="intel-buyer" class="intel-panel">
+    <p class="intel-section-title">Why they stall — it's never the price</p>
 
-  <!-- SECTION 3: ICP RANKING -->
-  <div class="card">
-    <div class="slabel">Niche priority — start here</div>
-    <div class="action">
-      <div class="action-n">1</div>
-      <div class="action-body">
-        <div class="action-title">Sales / RevOps consulting</div>
-        <div class="action-desc">Highest pain density, fastest decision. LinkedIn + RevGenius + r/sales</div>
-      </div>
+    <div class="intel-card">
+      <div class="intel-card-label">🔑 Primary driver of ghosting</div>
+      <div class="intel-card-body"><strong>Loss aversion.</strong> Boutique founders fear the ego cost of a failed adoption more than they value the gain. Every ghost is identity protection, not budget protection. They've already paid for 2–4 tools — admitting those don't work means admitting those choices were wrong.</div>
     </div>
-    <div class="action">
-      <div class="action-n">2</div>
-      <div class="action-body">
-        <div class="action-title">Operations consulting</div>
-        <div class="action-desc">Systems thinkers, fastest ROI articulation. "Human middleware" lands hardest.</div>
-      </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">📊 Behavioral science finding</div>
+      <div class="intel-card-body"><strong>2.3x more likely to act</strong> when their current situation is reframed as risky vs. when future benefits are emphasized. Lead with cost of inaction, not product features. "Here's what you're losing every day" beats "imagine what's possible."</div>
     </div>
-    <div class="action">
-      <div class="action-n">3</div>
-      <div class="action-body">
-        <div class="action-title">Executive coaching</div>
-        <div class="action-desc">High LTV, longer trust cycle, LinkedIn-native.</div>
-      </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🪪 Identity exposure</div>
+      <div class="intel-card-body">Owner = firm. Every tool decision is personal. These operators sell their own judgment to clients — admitting their stack is broken contradicts their professional self-image. Make adoption the sophisticated move, not the risky one.<br><br><strong>Use:</strong> "You already know your tools aren't working together. That's not a character flaw — it's a structural problem nobody's solved."</div>
     </div>
-    <div class="action">
-      <div class="action-n">4</div>
-      <div class="action-body">
-        <div class="action-title">Marketing consulting</div>
-        <div class="action-desc">High tool count, lower pain signal clarity. Secondary expansion.</div>
-      </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⏱️ Time is the ROI currency</div>
+      <div class="intel-card-body">Willingness to pay is tied to <strong>hours recovered</strong>, not feature count. Platforms with 40+ features consistently lose to those with 15 clearly presented ones. Cognitive overload = soft no. Keep onboarding under 20 minutes or loss aversion activates.</div>
     </div>
-    <div class="sh-rule" style="margin-top:10px">
-      <div class="sh-rule-title">Double-pain operator = highest conversion target</div>
-      <div class="sh-rule-body">Operator running their own practice AND advising clients on AI adoption. Hit them on both dimensions.</div>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">💡 Inaction cost frame (use post-call, not during)</div>
+      <div class="intel-card-body">Operators running 3 AI tools spend 5–15 hours/week as the manual relay. At $200/hr billing rate: <strong>$1,000–$3,000/month in invisible overhead.</strong> COMMAND pilot: $99/month. ROI payback: first week.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🗣️ Always say "pilot" not "trial"</div>
+      <div class="intel-card-body">These operators use "pilot" with their own clients. It signals peer-level sophistication, lowers identity exposure, and frames the test as professional — not consumer software. This is a hard language rule across all copy.</div>
     </div>
   </div>
 
-  <!-- SECTION 4: OBJECTION QUICK-REF -->
-  <div class="card">
-    <div class="slabel">Objection handles</div>
-    <div class="action">
-      <div class="action-n">→</div>
-      <div class="action-body">
-        <div class="action-title">"Won't Anthropic build this?"</div>
-        <div class="action-desc">No single vendor can solve cross-vendor coordination by definition. Claude becomes a COMMAND instrument when Anthropic ships native features.</div>
+  <!-- SUB-TAB: PAIN LANGUAGE -->
+  <div id="intel-pain" class="intel-panel" style="display:none">
+    <p class="intel-section-title">What they actually say — community-sourced, organic, not assumed</p>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">⚡ Highest signal phrases — GREEN on discovery calls</div>
+      <div class="intel-card-body">
+        <div class="intel-quote">"I got tired of being the human middleware between my AI agent"</div>
+        <div class="intel-quote">"Every new session feels like starting over — I have to re-explain everything"</div>
+        <div class="intel-quote">"Nothing talks to each other and I spend more time managing tools than working"</div>
+        <div class="intel-quote">"The AI doesn't know my client"</div>
+        <div class="intel-quote">"I deleted half my tool stack — best decision I made"</div>
+        <div class="intel-quote">"I swear to god if I have to manually update this one more time"</div>
+        <div class="intel-quote">"Copying and pasting between tabs"</div>
+        <div class="intel-quote">"Juggling multiple tools"</div>
       </div>
     </div>
-    <div class="action">
-      <div class="action-n">→</div>
-      <div class="action-body">
-        <div class="action-title">"I'll just use Claude Projects"</div>
-        <div class="action-desc">Claude Projects coordinates Claude. COMMAND coordinates Claude, GPT, Perplexity — whatever you're running.</div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚠️ Resistance signals — handle with care</div>
+      <div class="intel-card-body">
+        <div class="intel-quote intel-quote-warn">"Another tool to adopt" — stack fatigue. Don't push. Reframe: COMMAND coordinates what they already have.</div>
+        <div class="intel-quote intel-quote-warn">"I've been burned before" — loss aversion. Say: "That's exactly why this is a limited pilot, not an open launch."</div>
+        <div class="intel-quote intel-quote-warn">"I don't have time to set it up" — cognitive overload fear. Say: "20 minutes to connect your first agent. Most operators recover that in the first week."</div>
       </div>
     </div>
-    <div class="action">
-      <div class="action-n">→</div>
-      <div class="action-body">
-        <div class="action-title">"I don't have time to set this up"</div>
-        <div class="action-desc">Pilot takes 20 minutes. Most operators recover that time in the first week. (Say "pilot" not "setup".)</div>
-      </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">📢 LinkedIn vs Reddit — the public/private gap</div>
+      <div class="intel-card-body"><strong>LinkedIn:</strong> They perform AI competence. Posts about efficiency wins, AI as competitive advantage.<br><br><strong>Reddit/Slack/Discord:</strong> They confess exhaustion, tool abandonment, sunk money, relay frustration.<br><br><strong>Write copy for the Reddit voice, not the LinkedIn performance.</strong> "You're still the one copy-pasting between them" will outperform "Streamline your AI operations" every time.</div>
     </div>
-    <div class="action">
-      <div class="action-n">→</div>
-      <div class="action-body">
-        <div class="action-title">"I've been burned before"</div>
-        <div class="action-desc">That's why this is a limited pilot, not an open launch. 25 operators, close feedback loop, personally accountable.</div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🗑️ Deletion signal — maximum receptivity</div>
+      <div class="intel-card-body">When someone says "I deleted half my tools" — they are at peak pain and have already proven they'll take action. The pain exceeded the fear of losing capability. Find these operators actively on LinkedIn and Reddit. They are the most conversion-ready cohort in the market right now.<br><br>Use Template D post-call followup for these prospects.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🏷️ COMMAND-owned vocabulary — use freely, no attribution</div>
+      <div class="intel-card-body">
+        <strong>Human middleware</strong> — operator as connective tissue between broken tools. Found independently across dozens of communities.<br>
+        <strong>Persistent context</strong> — what COMMAND provides. "Your AI always knows where you left off."<br>
+        <strong>Agent Debt</strong> — unhandled context and missed handoffs that accumulate.<br>
+        <strong>Shift Change Brief</strong> — formal handoff protocol name.<br>
+        <strong>BYOA</strong> — Bring Your Own Agents.
       </div>
     </div>
   </div>
 
-  <!-- SECTION 5: INACTION COST FRAME -->
-  <div class="card-amber">
-    <div class="slabel">Quantify the cost of staying fragmented</div>
-    <div style="font-size:13px;color:var(--tx1);line-height:1.9">
-      Operators running 3 AI tools spend <strong>5–15 hours/week</strong> as the manual relay.<br>
-      At $200/hour billing rate: <strong>$1,000–$3,000/month</strong> in invisible overhead.<br>
-      COMMAND pilot: <strong>$99/month.</strong><br>
-      <span style="color:var(--amber);font-weight:700">ROI payback: first week.</span>
+  <!-- SUB-TAB: ICP + NICHE -->
+  <div id="intel-icp" class="intel-panel" style="display:none">
+    <p class="intel-section-title">Who to target, in what order, and why</p>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">🥇 #1 — Sales / RevOps consulting (START HERE)</div>
+      <div class="intel-card-body">Highest AI tool density. Most vocal community. Fastest credit card decision. Already paying $300+/mo for fragmented tools (Gong, Clay, Apollo, Claude, GPT-4).<br><br><strong>Pain language:</strong> "Manual reporting. Copy-paste workflows. Human middleware between tools." Sales reps spend only 28% of time actually selling — the rest is tool management.<br><br><strong>Find them:</strong> LinkedIn Sales Navigator → "revenue operations consultant" + "1–10 employees" · Slack: RevGenius, Pavilion · Reddit: r/sales, r/salesengineering</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🥈 #2 — Operations consulting</div>
+      <div class="intel-card-body">Systems thinkers — "human middleware" violates their professional identity. They calculate hours-to-payback without prompting. <strong>Fastest ROI articulation</strong> of any vertical.<br><br><strong>Pain language:</strong> "My AI stack has no SOP." "I can't see what's running or what dropped."<br><br><strong>Find them:</strong> LinkedIn → "operations consultant" + "boutique" · Reddit: r/operations, r/AI_Agents</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🥉 #3 — Executive coaching</div>
+      <div class="intel-card-body">High LTV but longer trust cycle. Pain is relational — "the AI doesn't know my client." LinkedIn-native community.<br><br><strong>Pain language:</strong> "AI flops without full context." "Context gaps — it didn't understand incentives, org history, or culture."<br><br><strong>Find them:</strong> LinkedIn (dominant) · ICF forums · Professional Slack groups for coaches</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">4️⃣ Marketing consulting — secondary expansion only</div>
+      <div class="intel-card-body">High tool proliferation but low pain signal clarity. High churn risk. Better as expansion target after beachhead is proven — not primary ICP.</div>
+    </div>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">⭐ Double-Pain Operator — highest conversion target</div>
+      <div class="intel-card-body">Running own consulting practice <strong>AND</strong> advising clients on AI adoption simultaneously. Personal stack is broken while selling AI strategy to others. Cognitive dissonance is acute and personal.<br><br><strong>Signals:</strong> LinkedIn shows consulting practice + AI advisory content · Posts about AI efficiency while their own stack is fragmented · Billing clients for AI strategy while copy-pasting between their own tools.<br><br><strong>Action:</strong> Invite to pilot immediately. Do not nurture — close same day.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">📋 ICP Score quick-ref</div>
+      <div class="intel-card-body">
+        <strong>85–110 pts → T1 HOT:</strong> Pilot invite within 24h. FM offer immediately.<br>
+        <strong>60–84 pts → T2 WARM:</strong> Send one-pager. Follow up in 48h. Nurture 30 days.<br>
+        <strong>30–59 pts → T3 COOL:</strong> Template C. Check in Q3 2026.<br>
+        <strong>0–29 pts → NOT ICP:</strong> Close. Note referral potential.<br><br>
+        Full rubric: ICP Scoring Rubric v3
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB-TAB: MARKET & MOAT -->
+  <div id="intel-market" class="intel-panel" style="display:none">
+    <p class="intel-section-title">Numbers to know cold — say these without hesitation</p>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">📊 Market numbers</div>
+      <div class="intel-card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">TAM — AI agent mgmt</div><div style="font-size:18px;font-weight:600;">$14.6B</div></div>
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Beachhead TAM</div><div style="font-size:18px;font-weight:600;">$230M</div></div>
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Expanded TAM</div><div style="font-size:18px;font-weight:600;">$2.1B</div></div>
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Market CAGR</div><div style="font-size:18px;font-weight:600;">43.7%</div></div>
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Funded competitors (boutique UI layer)</div><div style="font-size:18px;font-weight:600;color:#F0A030;">0</div></div>
+          <div><div style="font-size:11px;opacity:0.6;margin-bottom:2px;">Brazil consulting market</div><div style="font-size:18px;font-weight:600;">$18.4B</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🗺️ Competitive map — where COMMAND sits</div>
+      <div class="intel-card-body">
+        <strong>Enterprise layer (above us — over-serve):</strong> Salesforce Agentforce, Microsoft Agent 365, Kore.ai. Require IT, procurement, 6-month cycles. Not competition — they define the ceiling.<br><br>
+        <strong>Developer layer (below us — under-serve):</strong> AutoGen, CrewAI, LangGraph, n8n. Require engineering depth boutique operators don't have. Not competition — they define the floor.<br><br>
+        <strong>Closest adjacent:</strong> Epicenter (YC-backed) — individual-focused, local-first, open-source. Different buyer entirely. No ICP overlap, no pricing overlap, no distribution overlap.<br><br>
+        <strong>COMMAND's lane:</strong> The boutique operator UI layer. Unaddressed. Zero funded competitors. We own it by default.
+      </div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🏰 Three-pillar moat</div>
+      <div class="intel-card-body">
+        <strong>1. Structural monopoly:</strong> No single AI vendor can solve cross-vendor coordination by definition. Anthropic can coordinate Anthropic agents — that's a feature, not a platform. This is an architectural truth, not a positioning claim.<br><br>
+        <strong>2. Operator identity accumulation:</strong> Every month a firm uses COMMAND, their workspace accumulates agent configs, workflow history, and context data. Switching costs compound. Invisible at month 1 — obvious at month 6.<br><br>
+        <strong>3. MCP host position:</strong> Unclaimed at the boutique operator layer. COMMAND claims it. Once operators register agents through COMMAND as their MCP host, Anthropic's native features become additive, not competitive. The relationship inverts.
+      </div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🌎 LATAM first-mover</div>
+      <div class="intel-card-body">Jason arrives in São Paulo June 1, 2026. $18.4B consulting market. Sub-8% AI adoption at boutique layer. Zero US boutique-layer competitors present. Trust in Brazilian business culture is built in person — no remote-first competitor can replicate this for years.<br><br>12,000–18,000 boutique firms in São Paulo metro. Conservative 2-year LATAM ARR target: <strong>$900K by end of 2028.</strong></div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⏰ Why now — say this cold</div>
+      <div class="intel-card-body">MCP (Model Context Protocol) and A2A (Agent-to-Agent) protocols standardized 2025–2026 — the integration layer COMMAND sits above. Boutique firms began operationalizing agents in 2025. The coordination problem didn't exist at scale before that. COMMAND is <strong>18–24 months ahead</strong> of when this problem becomes undeniable. That is the category-defining window.</div>
+    </div>
+  </div>
+
+  <!-- SUB-TAB: INVESTOR FAQ -->
+  <div id="intel-investor" class="intel-panel" style="display:none">
+    <p class="intel-section-title">The hardest questions — answers ready to go</p>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">🔴 Hardest: "Won't Anthropic or OpenAI just build this?"</div>
+      <div class="intel-card-body">They literally can't solve the cross-vendor problem — a single vendor coordinating its own agents is a product feature, not a coordination layer. COMMAND sits above all of them. When Anthropic ships Coordinator Mode (May 2026), Claude becomes a registered COMMAND instrument — not a competitor. The relationship inverts. Cross-vendor coordination structurally cannot be solved by any single vendor. That's not mitigation — it's an architectural truth.</div>
+    </div>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">🔴 Hardest: "What's your moat? Why can't someone copy this in 6 months?"</div>
+      <div class="intel-card-body">Three things. First: structural — no single vendor can solve cross-vendor by definition. Second: operator identity — workspace data, agent configs, workflow history compound monthly. Switching costs grow with every week of use. Third: MCP host position — once we're your host, every agent in your stack reports to us. That's infrastructure, not a feature.</div>
+    </div>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">🔴 Hardest: "Solo founder, no technical co-founder?"</div>
+      <div class="intel-card-body">Phase 1 is built, shipped, running in production. Built solo with Claude Code and Cursor. The build model is already proven. The bottleneck is distribution, not engineering. Scale beyond first revenue is a hiring decision, not a capability question.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">💬 "How big is the market?"</div>
+      <div class="intel-card-body">AI agent management TAM: $14.6B, growing 44% annually. Beachhead — US boutique consulting firms already running AI: $230M. Expanded including LATAM and mid-market: $2.1B. Zero funded competitors at the boutique operator UI layer today.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">💬 "Why are you the right person?"</div>
+      <div class="intel-card-body">23 years in the Army as an Infantry officer running command-and-control architectures. Not a developer who found a market. An operator who lived the multi-agent coordination problem before it had a name — and recognized it immediately when boutique operators started running AI stacks manually. The product is the operational model. Nobody else has this insight from lived experience at scale.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">💬 "What's your GTM?"</div>
+      <div class="intel-card-body"><strong>One ICP:</strong> Sales/RevOps consulting firms, 1–15 people, already running 3+ AI tools.<br><strong>One channel:</strong> LinkedIn DM → 20-min discovery call → pilot.<br><strong>One message:</strong> "You're still the one copy-pasting between them."<br><br>Research finding: GTM clarity is the #1 pre-seed pitch rejection trigger — more than product, team, or market size. This is the answer.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">💬 "What if you get zero customers by May?"</div>
+      <div class="intel-card-body">Kill criteria are defined: zero paying customers or LOIs by May 15 triggers a hard pivot review. Founding Member cohort closes April 14 — that's the first validation gate. Discovery calls are active now. Current verdict: do not kill.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🎯 Investor pitch opener — use this verbatim</div>
+      <div class="intel-card-body" style="font-style:italic;">"I spent 23 years in the Army running command-and-control architectures — 14 systems, simultaneous inputs, nothing allowed to drop in the handoff. Today I'm watching one-person consulting firms collapse under three AI tools that can't speak to each other. I built the thing that was missing."</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🏦 Military-specific VC channels (gate: 2–3 paying customers first)</div>
+      <div class="intel-card-body"><strong>Moonshots Capital</strong> — co-founded by West Point grad (Kelly Perdew) + NSA officer (Craig Cummings). Active seed fund.<br><strong>The Veteran Fund</strong> — "Veteran leadership at the core, critical tech at the center."<br><strong>Context VC</strong> — runs Military Ventures Summit. Rich Wong (Accel) is an ally in this network.</div>
+    </div>
+  </div>
+
+  <!-- SUB-TAB: TECH + MILITARY -->
+  <div id="intel-tech" class="intel-panel" style="display:none">
+    <p class="intel-section-title">Technical terms in plain English + military narrative guide</p>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ MCP — Model Context Protocol</div>
+      <div class="intel-card-body">Open protocol created by Anthropic in 2024. Lets AI agents report their state, capabilities, and outputs to a central host in a standardized way. <strong>COMMAND becomes the MCP host</strong> — the thing that receives and coordinates those reports. Anthropic made the protocol but doesn't own the host layer. We claim it. Once an operator registers agents through COMMAND as their MCP host, Anthropic's native features become additive, not competitive.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ A2A — Agent-to-Agent Protocol</div>
+      <div class="intel-card-body">Standardized protocol (finalized 2025–2026) for agents to communicate with each other across different platforms. MCP + A2A together are the integration layer COMMAND sits above. These protocols are <strong>why now is the right time</strong> — the coordination problem couldn't be solved at scale before they existed.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ CCF — Context Checkpoint Format</div>
+      <div class="intel-card-body">COMMAND's proprietary format for packaging and transferring context between agents. When one agent hands off work to another, the CCF ensures nothing is lost. Stored as JSONB in Supabase. Part of the MACP patent claim. Trade secret — private repo + NDA.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ MACP — Multi-Agent Coordination Protocol</div>
+      <div class="intel-card-body">AEP (Agent Event Protocol) + CCF + Task Router routing schema combined into a unified cross-vendor coordination protocol. Primary patentable asset. Provisional spec complete. Gate: first paying customer. Jason qualifies as micro entity — 75% USPTO fee discount.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ BYOA — Bring Your Own Agents</div>
+      <div class="intel-card-body">COMMAND does not provide AI models. Customers bring their existing Claude, GPT, Perplexity, Cursor subscriptions. COMMAND coordinates them. Model-agnostic by architecture. No lock-in to any single vendor.</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">⚙️ Stack (say this simply)</div>
+      <div class="intel-card-body">Next.js 15 / React 19 — modern web framework. Supabase — database + auth + real-time (AES-256 encryption confirmed). Vercel — deployment (same platform as Anthropic, Linear). Stripe — payments.<br><br><strong>Simple version:</strong> "Production-grade SaaS stack. Same infrastructure that runs billion-dollar products."</div>
+    </div>
+
+    <div class="intel-card intel-card-amber">
+      <div class="intel-card-label">🪖 Military vocabulary — USE these (civilian-readable)</div>
+      <div class="intel-card-body">mission · command center · situational awareness · persistent context · handoff protocol · coordination layer · reconnaissance · pilot</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🚫 Military vocabulary — AVOID these (create authority distance)</div>
+      <div class="intel-card-body">chain of command · subordinates · battle rhythm · deconfliction · "I commanded X soldiers" · any rank-based framing ("as a Lieutenant Colonel...")</div>
+    </div>
+
+    <div class="intel-card">
+      <div class="intel-card-label">🪖 Military narrative frame — insight claim, not credential claim</div>
+      <div class="intel-card-body"><strong>CORRECT (peer-level observation):</strong><br>"I spent 23 years making sure information didn't drop between stations under pressure. That's exactly what I saw happening in your AI stack."<br><br><strong>INCORRECT (authority claim — creates distance):</strong><br>"I commanded 800 soldiers and I can fix your broken operation."<br><br>The moment they say "oh — you built this because of what you already knew" is the credibility transfer completing in real time. Don't rush it.</div>
     </div>
   </div>
 
@@ -1843,6 +2035,13 @@ window.addEventListener('DOMContentLoaded', function(){
   updateKeyUI();
   showStep(1);
 });
+
+function showIntel(id, el) {
+  document.querySelectorAll('.intel-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.intel-sub').forEach(b => b.classList.remove('active'));
+  document.getElementById('intel-' + id).style.display = 'block';
+  el.classList.add('active');
+}
 </script>
 </body>
 </html>
