@@ -241,15 +241,20 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
         <div class="flabel">LinkedIn URL</div>
         <input type="text" id="linkedinUrl" placeholder="https://linkedin.com/in/firstname-lastname">
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <div style="flex:1">
-          <div class="flabel">Contact Name</div>
-          <input type="text" id="contactName" placeholder="First Last">
-        </div>
-        <div style="flex:1">
-          <div class="flabel">Firm Name</div>
-          <input type="text" id="firmName" placeholder="Firm Inc.">
-        </div>
+      <div style="margin-bottom:10px">
+        <div class="flabel">CONTACT FULL NAME</div>
+        <input type="text" id="contactName" placeholder="e.g. Grant Carlson Frazier">
+        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Full name — first, middle if known, last</div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div class="flabel">COMPANY / FIRM</div>
+        <input type="text" id="firmName" placeholder="e.g. Global Entry Hub">
+        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Their current company — not their name</div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div class="flabel">SECOND COMPANY <span style="font-weight:400;color:var(--tx3)">(optional)</span></div>
+        <input type="text" id="secondCompany" placeholder="e.g. SBM Management Services">
+        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Side venture, day job, or second role</div>
       </div>
       <div id="step1Error" style="display:none;font-size:11px;color:var(--red);margin-bottom:10px;padding:7px;background:rgba(248,81,73,.08);border-radius:4px;border:1px solid rgba(248,81,73,.3)"></div>
 
@@ -290,87 +295,40 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <div id="loadMsg" style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em"></div>
   </div>
 
-  <!-- ── STEP 2: PREP (BRIEF) ── -->
+  <!-- ── STEP 2: PREP ── -->
   <div id="step2" class="step-panel" style="display:none">
 
-    <!-- BRIEF HEADER -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div>
-        <div id="briefNameDisplay" style="font-size:14px;font-weight:700;color:var(--tx1)"></div>
-        <div id="briefFirmDisplay" style="font-size:11px;color:var(--tx2);margin-top:1px"></div>
-      </div>
-      <button class="btn-secondary" id="newProspectBtn" style="font-size:10px;padding:5px 10px">↺ NEW</button>
+    <!-- PRE-CALL CONTEXT CARD -->
+    <div class="card-amber">
+      <div class="slabel">PRE-CALL CONTEXT</div>
+      <div style="font-size:10px;color:var(--tx2);margin-bottom:14px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">Review before you click Generate Call Brief</div>
+      <div id="prepContextRows"></div>
     </div>
 
-    <!-- BRIEF NAV — prep tabs only (Q1-Q5 appear on call screen) -->
-    <div class="btabs" id="briefTabNav">
-      <button class="btab active" data-btab="bSnap">SNAP</button>
-      <button class="btab" data-btab="bOpen">OPEN</button>
-      <button class="btab" data-btab="bIntel">INTEL</button>
-      <button class="btab" data-btab="bCounter">🚨 COUNTER</button>
-    </div>
-
-    <!-- BRIEF PANELS -->
-    <div id="bSnap" class="bpanel">
-      <div class="card-amber">
-        <div class="slabel">☎ Snapshot</div>
-        <div id="snapRows"></div>
-      </div>
-      <div class="card">
-        <div class="slabel">⏱ Ready — Hit START when call begins</div>
-        <div style="display:flex;gap:8px;margin-top:6px">
-          <button class="btn-primary" id="startCallBtn" style="flex:1;padding:10px">▶ START CALL</button>
-          <button class="btn-secondary" id="skipCallBtn">SKIP TO TRANSCRIPT →</button>
-        </div>
+    <!-- PRE-CALL CHECKLIST -->
+    <div class="card">
+      <div class="slabel">PRE-CALL CHECKLIST</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px" id="prepChecklist">
+        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Reviewed their LinkedIn profile</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Noted any AI/automation signals in their headline or posts</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Know their firm size and service type</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Sales Hub is open and ready</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Note-taking area open (TRANSCRIPT tab)</label>
       </div>
     </div>
 
-    <div id="bOpen" class="bpanel" style="display:none">
-      <div class="card">
-        <div class="slabel">📋 Opening</div>
-        <div class="script">"You're already running multiple AI tools — everybody is. The question isn't whether to use them. It's who's coordinating them. Right now that's you — copy-pasting between tabs. COMMAND makes that someone else's job."</div>
-        <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:10px">[PAUSE — let it land]</div>
-        <div class="script">"I'm in research mode — no agenda, no demo. Can I ask a few questions and take notes?"</div>
-        <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:10px">[Wait for yes]</div>
-        <div class="script">"Is it okay if I record this for my own notes? Totally fine to say no."</div>
-      </div>
-    </div>
-
-    
-    
-    
-    
-    
-
-    <div id="bCounter" class="bpanel" style="display:none">
-      <div class="card-red">
-        <div class="slabel-red">🚩 Pitch Warning Signs</div>
-        <div id="counterList"></div>
-      </div>
-      <div class="card">
-        <div class="slabel">🥇 Redirect</div>
-        <div class="script">"That's interesting — before we go there, let me understand your situation better. Can I ask you one more thing?"</div>
-      </div>
-      <div class="card">
-        <div class="slabel">🥈 Reframe</div>
-        <div class="script">"Look, I'll be straight — pure research mode. Not a consulting client. Just trying to understand how operators manage AI complexity. Still useful?"</div>
-      </div>
-      <div class="card">
-        <div class="slabel">💬 "What are you building?"</div>
-        <div class="script">"I'll tell you at the end — but I want to understand your situation first or it won't be relevant. One more thing?"</div>
-      </div>
-    </div>
-
-    <div id="bIntel" class="bpanel" style="display:none">
-      <div class="card-amber">
-        <div class="slabel">📡 "Why Now" — Deploy Only If Asked</div>
-        <div class="script">"Microsoft just shipped agent-to-agent coordination for enterprises this week. IBM calls the orchestration layer 'the front door to the super agent.' Gartner logged a 1,400% surge in multi-agent inquiries. The category is real. Nobody's built this for firms your size. Enterprise has it. Solo operators running 3–5 tools have nothing."</div>
-      </div>
-    </div>
+    <!-- GENERATE SHORTCUT -->
+    <button class="btn-primary" id="prepGenerateBtn">→ GENERATE CALL BRIEF</button>
   </div>
 
   <!-- ── STEP 3: CALL LIVE ── -->
   <div id="step3" class="step-panel" style="display:none">
+
+    <!-- DISCLOSURE BANNER -->
+    <div class="card-amber" style="margin-bottom:10px">
+      <div style="font-size:12px;color:var(--tx1);line-height:1.7">📋 <strong>Note-taking mode</strong> — this tab assists with call structure only. Audio is not recorded or transmitted. All notes stay local to this browser.</div>
+    </div>
+
     <div class="timer-bar"><div class="timer-fill" id="timerBar" style="width:0%"></div></div>
 
     <!-- TIMER PINNED -->
@@ -395,7 +353,55 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     </div>
 
     <!-- ALL QUESTIONS — SINGLE SCROLL, NO TABS -->
-    <div id="allQuestionsPanel"></div>
+    <div id="allQuestionsPanel">
+      <!-- v3 Playbook defaults — overwritten by renderAllQuestions after brief generation -->
+      <div class="card" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q1</span><span style="font-size:11px;color:var(--tx2)">Agent Inventory</span></div>
+          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 2–5</span>
+        </div>
+        <div class="script" style="font-size:13px;margin-bottom:6px">"Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used daily."</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Multiple tools named</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Claude + another tool</span></div>
+      </div>
+      <div class="card" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q2</span><span style="font-size:11px;color:var(--tx2)">Coordination Behavior</span></div>
+          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 5–9</span>
+        </div>
+        <div class="script" style="font-size:13px;margin-bottom:6px">"When work moves between those tools — what does that actually look like?"</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Copy-paste manually</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Re-explain context each time</span></div>
+      </div>
+      <div class="card" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q3</span><span style="font-size:11px;color:var(--tx2)">Failure Mode</span></div>
+          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 9–13</span>
+        </div>
+        <div class="script" style="font-size:13px;margin-bottom:6px">"Has there been a time where something dropped in that handoff?"</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Specific failure with impact</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Found out days later</span></div>
+      </div>
+      <div class="card" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q4</span><span style="font-size:11px;color:var(--tx2)">Visibility Gap</span></div>
+          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 13–16</span>
+        </div>
+        <div class="script" style="font-size:13px;margin-bottom:6px">"Right now, if I asked you what your AI agents are doing — could you tell me?"</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Pause — they can't answer</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>"Not really" or "kind of"</span></div>
+      </div>
+      <div class="card" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q5</span><span style="font-size:11px;color:var(--tx2)">Vision</span></div>
+          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 16–18</span>
+        </div>
+        <div class="script" style="font-size:13px;margin-bottom:6px">"If you had a single place where you could see what every agent was doing — status, handoff state, what's pending — what would that change for you?"</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Emotional relief response</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>"I'd finally be able to delegate"</span></div>
+      </div>
+    </div>
+
+    <!-- DEFLECT SCRIPT -->
+    <div class="card" style="margin-bottom:10px">
+      <div class="slabel">🛡 DEFLECT — "What Are You Building?"</div>
+      <div class="script" style="font-size:12px">"I'll tell you exactly what I'm building at the end — but I want to understand your situation first or it won't be relevant. One more thing?"</div>
+    </div>
 
     <!-- INTEL AMMO — COLLAPSED -->
     <div class="card" style="margin-bottom:10px">
@@ -429,7 +435,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <!-- NON-PITCH CLOSE -->
     <div class="card" style="margin-bottom:10px">
       <div class="slabel">⏱ At 18 Min — Close</div>
-      <div class="script" style="font-size:12px">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early and I'm selective. Would you be open to me sending a one-pager and following up in a week?"</div>
+      <div class="script" style="font-size:12px">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early — I'm running a small pilot, not a broad beta. I'm selective about who gets in. Would you be open to me sending a one-pager and following up in a week?"</div>
     </div>
 
     <!-- LIVE SCORE -->
@@ -453,24 +459,14 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   <!-- ── STEP 4: TRANSCRIPT ── -->
   <div id="step4" class="step-panel" style="display:none">
     <div class="card-amber">
-      <div class="slabel">📄 Upload Transcript</div>
-      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Upload Tactiq .txt or paste. Claude scores the ICP, extracts pain quotes, and writes your follow-up email in your voice.</div>
-      <div class="drop-zone" id="dropZone">
-        <input type="file" id="fileInput" accept=".txt,.md" style="display:none">
-        <div style="font-size:12px;color:var(--tx3)">Drop .txt/.md file here</div>
-        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">or tap to browse</div>
-        <div id="fileName" style="font-size:11px;color:var(--green);margin-top:6px;font-family:'JetBrains Mono',monospace"></div>
+      <div class="slabel">📝 CALL NOTES</div>
+      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Type or paste notes here during the call. Auto-timestamped.</div>
+      <textarea id="transcriptNotes" rows="20" placeholder="Start typing your notes here... e.g.&#10;&#10;[10:02] Grant mentioned he runs Claude and Perplexity daily&#10;[10:05] Context loss confirmed — 'every session starts over'&#10;[10:08] No visibility into what's running — GREEN signal" style="min-height:220px;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65"></textarea>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn-secondary" id="copyNotesBtn" style="flex:1">📋 Copy Notes</button>
+        <button class="btn-secondary" id="addTimestampBtn" style="flex:1">🕐 Add Timestamp</button>
       </div>
-      <div style="text-align:center;font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin:6px 0">— OR —</div>
-      <div class="flabel">Paste Transcript</div>
-      <textarea id="transcriptText" placeholder="Paste Tactiq or Fathom transcript here..." style="min-height:100px;margin-bottom:10px"></textarea>
-      <div id="transcriptError" style="display:none;font-size:11px;color:var(--red);margin-bottom:10px;padding:7px;background:rgba(248,81,73,.08);border-radius:4px;border:1px solid rgba(248,81,73,.3)"></div>
-      <button class="btn-primary" id="analyzeBtn">ANALYZE + BUILD FOLLOW-UP →</button>
-    </div>
-
-    <div id="analyzeLoading" style="display:none;text-align:center;padding:30px">
-      <div class="spin" style="margin-bottom:12px"></div>
-      <div style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace">Scoring ICP · extracting pain · writing email in your voice...</div>
+      <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;text-align:center">Notes are not saved automatically. Copy before closing.</div>
     </div>
   </div>
 
@@ -1218,6 +1214,34 @@ function switchMainTab(id){
 }
 
 // ─── STEP NAV ───────────────────────────────────────────
+// ─── PREP CONTEXT CARD ──────────────────────────────────
+function refreshPrepCard(){
+  const rows = document.getElementById('prepContextRows');
+  if(!rows) return;
+  const val = id => (document.getElementById(id)?.value || '').trim();
+  const linkedinUrl = val('linkedinUrl');
+  const contactName = val('contactName');
+  const firmName = val('firmName');
+  const secondCompany = val('secondCompany');
+  const empty = '—';
+  const linkedinCell = linkedinUrl
+    ? `<a href="${linkedinUrl}" target="_blank" rel="noopener" style="color:var(--blue);font-size:12px;word-break:break-all">${linkedinUrl}</a>`
+    : `<span style="color:var(--tx3);font-size:12px">${empty}</span>`;
+  rows.innerHTML = [
+    ['Contact', contactName || empty],
+    ['Company', firmName || empty],
+    ['Second role', secondCompany || empty],
+  ].map(([k,v])=>`
+    <div style="display:flex;gap:12px;padding:7px 0;border-bottom:1px solid rgba(240,160,48,.18);align-items:flex-start">
+      <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;min-width:80px;padding-top:1px">${k}</div>
+      <div style="font-size:12px;color:var(--tx1);flex:1">${v}</div>
+    </div>`).join('')+`
+    <div style="display:flex;gap:12px;padding:7px 0;align-items:flex-start">
+      <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;min-width:80px;padding-top:1px">LinkedIn</div>
+      <div style="flex:1">${linkedinCell}</div>
+    </div>`;
+}
+
 function showStep(n){
   document.querySelectorAll('.step-panel').forEach(p=>p.style.display='none');
   const el = document.getElementById('step'+n);
@@ -1332,6 +1356,7 @@ async function generateBrief(){
   const url = document.getElementById('linkedinUrl').value.trim();
   const name = document.getElementById('contactName').value.trim();
   const firm = document.getElementById('firmName').value.trim();
+  const secondCompany = (document.getElementById('secondCompany')?.value || '').trim();
   const errEl = document.getElementById('step1Error');
 
   if(!url && !name && !firm){
@@ -1346,7 +1371,7 @@ async function generateBrief(){
   const iv = setInterval(()=>{ const m=document.getElementById('loadMsg'); if(m) m.textContent=LOAD_MSGS[i++%LOAD_MSGS.length]; },1800);
 
   try {
-    const brief = await callClaude(key, buildResearchPrompt(url,name,firm));
+    const brief = await callClaude(key, buildResearchPrompt(url,name,firm,secondCompany));
     clearInterval(iv);
     document.getElementById('generateLoading').style.display = 'none';
     if(brief){
@@ -1366,31 +1391,8 @@ async function generateBrief(){
 
 // ─── RENDER BRIEF ────────────────────────────────────────
 function renderBrief(b, name, firm){
-  document.getElementById('briefNameDisplay').textContent = name || b.snapshot?.person?.split(' ')[0] || 'PROSPECT';
-  document.getElementById('briefFirmDisplay').textContent = firm || b.snapshot?.firm?.split('—')[0] || '';
-
-  // Snapshot
+  // Snapshot — populate prep context if refreshPrepCard hasn't run yet
   const snap = b.snapshot || {};
-  document.getElementById('snapRows').innerHTML = [
-    ['FIRM', snap.firm||'—'],['CONTACT',snap.person||'—'],
-    ['AI SIGNALS',snap.ai_signals||'None found'],
-    ['WATCH FOR',snap.watch_for||'—'],
-    ['PRE-SCORE',snap.icp_pre_score||'—'],
-    ['GOAL','Extract pain. ZERO pitching. Researcher mode only.']
-  ].map(([k,v])=>`
-    <div class="snap-row">
-      <div class="snap-key">${k}</div>
-      <div style="color:var(--tx1);flex:1;font-size:12px;line-height:1.5">${v}</div>
-    </div>`).join('');
-
-  // Counter warnings
-  const cp = b.counter_pitch || {};
-  document.getElementById('counterList').innerHTML = (cp.warning_signs||[
-    'He pivots to asking about YOUR challenges early',
-    'He name-drops clients or case studies unprompted',
-    "He says 'we help companies like yours'",
-    'He asks about your budget or timeline'
-  ]).map(w=>`<div class="sig"><span class="badge br">WATCH</span><span style="color:var(--tx2);font-size:12px">${w}</span></div>`).join('');
 
   // Questions
   const qs = b.tailored_questions || [];
@@ -1423,22 +1425,16 @@ function renderBrief(b, name, firm){
 async function analyzeTranscript(){
   const key = getKey();
   if(!key){ document.getElementById('apiGate').style.display='block'; showStep(1); return; }
-  const text = document.getElementById('transcriptText').value.trim();
-  const errEl = document.getElementById('transcriptError');
-  if(!text){ errEl.textContent='Paste or upload a transcript first.'; errEl.style.display='block'; return; }
-  errEl.style.display='none';
+  const notesEl = document.getElementById('transcriptNotes');
+  const text = (notesEl?.value || '').trim();
+  if(!text){ alert('Add call notes in the TRANSCRIPT tab first.'); return; }
 
   const name = document.getElementById('contactName').value.trim() || 'the prospect';
   const firm = document.getElementById('firmName').value.trim() || 'their firm';
 
-  document.querySelector('#step4 .card-amber').style.display = 'none';
-  document.getElementById('analyzeLoading').style.display = 'block';
-
   try {
     const result = await callClaude(key, buildAnalysisPrompt(text, name, firm));
-    document.getElementById('analyzeLoading').style.display = 'none';
     if(result){
-      // Auto-fill scores
       if(result.icp_score){
         Object.entries(result.icp_score).forEach(([k,v])=>{ if(k!=='total') scoreVals[k]=v; });
       }
@@ -1446,10 +1442,7 @@ async function analyzeTranscript(){
       showStep(5);
     } else { throw new Error('No analysis returned'); }
   } catch(e){
-    document.getElementById('analyzeLoading').style.display = 'none';
-    document.querySelector('#step4 .card-amber').style.display = 'block';
-    errEl.textContent = 'Error: '+e.message;
-    errEl.style.display = 'block';
+    alert('Error: '+e.message);
   }
 }
 
@@ -1602,28 +1595,28 @@ async function callClaude(key, prompt){
 }
 
 // ─── PROMPTS ─────────────────────────────────────────────
-function buildResearchPrompt(url, name, firm){
-  return `You are a B2B sales research agent for COMMAND — an Agent Operations Center for boutique consulting and coaching firms (1-15 people, owner-led). COMMAND solves: operators running multiple AI agents simultaneously have no unified dashboard, no handoff layer, no context bridge — they become manual copy-paste relays. Tagline: "Stop being the bridge. Start being the boss."
+function buildResearchPrompt(url, name, firm, secondCompany){
+  const secondLine = secondCompany ? `Secondary company: ${secondCompany}` : 'Secondary company: none provided';
+  return `You are a discovery call prep specialist for Jason Davis, founder of COMMAND (an AI Agent Operations Center for boutique consulting firms). Jason is about to get on a call with a prospect. Generate a focused pre-call brief.
+
+You will receive:
+- LinkedIn URL (use to infer their background)
+- Contact full name
+- Primary company/firm they run or work at
+- Secondary company (if provided — they may have a day job + side venture)
 
 RESEARCH TARGET:
 LinkedIn URL: ${url||'not provided'}
-Contact: ${name||'unknown'}
-Firm: ${firm||'unknown'}
-
-INSTRUCTIONS:
-1. Research this person deeply from their LinkedIn URL, name, and firm name.
-2. Identify their AI tool usage signals — be specific. If none found, say exactly that.
-3. Generate ONLY the discovery questions that are relevant to this specific person. Drop or rewrite any question where the intel makes it redundant or off-target.
-4. For each question: tailor the wording, signals, and follow-ups to what you know about this person. A developer gets different framing than a fractional COO.
-5. The intel_hook must be personalized — reference their specific industry/role/signals, not just generic market stats.
-6. counter_pitch warning signs must be specific to THIS person's background and role.
+Contact full name: ${name||'unknown'}
+Primary company/firm: ${firm||'unknown'}
+${secondLine}
 
 Return ONLY valid JSON, no markdown, no preamble, no trailing text:
 
 {
   "snapshot": {
-    "firm": "1-line firm description — type of work, clients served, size",
-    "person": "background summary: prior roles, industries, location, notable signals",
+    "firm": "1-line primary firm description — type of work, clients served, size",
+    "person": "background summary: prior roles, industries, location, notable signals. If two companies, note both and which appears primary.",
     "ai_signals": "SPECIFIC tools/platforms found (Claude, Cursor, ChatGPT, Zapier, etc.) OR 'None found in public research'",
     "watch_for": "1-2 specific behavioral risks for this exact call based on their background",
     "icp_pre_score": "HIGH / MEDIUM / LOW — with one sentence rationale"
@@ -1635,28 +1628,28 @@ Return ONLY valid JSON, no markdown, no preamble, no trailing text:
       "relevance": "HIGH",
       "question": "Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used daily.",
       "single_tool_followup": "How many [tool] sessions or tabs are you running simultaneously? How does work move between those sessions?",
-      "green": ["GREEN signal tailored to what THIS person likely uses"],
-      "yellow": ["YELLOW — single tool, need to dig on instances"],
-      "red": ["RED — only basic writing use, no workflow integration"],
+      "green": ["Multiple tools named with specific workflows", "Claude plus at least one other tool"],
+      "yellow": ["Single tool — need to dig on instances and use depth"],
+      "red": ["Only basic writing use, no workflow integration"],
       "pain_language": ["copy-paste", "manual relay", "re-explain", "babysit"],
-      "context_note": "1-sentence note SPECIFIC to this person — reference their background"
+      "context_note": "Tailor to their role — a fractional COO has different stack than a solo operator"
     },
     {
       "id": "Q2",
       "label": "Coordination Behavior",
       "relevance": "HIGH",
-      "question": "How do you actually move work between those tools? Walk me through what that looks like step by step — like a real task you did this week.",
-      "green": ["Copy-paste context manually", "Re-explain in new tab", "Someone on team manages handoffs"],
+      "question": "When work moves between those tools — what does that actually look like?",
+      "green": ["Copy-paste context manually", "Re-explain in new tab each time", "Someone on team manages handoffs"],
       "yellow": ["Some automation but breaks occasionally"],
-      "red": ["They talk to each other automatically"],
+      "red": ["They talk to each other automatically — no friction"],
       "pain_language": ["manual relay", "copy-paste", "re-explain", "babysit it", "nobody watching"],
-      "context_note": "Tailored to their workflow — reference their specific role"
+      "context_note": "Reference their specific workflow based on their role and industry"
     },
     {
       "id": "Q3",
       "label": "Failure Mode",
-      "relevance": "HIGH or MEDIUM based on intel",
-      "question": "Tell me about a time something went wrong — an agent stalled, dropped context, or just didn't perform. What happened and what did it cost you?",
+      "relevance": "HIGH",
+      "question": "Has there been a time where something dropped in that handoff?",
       "green": ["Specific failure with real business or client impact", "Found out days later — visibility gap confirmed"],
       "yellow": ["Vague frustration, no specific story yet"],
       "red": ["Nothing has gone wrong — low usage signal"],
@@ -1665,33 +1658,35 @@ Return ONLY valid JSON, no markdown, no preamble, no trailing text:
     },
     {
       "id": "Q4",
-      "label": "Time Cost",
-      "relevance": "HIGH or MEDIUM based on intel",
-      "question": "If you had to put a number on it — how much time a week goes into managing the agents themselves, not using their output. Just the overhead of keeping them coordinated.",
-      "scoring": {"15pts": "2+ hours/week", "10pts": "30-120 min/week", "5pts": "Can't quantify but acknowledges waste", "0pts": "It runs itself"},
-      "pain_language": ["more than I'd like", "too much time on it", "hired someone to watch it"],
-      "context_note": "Tailor based on firm size — solo operators underestimate this number"
+      "label": "Visibility Gap",
+      "relevance": "HIGH",
+      "question": "Right now, if I asked you what your AI agents are doing — could you tell me?",
+      "green": ["Pause — they cannot answer immediately", "'Not really' or 'kind of' response", "Laughs — recognition moment"],
+      "yellow": ["Has a rough idea but no real-time view"],
+      "red": ["Clear answer immediately — high visibility, low pain"],
+      "pain_language": ["no idea", "not really", "I'd have to check", "probably running"],
+      "context_note": "This is the visibility gap question — their hesitation IS the signal"
     },
     {
       "id": "Q5",
       "label": "Vision",
-      "relevance": "HIGH or MEDIUM based on intel",
-      "question": "If you had one place where you could see everything your agents were doing — status, what they're working on, handoff state — what would that actually change for you day to day?",
-      "green": ["Emotional relief response", "I'd finally be able to delegate properly", "I'd trust it more"],
+      "relevance": "HIGH",
+      "question": "If you had a single place where you could see what every agent was doing — status, handoff state, what's pending — what would that change for you?",
+      "green": ["Emotional relief response", "I'd finally be able to delegate properly", "I'd trust it more", "Less time babysitting"],
       "red": ["Blank or confused — may not have the problem yet"],
-      "pain_language": ["finally", "delegate", "trust it", "less time babysitting", "know what's happening"],
-      "context_note": "If they're solo, frame around personal leverage. If they have a team, frame around visibility."
+      "pain_language": ["finally", "delegate", "trust it", "less babysitting", "know what's happening"],
+      "context_note": "Solo operators: frame around personal leverage. Teams: frame around visibility and accountability."
     }
   ],
   "counter_pitch": {
     "warning_signs": [
-      "Specific sign #1 based on THIS person's role/background",
-      "Specific sign #2",
-      "Specific sign #3"
+      "Specific warning sign #1 based on THIS person's role/background",
+      "Specific warning sign #2",
+      "Specific warning sign #3"
     ]
   },
-  "intel_hook": "2-3 sentences tailored to THIS person's specific industry, role, and AI signals. Reference Microsoft A2A, IBM orchestration layer, or Gartner 1400% only where genuinely relevant. Lead with what's most relevant to THEM specifically.",
-  "dock_brief_template": "Pre-written 3-4 sentence Dock.us room description for this prospect — what COMMAND solves for someone with their specific background and role. Written in second person, warm, direct."
+  "intel_hook": "2-3 sentences tailored to THIS person's specific industry, role, and AI signals. Reference Microsoft A2A, IBM orchestration layer, or Gartner 1400% only where genuinely relevant. Lead with what's most relevant to them.",
+  "dock_brief_template": "Pre-written 3-4 sentence Dock.us room description for this prospect — what COMMAND solves for someone with their specific background. Written in second person, warm, direct."
 }`;
 }
 
@@ -1735,7 +1730,7 @@ function loadFile(f){
   }
   document.getElementById('fileName').textContent='✓ '+f.name;
   const r=new FileReader();
-  r.onload=e=>{ document.getElementById('transcriptText').value=e.target.result; };
+  r.onload=e=>{ const el=document.getElementById('transcriptNotes'); if(el) el.value=e.target.result; };
   r.readAsText(f);
 }
 
@@ -1743,7 +1738,7 @@ function loadFile(f){
 function resetAll(){
   currentBrief=null; scoreVals={}; noteVals={}; flags={agency:false,beta:false};
   resetTimer();
-  ['linkedinUrl','contactName','firmName','transcriptText'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['linkedinUrl','contactName','firmName','secondCompany','transcriptNotes'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('fileName').textContent='';
   const s4card = document.querySelector('#step4 .card-amber');
   if(s4card) s4card.style.display='block';
@@ -1819,7 +1814,7 @@ function toggleCounterPanel(){
 // ─── DOCK.US CLONE BRIEF ──────────────────────────────────
 function showDockBrief(){
   const brief = currentBrief;
-  const transcript = document.getElementById('transcriptText')?.value?.trim() || '';
+  const transcript = document.getElementById('transcriptNotes')?.value?.trim() || '';
   const name = document.getElementById('contactName').value.trim() || 'this prospect';
   const firm = document.getElementById('firmName').value.trim() || 'their firm';
 
@@ -1948,31 +1943,45 @@ window.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('[data-step]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const s = parseInt(btn.getAttribute('data-step'));
-      if(s <= currentStep || s === currentStep+1) showStep(s);
+      if(s <= currentStep || s === currentStep+1) {
+        showStep(s);
+        if(s === 2) refreshPrepCard();
+      }
     });
   });
 
-  // Brief tab nav
-  document.querySelectorAll('[data-btab]').forEach(btn=>{
-    btn.addEventListener('click', ()=>switchBriefTab(btn.getAttribute('data-btab')));
-  });
-
-  // Generate button
+  // Generate button (PROSPECT tab)
   document.getElementById('generateBtn').addEventListener('click', generateBrief);
 
-  // Start call button
-  document.getElementById('startCallBtn').addEventListener('click', ()=>{
-    showStep(3);
-    buildScoreRows();
-    buildNoteFields();
-    if(currentBrief) renderAllQuestions(currentBrief);
-    toggleTimer();
+  // Generate button (PREP tab shortcut)
+  const prepGenBtn = document.getElementById('prepGenerateBtn');
+  if(prepGenBtn) prepGenBtn.addEventListener('click', generateBrief);
+
+  // Copy Notes button (TRANSCRIPT tab)
+  const copyNotesBtn = document.getElementById('copyNotesBtn');
+  if(copyNotesBtn) copyNotesBtn.addEventListener('click', ()=>{
+    const ta = document.getElementById('transcriptNotes');
+    if(!ta) return;
+    navigator.clipboard.writeText(ta.value).then(()=>{
+      const orig = copyNotesBtn.textContent;
+      copyNotesBtn.textContent = 'Copied!';
+      setTimeout(()=>{ copyNotesBtn.textContent = orig; }, 1500);
+    });
   });
 
-  // Skip to transcript
-  document.getElementById('skipCallBtn').addEventListener('click', ()=>showStep(4));
-
-  // Wire step pipeline — also jump to call from prep (step 2 START CALL)
+  // Add Timestamp button (TRANSCRIPT tab)
+  const addTsBtn = document.getElementById('addTimestampBtn');
+  if(addTsBtn) addTsBtn.addEventListener('click', ()=>{
+    const ta = document.getElementById('transcriptNotes');
+    if(!ta) return;
+    const now = new Date();
+    const ts = '['+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+'] ';
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    ta.value = ta.value.substring(0, start) + ts + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + ts.length;
+    ta.focus();
+  });
 
   // Wire collapsed panel toggles
   const intelRow = document.getElementById('intelToggleRow');
@@ -1990,18 +1999,20 @@ window.addEventListener('DOMContentLoaded', function(){
   document.getElementById('timerResetBtn').addEventListener('click', resetTimer);
   document.getElementById('goToTranscriptBtn').addEventListener('click', ()=>{ clearInterval(timerIv); timerActive=false; showStep(4); });
 
-  // New prospect
-  document.getElementById('newProspectBtn').addEventListener('click', resetAll);
+  // Analyze transcript (legacy — called from SEND panel if needed)
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  if(analyzeBtn) analyzeBtn.addEventListener('click', analyzeTranscript);
 
-  // Analyze transcript
-  document.getElementById('analyzeBtn').addEventListener('click', analyzeTranscript);
-
-  // File upload
-  document.getElementById('dropZone').addEventListener('click', handleFileClick);
-  document.getElementById('dropZone').addEventListener('dragover', handleDragOver);
-  document.getElementById('dropZone').addEventListener('dragleave', handleDragLeave);
-  document.getElementById('dropZone').addEventListener('drop', handleDrop);
-  document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+  // File upload (legacy — elements removed from TRANSCRIPT tab)
+  const dropZone = document.getElementById('dropZone');
+  if(dropZone){
+    dropZone.addEventListener('click', handleFileClick);
+    dropZone.addEventListener('dragover', handleDragOver);
+    dropZone.addEventListener('dragleave', handleDragLeave);
+    dropZone.addEventListener('drop', handleDrop);
+  }
+  const fileInput = document.getElementById('fileInput');
+  if(fileInput) fileInput.addEventListener('change', handleFileSelect);
 
   // API key management
   document.getElementById('setKeyBtn').addEventListener('click', ()=>{
