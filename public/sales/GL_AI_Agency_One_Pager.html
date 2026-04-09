@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlobaLink AI Agency — Intelligent Outcomes. Delivered at Scale.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:           #080B11;
+      --surface:      #0D1117;
+      --border:       #1C2333;
+      --amber:        #F0A030;
+      --amber-dim:    #A06820;
+      --amber-glow:   rgba(240,160,48,0.08);
+      --amber-ring:   rgba(240,160,48,0.20);
+      --tx1:          #E6EDF3;
+      --tx2:          #9DA8B5;
+      --tx3:          #6E7681;
+      --green:        #3FB950;
+      --blue:         #58A6FF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--tx1); font-family: 'DM Sans', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── UTILITIES ─── */
+    .mono   { font-family: 'Space Mono', monospace; }
+    .dm     { font-family: 'DM Mono', monospace; }
+    .muted  { color: var(--tx2); }
+    .faint  { color: var(--tx3); }
+    .amber  { color: var(--amber); }
+
+    /* ─── LAYOUT ─── */
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 36px; }
+
+    /* ─── HEADER ─── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.07em;
+      color: var(--amber);
+      text-transform: uppercase;
+    }
+    .brand span { color: var(--tx3); }
+    .header-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--tx3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 84px 0 76px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 700px 320px at 50% 0%, rgba(240,160,48,0.055) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow::before { content: '//'; opacity: 0.45; }
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin-bottom: 22px;
+      max-width: 680px;
+    }
+    h1 .hl { color: var(--amber); }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--tx2);
+      max-width: 560px;
+      margin-bottom: 38px;
+      line-height: 1.7;
+    }
+    .cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      transition: opacity .18s, transform .18s;
+    }
+    .btn:hover { opacity: .82; transform: translateY(-1px); }
+    .btn-amber { background: var(--amber); color: #080B11; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--tx2);
+      font-size: 14px;
+    }
+    .btn-ghost:hover { border-color: var(--amber-dim); color: var(--tx1); opacity: 1; }
+    .hero-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--tx3);
+      margin-top: 18px;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .sec-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .sec-lead {
+      font-size: 16px;
+      color: var(--tx2);
+      max-width: 620px;
+      margin-bottom: 40px;
+      line-height: 1.65;
+    }
+
+    /* ─── WHAT WE DO ─── */
+    .what-body {
+      font-size: 17px;
+      line-height: 1.72;
+      color: var(--tx2);
+      max-width: 740px;
+    }
+    .what-body strong { color: var(--tx1); }
+    .what-callout {
+      margin-top: 28px;
+      padding: 20px 26px;
+      background: var(--amber-glow);
+      border: 1px solid var(--amber-ring);
+      border-radius: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      color: var(--amber);
+      line-height: 1.6;
+      max-width: 660px;
+    }
+
+    /* ─── TABLES ─── */
+    .table-wrap { overflow-x: auto; }
+    .table-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    thead th.col-old { color: var(--tx3); }
+    thead th.col-gl  { color: var(--amber); }
+    thead th.col-std { color: var(--tx3); }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .13s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.018); }
+    td { padding: 14px 18px; color: var(--tx2); vertical-align: top; line-height: 1.55; }
+    td.cell-old { color: var(--tx3); }
+    td.cell-gl  { color: var(--tx1); }
+    td:first-child { color: var(--tx1); font-weight: 500; }
+
+    /* ─── PRICING ─── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: var(--amber);
+      background: linear-gradient(155deg, rgba(240,160,48,0.07) 0%, var(--surface) 55%);
+    }
+    .price-badge {
+      position: absolute;
+      top: -1px; right: 18px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: var(--amber);
+      color: #080B11;
+      padding: 3px 10px;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+    }
+    .price-tier {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--tx1);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .price-amount {
+      font-family: 'Space Mono', monospace;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+    .price-amount span { font-size: 14px; color: var(--tx3); font-weight: 400; }
+    .price-ideal {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--tx3);
+      margin: 10px 0 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .price-includes {
+      font-size: 13px;
+      color: var(--tx2);
+      line-height: 1.75;
+    }
+    .trial-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--tx3);
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      line-height: 1.5;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps { display: flex; flex-direction: column; max-width: 660px; }
+    .step { display: flex; gap: 20px; padding-bottom: 32px; }
+    .step:last-child { padding-bottom: 0; }
+    .step-track { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .step-dot {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--amber);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .step-line { width: 1px; flex: 1; background: var(--border); margin-top: 6px; }
+    .step:last-child .step-line { display: none; }
+    .step-body { padding-top: 6px; }
+    .step-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 5px;
+    }
+    .step-desc { font-size: 14px; color: var(--tx2); line-height: 1.65; }
+
+    /* ─── WHY GL ─── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .why-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .why-pip {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .why-text { font-size: 14px; color: var(--tx2); line-height: 1.6; }
+    .why-text strong { color: var(--tx1); display: block; margin-bottom: 2px; font-size: 14px; }
+
+    /* ─── CTA ─── */
+    .cta-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 56px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 520px 200px at 50% 100%, rgba(240,160,48,0.065) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-block h2 { font-size: clamp(22px, 3.5vw, 30px); margin-bottom: 14px; position: relative; }
+    .cta-block p { color: var(--tx2); font-size: 16px; margin-bottom: 34px; position: relative; }
+    .cta-contact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      position: relative;
+    }
+    .cta-contact a {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--tx2);
+      transition: color .18s;
+    }
+    .cta-contact a:hover { color: var(--amber); }
+
+    /* ─── FOOTER ─── */
+    footer { padding: 26px 0; border-top: 1px solid var(--border); }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-brand { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--tx3); }
+    .footer-conf {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tx3);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 56px 0 48px; }
+      section { padding: 52px 0; }
+      .cta-block { padding: 38px 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="brand">GlobaLink <span>AI Agency</span></div>
+      <div class="header-tag dm">Confidential &middot; April 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">GlobaLink AI Agency</div>
+    <h1>Intelligent Outcomes.<br><span class="hl">Delivered at Scale.</span></h1>
+    <p class="hero-sub">Research, reporting, competitive intelligence, and operational documentation — produced by our AI workforce, quality-reviewed by GL operators, delivered to your standard.</p>
+    <div class="cta-row">
+      <a href="mailto:jason@globalinkservices.io" class="btn btn-amber">Schedule a Discovery Call</a>
+      <a href="https://globalinkservices.io" class="btn btn-ghost">globalinkservices.io &rarr;</a>
+    </div>
+    <div class="hero-note">20-minute session &middot; No commitment required</div>
+  </div>
+</div>
+
+<!-- ─── WHAT WE DO ─── -->
+<section id="what">
+  <div class="wrap">
+    <div class="sec-label">What We Do</div>
+    <h2>Your AI-powered research and ops team.</h2>
+    <div class="what-body">
+      <p>GlobaLink AI Agency delivers <strong>research, reporting, competitive intelligence, and operational documentation</strong> for boutique consulting and coaching firms — produced by our AI workforce, quality-reviewed by our operators, delivered to your standard.</p>
+      <div class="what-callout">
+        You get the output of a full research and ops team.<br>
+        We do not charge for hours. We charge for results.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── THE PROBLEM ─── -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-label">The Problem We Solve</div>
+    <h2>The old way is expensive. The GL way scales.</h2>
+    <p class="sec-lead">Stop paying for headcount. Start paying for outcomes.</p>
+    <div class="table-wrap">
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-old">The Old Way</th>
+              <th class="col-gl">The GL Way</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-old">Hire researchers and writers to produce deliverables</td>
+              <td class="cell-gl">AI agents produce deliverables — reviewed and delivered by GL operators</td>
+            </tr>
+            <tr>
+              <td class="cell-old">Pay $8,000–$25,000/month in labor costs</td>
+              <td class="cell-gl">Monthly retainer — fraction of in-house staffing cost</td>
+            </tr>
+            <tr>
+              <td class="cell-old">Growth requires hiring — slow and expensive</td>
+              <td class="cell-gl">Scale instantly — no headcount required</td>
+            </tr>
+            <tr>
+              <td class="cell-old">Inconsistent quality across projects</td>
+              <td class="cell-gl">Standardized output, every time, on schedule</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICE MENU ─── -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-label">Service Menu</div>
+    <h2>Everything delivered client-ready.</h2>
+    <p class="sec-lead">All services are delivered as finished, client-ready documents unless otherwise specified.</p>
+    <div class="table-wrap">
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-std">Service</th>
+              <th class="col-std">What You Receive</th>
+              <th class="col-std">Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Market Intelligence</td>
+              <td>Weekly or monthly competitive landscape reports — competitor moves, market signals, trend summaries</td>
+              <td>Firms advising clients on strategy</td>
+            </tr>
+            <tr>
+              <td>Research &amp; Analysis</td>
+              <td>Deep-dive research reports — industry analysis, ICP profiling, vendor comparisons</td>
+              <td>Consulting firms preparing client decks</td>
+            </tr>
+            <tr>
+              <td>Content Production</td>
+              <td>Newsletters, thought leadership articles, LinkedIn content, email sequences — written and formatted</td>
+              <td>Coaching firms and personal brands</td>
+            </tr>
+            <tr>
+              <td>Ops Documentation</td>
+              <td>SOPs, onboarding guides, process maps, internal playbooks — structured and branded</td>
+              <td>Firms scaling their delivery model</td>
+            </tr>
+            <tr>
+              <td>Client Reporting</td>
+              <td>Monthly performance summaries, progress reports, exec briefings — formatted for client delivery</td>
+              <td>Retainer-based consulting firms</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-label">Pricing</div>
+    <h2>Simple tiers. No annual contracts.</h2>
+    <p class="sec-lead">Every tier includes a 14-day pilot engagement before commitment.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">$2,500<span>/mo</span></div>
+        <div class="price-ideal">Solo or 2-person firm testing AI-assisted delivery</div>
+        <div class="price-includes">
+          4 research or content deliverables/month<br>
+          + 1 workflow automated
+        </div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-amount">$5,000<span>/mo</span></div>
+        <div class="price-ideal">5–10 person firm with active client roster</div>
+        <div class="price-includes">
+          8 deliverables/month<br>
+          + 3 workflows automated<br>
+          + weekly intel brief
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Partner</div>
+        <div class="price-amount">$10,000<span>+/mo</span></div>
+        <div class="price-ideal">10–20 person firm wanting embedded AI delivery capacity</div>
+        <div class="price-includes">
+          Unlimited deliverables<br>
+          + full ops support<br>
+          + dedicated AI team config
+        </div>
+      </div>
+    </div>
+    <div class="trial-note">14-day pilot engagement before commitment &nbsp;&middot;&nbsp; No annual contracts required &nbsp;&middot;&nbsp; Cancel anytime</div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-label">How It Works</div>
+    <h2>You brief us. We deliver.</h2>
+    <p class="sec-lead">We keep the process simple.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-track"><div class="step-dot">01</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-name">Brief</div>
+          <div class="step-desc">You send us your monthly deliverable list, client context, and output standards.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-track"><div class="step-dot">02</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-name">Configure</div>
+          <div class="step-desc">We map your requirements to our AI agent squad and set the production schedule.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-track"><div class="step-dot">03</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-name">Produce</div>
+          <div class="step-desc">AI agents generate first drafts. GL operators review for accuracy, tone, and quality.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-track"><div class="step-dot">04</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-name">Deliver</div>
+          <div class="step-desc">Finished documents land in your Drive, inbox, or preferred workspace on schedule.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-track"><div class="step-dot">05</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-name">Refine</div>
+          <div class="step-desc">We incorporate your feedback monthly to improve output quality continuously.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY GLOBALINK ─── -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-label">Why GlobaLink</div>
+    <h2>Built by operators. Powered by AI.</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-pip"></div>
+        <div class="why-text"><strong>Operator-built</strong>We are boutique operators ourselves — not software vendors.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-pip"></div>
+        <div class="why-text"><strong>Powered by COMMAND</strong>Our proprietary Agent Operations Center manages every AI worker on your account.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-pip"></div>
+        <div class="why-text"><strong>Protocol-agnostic</strong>We work with Claude, GPT-4, Perplexity, and others depending on the task.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-pip"></div>
+        <div class="why-text"><strong>No lock-in</strong>Month-to-month, cancel anytime, full data portability.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-pip"></div>
+        <div class="why-text"><strong>LATAM-ready</strong>Bilingual delivery capacity for US and Brazil-based firms.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section id="cta">
+  <div class="wrap">
+    <div class="cta-block">
+      <div class="sec-label" style="text-align:center; margin-bottom:18px;">Ready to Scale?</div>
+      <h2>Stop being the bridge.<br>Start being the boss.</h2>
+      <p>Schedule a 20-minute discovery session — no pitch deck, no pressure.</p>
+      <a href="mailto:jason@globalinkservices.io" class="btn btn-amber" style="position:relative;">Book a Discovery Call</a>
+      <div class="cta-contact">
+        <a href="mailto:jason@globalinkservices.io">jason@globalinkservices.io</a>
+        <a href="https://globalinkservices.io">globalinkservices.io</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">GlobaLink (GL) &middot; Florida LLC &middot; April 2026</div>
+      <div class="footer-conf">Confidential &mdash; Do Not Distribute</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

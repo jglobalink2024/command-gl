@@ -21,6 +21,8 @@ Static marketing/landing site for COMMAND (Agent Operations Center), served at `
 - **One-pager v3 (`COMMAND_One_Pager_v3.html`):** Single-file interactive collateral with dark COMMAND palette, hero canvas particle network (12–18 nodes, proximity edges), pinned 400vh problem story (SplitType + GSAP scroll-typed terminal lines), click/scroll activation transition into dashboard state, GSAP reveal cards, five-step JS state demo, positioning/pricing/footer sections.
 - **One-pager v3 copy alignment:** v3 keeps new interaction/animation architecture but mirrors v2 copy language for shared collateral sections (solution/features text, market-position grid, pricing tier details, and footer legal/meta phrasing).
 
+- **Sales Hub (`public/sales/command_hub.html`):** Internal sales ops tool with tabbed interface. Contains four engines: INTEL tab hosts (1) Call Brief Folio Engine (260408) and (2) Post-Call Synthesis Engine (260408). Post-Call engine accepts TXT/PDF transcript upload → calls Anthropic API (`claude-sonnet-4-20250514`) → returns full action package (ICP score 0-110, tier P1/T1/T2/T3, call synopsis, key quotes, JCMD email draft, asset links, action items, Notion update text). Uses `.sy-*` CSS classes inline; reuses `.fp-*` classes from Folio Engine. No external JS dependencies.
+
 ## Patterns
 
 - Cross-subdomain legal links: plain `<a href="https://app.command...">`, `target="_blank"`, `rel="noopener noreferrer"`.
