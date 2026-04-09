@@ -144,3 +144,35 @@ chore(docs): update beta syllabus v2 copy
 Operator: jason@globalinkservices.io
 Support: support@globalinkservices.io
 GitHub: jglobalink2024
+
+---
+
+## Skills Stack — GlobaLink LLC (260409)
+
+### Installed tools
+- Superpowers (obra/superpowers): auto-triggers on every session. Enforces
+  brainstorm → plan → TDD → review workflow. Do not skip or bypass it.
+- gstack (garrytan/gstack): role-based workflow commands. RESTRICTED — only
+  use /qa and /cso in GL repos. All other gstack roles are disabled by design
+  (token cost). Do not invoke /plan-ceo-review, /design-shotgun, or any persona
+  role unless Jason explicitly requests it in that session.
+- context7 (MCP): pull live docs for any library before writing code. Use
+  resolve-library-id then get-library-docs for Next.js 15, React 19, Supabase,
+  Stripe, @xyflow/react v12, Framer Motion, Zustand. Never write API calls from
+  training memory — always verify against live docs first.
+
+### gstack approved commands (GL only)
+- /qa — live Playwright browser test. Run after every feature build.
+- /cso — OWASP + STRIDE security audit. Run before every beta user onboarding.
+
+### Standard build sequence (every feature, no exceptions)
+1. Superpowers brainstorm → write-plan → execute-plan (auto-triggers)
+2. /review (Superpowers built-in) — catch bugs before push
+3. /qa (gstack) — live browser test
+4. npx tsc --noEmit — TypeScript clean
+5. preflight.ps1 — banned token scan (command-app only)
+6. git add → commit → push
+
+### Entity rule
+This is a GlobaLink LLC repo. Never reference Phase Line LLC, azimuth,
+phaselinellc, or Phase Line branding here.
