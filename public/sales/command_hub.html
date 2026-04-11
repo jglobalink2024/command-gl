@@ -219,260 +219,245 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 <!-- ═══════════════════════════════════════════ OPS TAB -->
 <div id="tab-ops" class="tab active">
 
-  <!-- PIPELINE PROGRESS BAR -->
-  <div class="pipeline" id="pipeline">
-    <button class="step-pill active" data-step="1"><span class="step-dot"></span>PROSPECT</button>
-    <span class="step-arrow">›</span>
-    <button class="step-pill" data-step="2"><span class="step-dot"></span>PREP</button>
-    <span class="step-arrow">›</span>
-    <button class="step-pill" data-step="3"><span class="step-dot"></span>CALL</button>
-    <span class="step-arrow">›</span>
-    <button class="step-pill" data-step="4"><span class="step-dot"></span>TRANSCRIPT</button>
-    <span class="step-arrow">›</span>
-    <button class="step-pill" data-step="5"><span class="step-dot"></span>SEND</button>
-  </div>
+  <!-- SECTION 0: QUICK LINKS -->
+  <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:14px;letter-spacing:.1em">INTERNAL OPS — QUICK ACCESS</div>
 
-  <!-- ── STEP 1: PROSPECT ── -->
-  <div id="step1" class="step-panel">
-    <div class="card-amber">
-      <div class="slabel">① Prospect Intel</div>
-      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Paste LinkedIn URL + contact info. Claude researches and builds your tailored call brief.</div>
-      <div style="margin-bottom:10px">
-        <div class="flabel">LinkedIn URL</div>
-        <input type="text" id="linkedinUrl" placeholder="https://linkedin.com/in/firstname-lastname">
+  <div class="card">
+    <div class="slabel">Operations</div>
+    <div class="copy-row">
+      <div><div class="copy-label">Notion Ops Hub</div><div class="copy-sub">Internal workspace &amp; docs</div></div>
+      <div style="display:flex;gap:6px">
+        <a class="open-btn" href="https://www.notion.so" target="_blank" rel="noopener noreferrer">OPEN</a>
       </div>
-      <div style="margin-bottom:10px">
-        <div class="flabel">CONTACT FULL NAME</div>
-        <input type="text" id="contactName" placeholder="e.g. Grant Carlson Frazier">
-        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Full name — first, middle if known, last</div>
-      </div>
-      <div style="margin-bottom:10px">
-        <div class="flabel">COMPANY / FIRM</div>
-        <input type="text" id="firmName" placeholder="e.g. Global Entry Hub">
-        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Their current company — not their name</div>
-      </div>
-      <div style="margin-bottom:10px">
-        <div class="flabel">SECOND COMPANY <span style="font-weight:400;color:var(--tx3)">(optional)</span></div>
-        <input type="text" id="secondCompany" placeholder="e.g. SBM Management Services">
-        <div style="font-size:10px;color:var(--tx3);margin-top:3px;font-family:'JetBrains Mono',monospace">Side venture, day job, or second role</div>
-      </div>
-      <div id="step1Error" style="display:none;font-size:11px;color:var(--red);margin-bottom:10px;padding:7px;background:rgba(248,81,73,.08);border-radius:4px;border:1px solid rgba(248,81,73,.3)"></div>
-
-      <!-- API KEY GATE -->
-      <div id="apiGate" style="display:none;margin-bottom:10px;padding:10px;background:rgba(248,81,73,.07);border:1px solid rgba(248,81,73,.25);border-radius:6px">
-        <div style="font-size:11px;color:var(--red);margin-bottom:8px;font-family:'JetBrains Mono',monospace">⚠ API key required — set below first</div>
-        <div style="display:flex;gap:8px">
-          <input type="password" id="inlineApiKey" placeholder="sk-ant-..." style="flex:1;font-size:12px;padding:7px 10px">
-          <button class="btn-secondary" id="inlineSaveBtn">SAVE</button>
-        </div>
-      </div>
-
-      <button class="btn-primary" id="generateBtn">GENERATE CALL BRIEF →</button>
     </div>
-
-    <!-- KEY MGMT (collapsed) -->
-    <div class="card" style="padding:10px 14px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace" id="keyStatusLine">API KEY: NOT SET</div>
-        <div style="display:flex;gap:6px">
-          <button class="btn-secondary" id="setKeyBtn" style="font-size:10px;padding:5px 10px">SET KEY</button>
-          <button class="btn-danger" id="clearKeyBtn" style="display:none;font-size:10px;padding:5px 10px">CLEAR</button>
-        </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Supabase Dashboard</div><div class="copy-sub">command-app DB · project ycxaohezeoiyrvuhlzsk</div></div>
+      <div style="display:flex;gap:6px">
+        <a class="open-btn" href="https://supabase.com/dashboard/project/ycxaohezeoiyrvuhlzsk" target="_blank" rel="noopener noreferrer">OPEN</a>
       </div>
-      <div id="keyInputRow" style="display:none;margin-top:10px">
-        <div style="display:flex;gap:8px">
-          <input type="password" id="mainApiKey" placeholder="sk-ant-..." style="flex:1;font-size:12px;padding:7px 10px">
-          <button class="btn-secondary" id="mainSaveBtn">SAVE</button>
-        </div>
-        <div style="font-size:10px;color:var(--tx3);margin-top:5px;line-height:1.5">Saved to this device only. Never sent to any server. Enter once per device.</div>
+    </div>
+    <div class="copy-row">
+      <div><div class="copy-label">Vercel Dashboard</div><div class="copy-sub">Deployments — command-app &amp; command-gl</div></div>
+      <div style="display:flex;gap:6px">
+        <a class="open-btn" href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">OPEN</a>
       </div>
     </div>
   </div>
 
-  <!-- GENERATE LOADING -->
-  <div id="generateLoading" style="display:none;text-align:center;padding:40px 20px">
-    <div class="spin" style="margin-bottom:14px"></div>
-    <div id="loadMsg" style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em"></div>
-  </div>
-
-  <!-- ── STEP 2: PREP ── -->
-  <div id="step2" class="step-panel" style="display:none">
-
-    <!-- PRE-CALL CONTEXT CARD -->
-    <div class="card-amber">
-      <div class="slabel">PRE-CALL CONTEXT</div>
-      <div style="font-size:10px;color:var(--tx2);margin-bottom:14px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">Review before you click Generate Call Brief</div>
-      <div id="prepContextRows"></div>
-    </div>
-
-    <!-- PRE-CALL CHECKLIST -->
-    <div class="card">
-      <div class="slabel">PRE-CALL CHECKLIST</div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px" id="prepChecklist">
-        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Reviewed their LinkedIn profile</label>
-        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Noted any AI/automation signals in their headline or posts</label>
-        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Know their firm size and service type</label>
-        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Sales Hub is open and ready</label>
-        <label style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx2);cursor:pointer"><input type="checkbox" style="width:auto;accent-color:var(--amber)"> Note-taking area open (TRANSCRIPT tab)</label>
+  <div class="card">
+    <div class="slabel">GitHub Repos</div>
+    <div class="copy-row">
+      <div><div class="copy-label">command-app</div><div class="copy-sub">PRIVATE · Next.js app</div></div>
+      <div style="display:flex;gap:6px">
+        <a class="open-btn" href="https://github.com/jglobalink2024/command-app" target="_blank" rel="noopener noreferrer">OPEN</a>
       </div>
     </div>
-
-    <!-- GENERATE SHORTCUT -->
-    <button class="btn-primary" id="prepGenerateBtn">→ GENERATE CALL BRIEF</button>
-  </div>
-
-  <!-- ── STEP 3: CALL LIVE ── -->
-  <div id="step3" class="step-panel" style="display:none">
-
-    <!-- DISCLOSURE BANNER -->
-    <div class="card-amber" style="margin-bottom:10px">
-      <div style="font-size:12px;color:var(--tx1);line-height:1.7">📋 <strong>Note-taking mode</strong> — this tab assists with call structure only. Audio is not recorded or transmitted. All notes stay local to this browser.</div>
-    </div>
-
-    <div class="timer-bar"><div class="timer-fill" id="timerBar" style="width:0%"></div></div>
-
-    <!-- TIMER PINNED -->
-    <div class="card-amber" style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
-        <div class="slabel" style="margin:0">⏱ Call Timer</div>
-        <div id="timerWarn" style="display:none;font-size:10px;color:var(--red);font-family:'JetBrains Mono',monospace;animation:pulse 1s infinite">⚠ CLOSE NOW — 18 MIN</div>
+    <div class="copy-row">
+      <div><div class="copy-label">command-gl</div><div class="copy-sub">PUBLIC · Static sales site</div></div>
+      <div style="display:flex;gap:6px">
+        <a class="open-btn" href="https://github.com/jglobalink2024/command-gl" target="_blank" rel="noopener noreferrer">OPEN</a>
       </div>
-      <div class="timer-big" id="timerDisplay">00:00</div>
-      <div style="display:flex;gap:8px">
-        <button class="btn-primary" id="timerToggleBtn" style="flex:1;padding:9px">⏸ PAUSE</button>
-        <button class="btn-secondary" id="timerResetBtn">↺</button>
-        <button class="btn-secondary" id="goToTranscriptBtn">CALL DONE →</button>
-      </div>
-    </div>
-
-    <!-- OPENING SCRIPT -->
-    <div class="card" style="margin-bottom:10px">
-      <div class="slabel">📋 Open</div>
-      <div class="script" style="font-size:12px;margin-bottom:6px">"You're already running multiple AI tools — everybody is. The question isn't whether to use them. It's who's coordinating them. Right now that's you — copy-pasting between tabs. COMMAND makes that someone else's job."</div>
-      <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">[PAUSE] → "Research mode — no agenda. Can I ask a few questions?" → [Wait for yes] → "Okay to record for my notes?"</div>
-    </div>
-
-    <!-- ALL QUESTIONS — SINGLE SCROLL, NO TABS -->
-    <div id="allQuestionsPanel">
-      <!-- v3 Playbook defaults — overwritten by renderAllQuestions after brief generation -->
-      <div class="card" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q1</span><span style="font-size:11px;color:var(--tx2)">Agent Inventory</span></div>
-          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 2–5</span>
-        </div>
-        <div class="script" style="font-size:13px;margin-bottom:6px">"Walk me through the AI tools you're actually running right now — not evaluating, what's live and being used daily."</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Multiple tools named</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Claude + another tool</span></div>
-      </div>
-      <div class="card" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q2</span><span style="font-size:11px;color:var(--tx2)">Coordination Behavior</span></div>
-          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 5–9</span>
-        </div>
-        <div class="script" style="font-size:13px;margin-bottom:6px">"When work moves between those tools — what does that actually look like?"</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Copy-paste manually</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Re-explain context each time</span></div>
-      </div>
-      <div class="card" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q3</span><span style="font-size:11px;color:var(--tx2)">Failure Mode</span></div>
-          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 9–13</span>
-        </div>
-        <div class="script" style="font-size:13px;margin-bottom:6px">"Has there been a time where something dropped in that handoff?"</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Specific failure with impact</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Found out days later</span></div>
-      </div>
-      <div class="card" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q4</span><span style="font-size:11px;color:var(--tx2)">Visibility Gap</span></div>
-          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 13–16</span>
-        </div>
-        <div class="script" style="font-size:13px;margin-bottom:6px">"Right now, if I asked you what your AI agents are doing — could you tell me?"</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Pause — they can't answer</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>"Not really" or "kind of"</span></div>
-      </div>
-      <div class="card" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700">Q5</span><span style="font-size:11px;color:var(--tx2)">Vision</span></div>
-          <span style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace">MIN 16–18</span>
-        </div>
-        <div class="script" style="font-size:13px;margin-bottom:6px">"If you had a single place where you could see what every agent was doing — status, handoff state, what's pending — what would that change for you?"</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px"><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>Emotional relief response</span><span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><span class="badge bg" style="font-size:9px">GREEN</span>"I'd finally be able to delegate"</span></div>
-      </div>
-    </div>
-
-    <!-- DEFLECT SCRIPT -->
-    <div class="card" style="margin-bottom:10px">
-      <div class="slabel">🛡 DEFLECT — "What Are You Building?"</div>
-      <div class="script" style="font-size:12px">"I'll tell you exactly what I'm building at the end — but I want to understand your situation first or it won't be relevant. One more thing?"</div>
-    </div>
-
-    <!-- INTEL AMMO — COLLAPSED -->
-    <div class="card" style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" id="intelToggleRow" style="cursor:pointer">
-        <div class="slabel" style="margin:0">📡 Intel — "Why Now?" (tap to expand)</div>
-        <span id="intelArrow" style="color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:12px">▸</span>
-      </div>
-      <div id="intelPanel" style="display:none;margin-top:10px">
-        <div id="intelHookDisplay" style="font-size:12px;color:var(--tx1);line-height:1.7;margin-bottom:10px;padding:8px;background:var(--amber-glow);border-radius:5px;border:1px solid var(--amber-dim)"></div>
-        <div class="script" style="font-size:11px">"Microsoft just shipped agent-to-agent coordination for enterprises this week. IBM calls the orchestration layer 'the front door to the super agent.' Gartner logged a 1,400% surge in multi-agent inquiries. The category is real. Nobody's built this for firms your size — enterprise has it, solo operators have nothing."</div>
-      </div>
-    </div>
-
-    <!-- COUNTER-PITCH — COLLAPSED -->
-    <div class="card-red" style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" id="counterToggleRow" style="cursor:pointer">
-        <div class="slabel-red" style="margin:0">🚨 Counter-Pitch (tap if he flips)</div>
-        <span id="counterArrow" style="color:var(--red);font-family:'JetBrains Mono',monospace;font-size:12px">▸</span>
-      </div>
-      <div id="counterPanel" style="display:none;margin-top:10px">
-        <div id="counterWarnings2"></div>
-        <div style="margin-top:10px">
-          <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;margin-bottom:4px">🥇 REDIRECT</div>
-          <div class="script" style="font-size:12px">"That's interesting — before we go there, let me understand your situation better. One more thing?"</div>
-          <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;margin:8px 0 4px">🥈 REFRAME</div>
-          <div class="script" style="font-size:12px">"Look, straight up — pure research mode. Not a consulting client. Just trying to understand how operators manage AI complexity. Still useful?"</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NON-PITCH CLOSE -->
-    <div class="card" style="margin-bottom:10px">
-      <div class="slabel">⏱ At 18 Min — Close</div>
-      <div class="script" style="font-size:12px">"This has been incredibly useful — you've confirmed several things I was only guessing at. I'm building something that addresses exactly what you described. It works with whatever AI tools you're already running — Claude, ChatGPT, any combination. That's intentional. It's early — I'm running a small pilot, not a broad beta. I'm selective about who gets in. Would you be open to me sending a one-pager and following up in a week?"</div>
-    </div>
-
-    <!-- LIVE SCORE -->
-    <div class="card" style="margin-bottom:10px">
-      <div class="slabel">🧮 ICP Score — Fill Live</div>
-      <div id="scoreRows"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-        <span style="font-size:11px;color:var(--tx2);font-family:'JetBrains Mono',monospace;font-weight:700">TOTAL</span>
-        <span id="scoreTotal" style="font-size:18px;font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace">0 / 100</span>
-      </div>
-      <div class="bar"><div class="bar-fill" id="scoreFill" style="width:0%;background:var(--amber)"></div></div>
-    </div>
-
-    <!-- LIVE NOTES -->
-    <div class="card">
-      <div class="slabel">📝 Notes</div>
-      <div id="noteFields"></div>
     </div>
   </div>
 
-  <!-- ── STEP 4: TRANSCRIPT ── -->
-  <div id="step4" class="step-panel" style="display:none">
-    <div class="card-amber">
-      <div class="slabel">📝 CALL NOTES</div>
-      <div style="font-size:11px;color:var(--tx2);margin-bottom:12px;line-height:1.7">Type or paste notes here during the call. Auto-timestamped.</div>
-      <textarea id="transcriptNotes" rows="20" placeholder="Start typing your notes here... e.g.&#10;&#10;[10:02] Grant mentioned he runs Claude and Perplexity daily&#10;[10:05] Context loss confirmed — 'every session starts over'&#10;[10:08] No visibility into what's running — GREEN signal" style="min-height:220px;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65"></textarea>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <button class="btn-secondary" id="copyNotesBtn" style="flex:1">📋 Copy Notes</button>
-        <button class="btn-secondary" id="addTimestampBtn" style="flex:1">🕐 Add Timestamp</button>
-      </div>
-      <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;text-align:center">Notes are not saved automatically. Copy before closing.</div>
+  <div class="section-divider"></div>
+
+  <!-- SECTION 1: BUILD STATUS -->
+  <div class="card">
+    <div class="slabel">① Build Status</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+      <span class="badge bg">PHASE 1 — COMPLETE</span>
+      <span class="badge bg">PHASE 1.5 — COMPLETE · 260408</span>
+      <span class="badge bb">PHASE 2 — NOT STARTED · TARGET MAY 15</span>
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">MVP FEATURES LIVE</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      ✅ Agent Status Dashboard — live view, stall detection<br>
+      ✅ Task Router — confidence scoring, operator override, Recent Decisions panel, confidence badges<br>
+      ✅ Handoff &amp; Context Bridge (CCF v1.0.0) — structured handoff, checksum, same-agent block, handoff log<br>
+      ✅ Workflow Canvas — NL decomposition, pipeline view<br>
+      ✅ Agent Proxy — live API calls to Anthropic + Perplexity<br>
+      ✅ MCP Host MVP — registration + status + auto-CCF<br>
+      ✅ Skills Library — 12 packs<br>
+      ✅ INTEL tab (Folio + PostCall)<br>
+      ✅ Pain-to-Pitch tool<br>
+      ✅ Context Auto-Loader<br>
+      ✅ Approval Queue — human-in-the-loop
     </div>
   </div>
 
-  <!-- ── STEP 5: SEND ── -->
-  <div id="step5" class="step-panel" style="display:none">
-    <div id="sendContent"></div>
+  <div class="card">
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:10px">RECENT FIXES — 260409–260410</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      ✅ Trial → Pilot language sweep (10 files)<br>
+      ✅ Same-agent handoff validation<br>
+      ✅ Product promise on dashboard subtitle<br>
+      ✅ Router empty state copy refresh<br>
+      ✅ Agent registration dead end fixed (?mode=add)<br>
+      ✅ Confidence scoring visible in Task Brief<br>
+      ✅ Jargon sweep (9 strings, 5 files)<br>
+      ✅ Text truncation fixes (5 surfaces)<br>
+      ✅ FM $99 CTA removed from in-app pricing<br>
+      ✅ Agent chat blocked state when no API key<br>
+      ✅ HelpAgent COMMAND knowledge base<br>
+      ✅ Dashboard metrics: live data (Tasks Completed, Decisions Logged)<br>
+      ✅ Onboarding guards on all 3 pages<br>
+      ✅ Canvas draftInput persistence<br>
+      ✅ Bridge GONE error sanitized
+    </div>
+  </div>
+
+  <!-- SECTION 2: TEST STATUS -->
+  <div class="card">
+    <div class="slabel">② Test Status</div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">PLAYWRIGHT</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:2;margin-bottom:12px">
+      <span class="badge bg" style="margin-right:6px">PASS</span> Smoke suite: 9/9<br>
+      <span class="badge bg" style="margin-right:6px">PASS</span> Persona flows A1–A8, B1–B4: 13/13<br>
+      <span class="badge by" style="margin-right:6px">PENDING</span> Canvas: 11/11 — needs realignment to NL interface<br>
+      <span class="badge bg" style="margin-right:6px">PASS</span> API tests: 16/16
+    </div>
+    <div style="font-size:12px;color:var(--tx2);line-height:2;margin-bottom:12px">
+      <span class="badge bg" style="margin-right:6px">CLEAN</span> TypeScript: exit 0<br>
+      <span class="badge bg" style="margin-right:6px">PASS</span> Preflight
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">TEST USER</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:12px;font-family:'JetBrains Mono',monospace">
+      jcameron5206@proton.me · reset 260410 · email confirmed
+    </div>
+    <div style="font-size:10px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">KNOWN ISSUES</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      ⚠ 811 ghost test users in Supabase (cleanup script queued)<br>
+      ⚠ Canvas tests need realignment (NL vs React Flow)<br>
+      ⚠ 4 retry-safe flakies: D5-01, D7-02, E2-01, E2-02
+    </div>
+  </div>
+
+  <!-- SECTION 3: PIPELINE STATUS -->
+  <div class="card">
+    <div class="slabel">③ Pipeline Status</div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">ACTIVE</div>
+    <table class="ptable" style="margin-bottom:14px">
+      <thead>
+        <tr><th>Contact</th><th>Tier</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Grant Carlson<br><span style="font-size:10px;font-weight:400;color:var(--tx2)">Global Entry Hub</span></td>
+          <td><span class="pip t1">T1</span></td>
+          <td>Discovery call done · one-pager sent</td>
+          <td>Follow-up ~7d post-call · check Sales Hub</td>
+        </tr>
+        <tr>
+          <td>Eric</td>
+          <td><span class="pip hot">P1</span></td>
+          <td>All pre-Eric fixes shipped (TRIAGE-13–17)</td>
+          <td>Send invite May 5–10 when SP move confirmed</td>
+        </tr>
+        <tr>
+          <td>Jon Smith<br><span style="font-size:10px;font-weight:400;color:var(--tx2)">Veteran Horizons</span></td>
+          <td><span class="pip t1">T1</span></td>
+          <td>"Manual relay is best I've found" — pain validated</td>
+          <td>FM push queued</td>
+        </tr>
+        <tr>
+          <td>Richard<br><span style="font-size:10px;font-weight:400;color:var(--tx2)">Blaz referral</span></td>
+          <td><span class="pip t1">T1</span></td>
+          <td>Referred by Blaz Marolt</td>
+          <td>FM push queued</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">CLOSED</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9;margin-bottom:12px">
+      T3 batch (7 contacts) — closed 260407, no further outreach<br>
+      Blaz Marolt — T3 closed, referral source only<br>
+      Matt Beck — T3 reset, low priority
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">FM COHORT</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      25 slots · $99/mo locked for life · closes Sep 30, 2026<br>
+      <strong style="color:var(--red)">0 filled</strong>
+    </div>
+  </div>
+
+  <!-- SECTION 4: NEXT ACTIONS -->
+  <div class="card">
+    <div class="slabel">④ Next Actions</div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">PRE-ERIC — before May 5</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9;margin-bottom:14px">
+      ✅ TRIAGE-13: Agent registration dead end — FIXED<br>
+      ✅ TRIAGE-14: Confidence scoring — FIXED<br>
+      ✅ TRIAGE-15: Recent Decisions — FIXED<br>
+      ✅ TRIAGE-16: Jargon sweep — FIXED<br>
+      ✅ TRIAGE-17: Truncation — FIXED<br>
+      ⏳ Ghost test user cleanup (Supabase)<br>
+      ⏳ Canvas test realignment<br>
+      ⏳ Personal walkthrough (Jason as Persona 27)
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">PRE-SP MOVE — before May 1</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9;margin-bottom:14px">
+      ⏳ Bilingual one-pager (PT-BR) — before May 13 SP Innovation Week<br>
+      ⏳ Grant follow-up (Sales Hub)<br>
+      ⏳ Documenso NDA: add participant text fields<br>
+      ⏳ Brevo: sender verification + DNS propagation
+    </div>
+    <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">GATED — after first paying customer</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      ⏳ Trademark COMMAND (USPTO Class 42, ~$350)<br>
+      ⏳ Vouch insurance Cyber+E&amp;O $155.75/mo<br>
+      ⏳ Axiom log drain<br>
+      ⏳ Provisional patent (AEP+CCF+MACP combination)<br>
+      ⏳ YC app (5 Phase 3 conditions)<br>
+      ⏳ ORACLE integration into COMMAND
+    </div>
+  </div>
+
+  <!-- SECTION 5: INFRASTRUCTURE -->
+  <div class="card">
+    <div class="slabel">⑤ Infrastructure</div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">URLS</div>
+    <div style="font-size:11px;color:var(--tx2);line-height:2;margin-bottom:12px;font-family:'JetBrains Mono',monospace">
+      app.command.globalinkservices.io<br>
+      command.globalinkservices.io<br>
+      command.globalinkservices.io/sales-hub<br>
+      go.command.globalinkservices.io/beta<br>
+      go.command.globalinkservices.io/betaNDA
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">SERVICES</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9;margin-bottom:12px">
+      Intake: tally.so/r/rjdBql<br>
+      Scheduling: app.reclaim.ai/m/GlobaLink-Jason<br>
+      Clarity: project w35dn6egp4<br>
+      GitHub: jglobalink2024<br>
+      Supabase: ycxaohezeoiyrvuhlzsk<br>
+      Vercel: auto-deploys on push
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:8px">STRIPE — NEVER CONSOLIDATE</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+      FM Pro $99/mo · buy.stripe.com/...9k407<br>
+      Standard Pro $149/mo · buy.stripe.com/...9k408
+    </div>
+  </div>
+
+  <!-- SECTION 6: PHASE C PERSONA SYMPHONY RESULTS -->
+  <div class="card-green">
+    <div class="slabel-green">⑥ Phase C — Persona Symphony Results</div>
+    <div style="font-size:13px;color:var(--tx1);margin-bottom:12px;font-weight:700">35 journeys · 27 personas · 42 findings</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+      <span class="badge br">1 CRITICAL → FIXED</span>
+      <span class="badge by">3 MAJOR → ALL FIXED</span>
+      <span class="badge bg">19 DELIGHTS</span>
+      <span class="badge bb">16 COPY ITEMS → FIXED</span>
+    </div>
+    <div style="font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">KEY INSIGHT</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:12px">
+      CCF handoff quality is the strongest feature. Operators paste the output directly into Claude. The checksum and structured format build trust.
+    </div>
+    <div style="font-size:10px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;margin-bottom:6px">WEAKEST AREA</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.7">
+      First-time non-technical user experience. "Agent" vocabulary barrier persists after jargon sweep. Phase 2: contextual tooltips or intro modal.
+    </div>
   </div>
 
 </div><!-- /tab-ops -->
@@ -1871,6 +1856,7 @@ function updateKeyUI(){
   const k = getKey();
   const status = document.getElementById('keyStatusLine');
   const clearBtn = document.getElementById('clearKeyBtn');
+  if(!status || !clearBtn) return;
   const gateDiv = document.getElementById('apiGate');
   if(k){
     status.textContent = '✓ API KEY SET — ' + k.slice(0,8) + '...';
@@ -2629,8 +2615,9 @@ window.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  // Generate button (PROSPECT tab)
-  document.getElementById('generateBtn').addEventListener('click', generateBrief);
+  // Generate button (PROSPECT tab) — removed from OPS tab, guard retained
+  const genBtn = document.getElementById('generateBtn');
+  if(genBtn) genBtn.addEventListener('click', generateBrief);
 
   // Generate button (PREP tab shortcut)
   const prepGenBtn = document.getElementById('prepGenerateBtn');
@@ -2673,10 +2660,13 @@ window.addEventListener('DOMContentLoaded', function(){
 
 
 
-  // Timer controls
-  document.getElementById('timerToggleBtn').addEventListener('click', toggleTimer);
-  document.getElementById('timerResetBtn').addEventListener('click', resetTimer);
-  document.getElementById('goToTranscriptBtn').addEventListener('click', ()=>{ clearInterval(timerIv); timerActive=false; showStep(4); });
+  // Timer controls — removed from OPS tab, guards retained
+  const timerToggle = document.getElementById('timerToggleBtn');
+  if(timerToggle) timerToggle.addEventListener('click', toggleTimer);
+  const timerReset = document.getElementById('timerResetBtn');
+  if(timerReset) timerReset.addEventListener('click', resetTimer);
+  const goTranscript = document.getElementById('goToTranscriptBtn');
+  if(goTranscript) goTranscript.addEventListener('click', ()=>{ clearInterval(timerIv); timerActive=false; showStep(4); });
 
   // Analyze transcript (legacy — called from SEND panel if needed)
   const analyzeBtn = document.getElementById('analyzeBtn');
@@ -2693,17 +2683,21 @@ window.addEventListener('DOMContentLoaded', function(){
   const fileInput = document.getElementById('fileInput');
   if(fileInput) fileInput.addEventListener('change', handleFileSelect);
 
-  // API key management
-  document.getElementById('setKeyBtn').addEventListener('click', ()=>{
+  // API key management — removed from OPS tab, guards retained
+  const setKeyBtn = document.getElementById('setKeyBtn');
+  if(setKeyBtn) setKeyBtn.addEventListener('click', ()=>{
     const row = document.getElementById('keyInputRow');
-    row.style.display = row.style.display==='none'?'block':'none';
+    if(row) row.style.display = row.style.display==='none'?'block':'none';
   });
-  document.getElementById('mainSaveBtn').addEventListener('click', ()=>{
+  const mainSaveBtn = document.getElementById('mainSaveBtn');
+  if(mainSaveBtn) mainSaveBtn.addEventListener('click', ()=>{
     const k = document.getElementById('mainApiKey').value.trim();
     if(k){ setKey(k); document.getElementById('mainApiKey').value=''; document.getElementById('keyInputRow').style.display='none'; }
   });
-  document.getElementById('clearKeyBtn').addEventListener('click', clearKey);
-  document.getElementById('inlineSaveBtn').addEventListener('click', ()=>{
+  const clearKeyBtnEl = document.getElementById('clearKeyBtn');
+  if(clearKeyBtnEl) clearKeyBtnEl.addEventListener('click', clearKey);
+  const inlineSaveBtn = document.getElementById('inlineSaveBtn');
+  if(inlineSaveBtn) inlineSaveBtn.addEventListener('click', ()=>{
     const k = document.getElementById('inlineApiKey').value.trim();
     if(k){ setKey(k); document.getElementById('inlineApiKey').value=''; document.getElementById('apiGate').style.display='none'; }
   });
