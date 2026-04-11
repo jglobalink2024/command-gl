@@ -196,6 +196,43 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .intel-quote{border-left:2px solid #F0A030;padding:6px 10px;margin-bottom:6px;font-size:12px;color:rgba(255,255,255,0.8);font-style:italic;background:rgba(240,160,48,0.05);border-radius:0 4px 4px 0}
 .intel-quote:last-child{margin-bottom:0}
 .intel-quote-warn{border-left-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.02)}
+
+/* ── PREP TAB ACCORDIONS */
+.prep-accordion{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.prep-accordion summary{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;cursor:pointer;list-style:none;background:var(--surface);user-select:none;-webkit-user-select:none}
+.prep-accordion summary::-webkit-details-marker{display:none}
+.prep-accordion summary::marker{display:none}
+.prep-accordion[open]>summary{border-bottom:1px solid var(--border)}
+.prep-chevron{font-size:9px;color:var(--tx3);flex-shrink:0;margin-top:3px;transition:transform .2s;display:inline-block}
+.prep-accordion[open]>.prep-summary-inner>.prep-chevron,
+.prep-accordion[open]>summary .prep-chevron{transform:rotate(90deg)}
+.prep-accordion-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--tx1);text-transform:uppercase}
+.prep-accordion-glance{font-size:11px;color:var(--tx3);line-height:1.4;margin-top:3px}
+.prep-accordion-body{padding:14px 16px;background:var(--bg)}
+
+/* ── PREP CALLOUT BOXES */
+.say-this{background:#0F1318;border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:10px 13px;margin:8px 0}
+.say-this .cl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--amber);margin-bottom:5px;text-transform:uppercase}
+.say-this .cq{font-size:12px;line-height:1.75;color:var(--tx1);font-style:italic}
+.never-say{background:#0F1318;border-left:3px solid #ef4444;border-radius:0 6px 6px 0;padding:10px 13px;margin:8px 0}
+.never-say .cl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;color:#ef4444;margin-bottom:5px;text-transform:uppercase}
+.never-say ul{font-size:12px;color:var(--tx2);line-height:1.9;padding-left:16px;margin:0}
+.if-they-ask{background:#0F1318;border-left:3px solid #A78BFA;border-radius:0 6px 6px 0;padding:10px 13px;margin:8px 0}
+.if-they-ask .cl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;color:#A78BFA;margin-bottom:6px;text-transform:uppercase}
+.if-they-ask .ita-q{font-size:11px;font-weight:700;color:#A78BFA;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.if-they-ask .ita-a{font-size:12px;color:var(--tx1);line-height:1.7;font-style:italic}
+
+/* ── PREP BODY HELPERS */
+.prep-fhead{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;margin:14px 0 5px}
+.prep-fhead:first-child{margin-top:0}
+.prep-body{font-size:12px;color:var(--tx2);line-height:1.75}
+.prep-body strong{color:var(--tx1)}
+.prep-tech{font-size:11px;color:var(--tx3);font-family:'JetBrains Mono',monospace;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.prep-kv-row{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.prep-kv-row:last-child{border-bottom:none}
+.prep-kv-k{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--amber);min-width:72px;flex-shrink:0;padding-top:1px}
+.prep-kv-v{color:var(--tx2);line-height:1.6}
+.prep-footer{font-size:9px;color:var(--tx3);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-align:right;margin-top:20px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
@@ -207,7 +244,8 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- MAIN NAV -->
 <div class="nav">
-  <button class="nav-btn active" data-maintab="ops">⚙ OPS</button>
+  <button class="nav-btn active" data-maintab="prep">📋 PREP</button>
+  <button class="nav-btn" data-maintab="ops">⚙ OPS</button>
   <button class="nav-btn" data-maintab="client">📤 CLIENT</button>
   <button class="nav-btn" data-maintab="surveys">📋 SURVEYS</button>
   <button class="nav-btn" data-maintab="links">🔗 LINKS</button>
@@ -217,7 +255,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 </div>
 
 <!-- ═══════════════════════════════════════════ OPS TAB -->
-<div id="tab-ops" class="tab active">
+<div id="tab-ops" class="tab">
 
   <!-- SECTION 0: QUICK LINKS -->
   <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:14px;letter-spacing:.1em">INTERNAL OPS — QUICK ACCESS</div>
@@ -1733,6 +1771,391 @@ OUTPUT: Return a single valid JSON object. No markdown fences. No preamble. Only
 <!-- END INTEL TAB: POST-CALL SYNTHESIS ENGINE -->
 
 </div><!-- /tab-intel -->
+
+<!-- ═══════════════════════════════════════════ PREP TAB -->
+<div id="tab-prep" class="tab active">
+
+  <div style="font-size:10px;color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-bottom:14px;letter-spacing:.1em">FOUNDER REFERENCE — CALLS · DEMOS · PITCHES · INTERNAL ONLY</div>
+
+  <!-- ─── SECTION 1: ELEVATOR PITCH (open by default) ─── -->
+  <details class="prep-accordion" open>
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">01 — The Elevator Pitch</div>
+        <div class="prep-accordion-glance">🎯 30 seconds — what COMMAND is and why it exists</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="say-this">
+        <div class="cl">SAY THIS — 30-second version</div>
+        <div class="cq">"COMMAND is an Agent Operations Center for consulting firms running multiple AI tools. If you're using Claude, ChatGPT, Perplexity — or even multiple instances of the same tool — you're probably the one copy-pasting between them. COMMAND gives you one dashboard to see what every agent is doing, route tasks to the right one, and pass context between them without starting over. We're the cockpit, not the engines."</div>
+      </div>
+
+      <div class="say-this">
+        <div class="cl">SAY THIS — 10-second version</div>
+        <div class="cq">"COMMAND coordinates your AI tools so you stop being the copy-paste relay between them."</div>
+      </div>
+
+      <div class="say-this">
+        <div class="cl">SAY THIS — opener for discovery calls</div>
+        <div class="cq">"I spent 23 years in the Army running command-and-control architectures. Today I'm watching one-person consulting firms collapse under three AI tools that can't talk to each other. I built the thing that was missing."</div>
+      </div>
+
+      <div class="never-say">
+        <div class="cl">NEVER SAY</div>
+        <ul>
+          <li><strong>"AI-powered"</strong> — everything is AI-powered, it's meaningless</li>
+          <li><strong>"Seamless" / "Revolutionize" / "Unlock" / "Transform"</strong></li>
+          <li><strong>"Trial"</strong> — always say <strong>"pilot"</strong></li>
+          <li><strong>"Setup"</strong> — always say <strong>"connect"</strong> or <strong>"configure"</strong></li>
+          <li><strong>"Platform"</strong> — use <strong>"operations center"</strong> or <strong>"coordination layer"</strong></li>
+          <li>Agent codenames (COMMAND-0, FORGE-1, SIGNAL-1, RECON-1)</li>
+        </ul>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 2: THREE FEATURES ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">02 — The Three Features</div>
+        <div class="prep-accordion-glance">🎯 Dashboard + Router + Context Bridge — know all three cold</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="prep-fhead" style="color:#58A6FF">🔵 AGENT STATUS DASHBOARD</div>
+      <div class="prep-body">One screen showing every connected AI tool — what's active, what's idle, what's stalled. <strong>Real-time.</strong></div>
+      <div class="say-this">
+        <div class="cl">SAY THIS</div>
+        <div class="cq">"Right now you have to open every tab to know what's running. The dashboard shows you everything at a glance — which agent is working, which is stuck, and which finished five minutes ago without telling you."</div>
+      </div>
+      <div class="prep-tech">Tech (if asked): Zustand state store polls agent status. Stall detection fires after configurable timeout. Metric cards pull from live Supabase data. MCP-registered agents report status automatically.</div>
+
+      <div class="prep-fhead" style="color:var(--amber)">🟠 TASK ROUTER</div>
+      <div class="prep-body">You describe a task. COMMAND recommends which AI tool should handle it, with a confidence score. <strong>Accept or override.</strong></div>
+      <div class="say-this">
+        <div class="cl">SAY THIS</div>
+        <div class="cq">"You type what you need done. COMMAND tells you which of your tools is the best fit and how confident it is. You can accept or pick a different one. Every decision gets logged so you have a record."</div>
+      </div>
+      <div class="prep-tech">Tech (if asked): LLM-based routing using agent capability matching. Returns HIGH/MEDIUM/LOW confidence with reason text and alternatives. Recent Decisions panel records every routing decision in the audit ledger.</div>
+
+      <div class="prep-fhead" style="color:#A78BFA">🟣 HANDOFF &amp; CONTEXT BRIDGE (CCF)</div>
+      <div class="prep-body">When work moves between agents, COMMAND packages everything — decisions, open questions, artifacts, constraints — into a structured brief. <strong>Nothing lost in the handoff.</strong></div>
+      <div class="say-this">
+        <div class="cl">SAY THIS</div>
+        <div class="cq">"The number one pain I hear is 'every new session feels like starting over.' The Context Bridge solves that. When you move work between agents, COMMAND packages the full context into a brief you paste into your next tool. It includes a checksum so you know nothing was lost."</div>
+      </div>
+      <div class="prep-tech">Tech (if asked): CCF (Context Checkpoint Format) v1.0.0. Four required fields: decisions made, open questions, artifacts produced, constraints to carry forward. SHA-256 checksum. Stored in agent_handoffs table as structured JSONB. Prior checkpoint loading enables cross-session memory.</div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 3: TECH STACK ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">03 — The Tech Stack</div>
+        <div class="prep-accordion-glance">🎯 Next.js + Supabase + Vercel — production-grade, not a prototype</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="prep-kv-row"><span class="prep-kv-k">FRONTEND</span><span class="prep-kv-v">Next.js 15 + React 19 + TypeScript (strict mode). Same framework used by Vercel, Netflix, TikTok. Server-side rendering for speed. TypeScript prevents entire categories of bugs before they ship.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">STYLING</span><span class="prep-kv-v">Tailwind 4 + shadcn/ui + Framer Motion. Accessible, responsive, animated. Dark mode native. Mobile-responsive at 390px.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">STATE</span><span class="prep-kv-v">Zustand. Lightweight, no boilerplate. Drives real-time dashboard updates and canvas pipeline state.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">DATABASE</span><span class="prep-kv-v">Supabase (PostgreSQL). Row Level Security (RLS) means every customer's data is isolated at the database level — not application filtering, actual database-enforced walls.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">PAYMENTS</span><span class="prep-kv-v">Stripe. PCI-compliant. No credit card stored by us.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">DEPLOY</span><span class="prep-kv-v">Vercel. Edge deployment, auto-scaling. Zero-downtime deploys on every git push.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">PROTOCOL</span><span class="prep-kv-v">MCP (Model Context Protocol) — Anthropic's open standard. COMMAND is an MCP host: agents self-register and report status automatically. A2A (Agent-to-Agent) protocol support queued.</span></div>
+
+      <div class="say-this" style="margin-top:12px">
+        <div class="cl">SAY THIS — if asked about security</div>
+        <div class="cq">"Every workspace is isolated at the database level with Row Level Security. Your data never touches another customer's query. That's the same architecture banks use."</div>
+      </div>
+
+      <div class="say-this">
+        <div class="cl">SAY THIS — on the protocol position</div>
+        <div class="cq">"We sit above the protocols. When Anthropic or Google ship new coordination features, those features become instruments inside COMMAND. Their upgrade is our upgrade."</div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 4: POSITIONING ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">04 — The Positioning</div>
+        <div class="prep-accordion-glance">🎯 Cockpit not engines. BYOA. Model-agnostic. Cross-vendor.</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="say-this">
+        <div class="cl">THE FRAME</div>
+        <div class="cq">"COMMAND is the cockpit, not the engines. You bring your own agents — we coordinate them."</div>
+      </div>
+
+      <div class="prep-body" style="margin:10px 0 4px"><strong>The Vercel analogy:</strong> Next.js is the framework. Vercel is the operations layer. Similarly — Claude, ChatGPT, Perplexity are the AI tools. COMMAND is the operations layer above all of them.</div>
+
+      <div class="prep-body" style="margin:8px 0 4px"><strong>Why model-agnostic matters:</strong> Single-vendor tools (Claude Projects, ChatGPT Assistants) can only coordinate their own instances. The moment a consultant uses two vendors — which is nearly all of them — those tools stop working. COMMAND is the only thing that coordinates across vendors.</div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">THE MOAT (if asked)</div>
+      <div class="prep-body">
+        1. Cross-vendor boundary — no single vendor can build this<br>
+        2. Operator identity accumulation — workspace data compounds<br>
+        3. Semantic conflict detection — confirmed zero prior art<br>
+        4. MCP host position — unclaimed at boutique operator layer
+      </div>
+
+      <div class="never-say" style="margin-top:10px">
+        <div class="cl">NEVER FRAME AS</div>
+        <ul>
+          <li>"We replace your AI tools" — we <em>coordinate</em> them</li>
+          <li>"We're better than Claude" — we sit <em>above</em> Claude</li>
+          <li>"AI-powered dashboard" — the dashboard shows <em>your</em> agents</li>
+        </ul>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 5: THE CUSTOMER ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">05 — The Customer</div>
+        <div class="prep-accordion-glance">🎯 Sales/RevOps consulting #1, then Ops, then Coaching</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="prep-body" style="margin-bottom:10px"><strong>ICP:</strong> Boutique consulting and coaching firms, 1–15 person, owner-led. Running 3+ AI tools with no coordination layer.</div>
+
+      <div class="prep-fhead" style="color:var(--amber)">PRIORITY ORDER</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">#1 SALES</span><span class="prep-kv-v">Sales / RevOps consulting — highest pain, fastest decision</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">#2 OPS</span><span class="prep-kv-v">Operations consulting — systems thinkers, fastest ROI talk</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">#3 COACH</span><span class="prep-kv-v">Executive coaching — high LTV, longer trust cycle</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">#4 MKTG</span><span class="prep-kv-v">Marketing consulting — secondary, not beachhead</span></div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">THREE BUYER PERSONAS</div>
+
+      <div class="card" style="margin-bottom:8px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:700;color:var(--tx1);font-family:'JetBrains Mono',monospace;margin-bottom:4px">DOUBLE-PAIN OPERATOR</div>
+        <div class="prep-body">Advises clients on AI while their own stack is broken. <strong>Highest conversion.</strong> Invite to pilot same day.</div>
+      </div>
+      <div class="card" style="margin-bottom:8px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:700;color:var(--tx1);font-family:'JetBrains Mono',monospace;margin-bottom:4px">OVERWHELMED OPERATOR</div>
+        <div class="prep-body">3–5 tools, 5–15 hrs/week as relay. Show the math: $200/hr × 10 hrs = $2,000/mo lost. Pilot = $99.</div>
+      </div>
+      <div class="card" style="margin-bottom:0;padding:12px 14px">
+        <div style="font-size:11px;font-weight:700;color:var(--tx1);font-family:'JetBrains Mono',monospace;margin-bottom:4px">STACK SIMPLIFIER</div>
+        <div class="prep-body">Recently deleted half their tools. <strong>"I deleted half my tools"</strong> = ready to buy. Don't sell. Listen.</div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 6: THE MATH ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">06 — The Math</div>
+        <div class="prep-accordion-glance">🎯 $99/mo vs. $1,000–$3,000/mo in invisible overhead</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="say-this">
+        <div class="cl">SAY THIS — the inaction cost</div>
+        <div class="cq">"You're spending somewhere between $1,000 and $3,000 a month being the copy-paste relay between your own tools. You just don't see it on a receipt."</div>
+      </div>
+
+      <div class="prep-body" style="margin:10px 0 4px">Operators running 3 AI tools spend <strong>5–15 hours/week</strong> as the manual relay. At $200/hr billing rate, that's <strong>$1,000–$3,000/month</strong> in invisible overhead.</div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">PRICING</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">SOLO</span><span class="prep-kv-v">$49/mo — 3 agents — solo operators</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">PRO</span><span class="prep-kv-v">$149/mo — 10 agents — boutique firms (anchor tier)</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k" style="color:var(--green)">FM PRO</span><span class="prep-kv-v"><strong style="color:var(--tx1)">$99/mo locked for life</strong> — 10 agents — 25 seats · closes Sep 30, 2026</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">STUDIO</span><span class="prep-kv-v">$349/mo — unlimited — multi-client operators</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">ENTERPRISE</span><span class="prep-kv-v">$799/mo — unlimited + SLA + dedicated support</span></div>
+
+      <div class="prep-body" style="margin-top:10px;color:var(--tx3)">Below procurement threshold for all tiers. No credit card required for 14-day pilot.</div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 7: OBJECTION HANDLING ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">07 — Objection Handling</div>
+        <div class="prep-accordion-glance">🎯 The 6 objections you'll hear and exactly how to respond</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY ASK</div>
+        <div class="ita-q">"Won't Anthropic just build this?"</div>
+        <div class="ita-a">"They literally can't solve the cross-vendor problem. A single vendor can only coordinate its own tools. When Anthropic ships native coordination, Claude becomes a better instrument inside COMMAND. Their upgrade is our upgrade."</div>
+      </div>
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY SAY</div>
+        <div class="ita-q">"I'll just use Claude Projects."</div>
+        <div class="ita-a">"Claude Projects coordinates Claude instances. What coordinates your Perplexity research? Your Cursor builds? Your GPT drafts? That's COMMAND."</div>
+      </div>
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY SAY</div>
+        <div class="ita-q">"This feels like another tool to manage."</div>
+        <div class="ita-a">"That's the right instinct. Stack fatigue is real. COMMAND is the tool that reduces the number of tools you actively manage — not by replacing them, but by making them work together. It's the last tool you add."</div>
+      </div>
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY ASK</div>
+        <div class="ita-q">"What about security / my client data?"</div>
+        <div class="ita-a">"Every workspace is isolated at the database level with Row Level Security. Your data never touches another customer's query. API keys are encrypted and never logged. We have an append-only audit ledger with SHA-256 checksums."</div>
+      </div>
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY ASK</div>
+        <div class="ita-q">"Is this just a dashboard?"</div>
+        <div class="ita-a">"The dashboard shows you what's happening. The Task Router tells you what to do about it. The Context Bridge makes sure nothing is lost when work moves between agents. It's three things working together."</div>
+      </div>
+
+      <div class="if-they-ask">
+        <div class="cl">IF THEY ASK</div>
+        <div class="ita-q">"What's the catch / what's the lock-in?"</div>
+        <div class="ita-a">"There is no lock-in. COMMAND is model-agnostic. BYOA — bring your own agents. If you stop using COMMAND tomorrow, your tools still work exactly as they did before. You just go back to being the relay."</div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 8: COMPETITIVE LANDSCAPE ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">08 — Competitive Landscape</div>
+        <div class="prep-accordion-glance">🎯 Zero direct competitors at boutique cross-vendor coordination</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="card-green" style="margin-bottom:12px">
+        <div style="font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green);letter-spacing:.1em;margin-bottom:4px">DIRECT COMPETITORS</div>
+        <div class="prep-body"><strong style="color:#3FB950">None identified</strong> as of April 2026. The boutique operator UI layer is completely unaddressed.</div>
+      </div>
+
+      <div class="prep-fhead" style="color:var(--amber)">ADJACENT (not competing)</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Epicenter</span><span class="prep-kv-v">YC-backed. Individual-focused, local-first, open-source. Different buyer, no overlap on ICP, pricing, or distribution.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Taskade</span><span class="prep-kv-v">Walled garden. Internal agents only. Not BYOA.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">OpenConductor</span><span class="prep-kv-v">Compliance-only. Not operator coordination.</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">CrewAI / LangGraph</span><span class="prep-kv-v">Developer frameworks — their users write code. Our users don't.</span></div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">ENTERPRISE (over-serves, different buyer)</div>
+      <div class="prep-body">Salesforce Agentforce, Kore.ai, Microsoft Copilot Studio</div>
+
+      <div class="say-this" style="margin-top:12px">
+        <div class="cl">THE GAP</div>
+        <div class="cq">"The boutique operator UI layer — someone running 3–5 AI tools who doesn't write code — is completely unaddressed. COMMAND owns this layer."</div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 9: THE STORY ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">09 — The Story</div>
+        <div class="prep-accordion-glance">🎯 23 years of C2 → watching consultants drown → built the fix</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="say-this">
+        <div class="cl">THE ORIGIN — use on calls and in pitches</div>
+        <div class="cq">"I spent 23 years as a U.S. Army Infantry officer running command-and-control architectures. 14 systems, simultaneous inputs, nothing allowed to drop in the handoff. That's what I did professionally for two decades.<br><br>When I started using AI tools for my own consulting work, I realized I was the middleware. I had Claude in four tabs, Perplexity running research, Cursor building — and I was the one copy-pasting between all of them. There was no cockpit.<br><br>So I built one. COMMAND is the command-and-control architecture for AI agents. Same principles, civilian application."</div>
+      </div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">WHY THE MILITARY MATTERS (but don't lead with it)</div>
+      <div class="prep-body">
+        — C2 is the product's DNA, not a credential<br>
+        — The discipline of structured handoffs comes from real ops<br>
+        — "Shift Change Brief" concept maps directly to CCF<br>
+        — Use military language sparingly: <strong>"cockpit," "operations center," "handoff"</strong>
+      </div>
+
+      <div class="never-say" style="margin-top:10px">
+        <div class="cl">NEVER USE</div>
+        <ul>
+          <li>SITREP, FRAGO, TOC — too insider, alienates civilians</li>
+          <li>Rank / uniform as the lead — the product leads, the story follows</li>
+        </ul>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- ─── SECTION 10: QUICK REFERENCE ─── -->
+  <details class="prep-accordion">
+    <summary>
+      <span class="prep-chevron">▶</span>
+      <div>
+        <div class="prep-accordion-title">10 — Quick Reference</div>
+        <div class="prep-accordion-glance">🎯 URLs, prices, dates, numbers — everything at a glance</div>
+      </div>
+    </summary>
+    <div class="prep-accordion-body">
+
+      <div class="prep-fhead" style="color:var(--amber)">LIVE URLS</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">APP</span><span class="prep-kv-v"><a href="https://app.command.globalinkservices.io" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">app.command.globalinkservices.io</a></span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">LANDING</span><span class="prep-kv-v"><a href="https://command.globalinkservices.io" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">command.globalinkservices.io</a></span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">ONE-PAGER</span><span class="prep-kv-v"><a href="https://go.command.globalinkservices.io/beta" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">go.command.globalinkservices.io/beta</a></span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">INTAKE</span><span class="prep-kv-v"><a href="https://tally.so/r/rjdBql" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">tally.so/r/rjdBql</a></span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">SCHEDULE</span><span class="prep-kv-v"><a href="https://app.reclaim.ai/m/GlobaLink-Jason" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">app.reclaim.ai/m/GlobaLink-Jason</a></span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">DEMO</span><span class="prep-kv-v"><a href="https://globalink.navattic.com/fcr04wg" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">globalink.navattic.com/fcr04wg</a></span></div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">KEY DATES</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Eric invite</span><span class="prep-kv-v">May 5–10</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">São Paulo</span><span class="prep-kv-v">May 1</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Retirement</span><span class="prep-kv-v">June 1</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">FM closes</span><span class="prep-kv-v">September 30, 2026</span></div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">KEY NUMBERS</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">TAM</span><span class="prep-kv-v">$14.6B</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Beachhead</span><span class="prep-kv-v">$230M</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">CAGR</span><span class="prep-kv-v">43.7%</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Competitors</span><span class="prep-kv-v">0 funded at boutique operator layer</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">FM slots</span><span class="prep-kv-v">25 total · 0 filled</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Phase C</span><span class="prep-kv-v">42 findings · 19 delights · all critical fixed</span></div>
+
+      <div class="prep-fhead" style="color:var(--amber);margin-top:14px">CONTACT</div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Email</span><span class="prep-kv-v">jason@globalinkservices.io</span></div>
+      <div class="prep-kv-row"><span class="prep-kv-k">Entity</span><span class="prep-kv-v">GlobaLink LLC (FL)</span></div>
+
+    </div>
+  </details>
+
+  <div class="prep-footer">LAST UPDATED: 260410 &nbsp;·&nbsp; INTERNAL USE ONLY &nbsp;·&nbsp; GlobaLink LLC</div>
+
+</div><!-- /tab-prep -->
 
 <script>
 // ─── CONSTANTS ─────────────────────────────────────────
