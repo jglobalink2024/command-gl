@@ -304,6 +304,9 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
     justify-content:center;
   }
 }
+/* Anti-confusion — nosetup strip */
+.nosetup-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;margin-bottom:20px}
+.nosetup-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border:1px solid rgba(34,211,238,0.25);border-radius:20px;background:rgba(34,211,238,0.08);font-size:12px;color:#22D3EE;letter-spacing:0.03em;white-space:nowrap;font-family:var(--mono)}
 </style>
 </head>
 <body>
@@ -336,6 +339,12 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
     <div class="eyebrow"><span class="edot"></span>Agent Operations Center &mdash; Beta Now Open</div>
     <h1><span class="h1-muted">Stop being the middleware. Start being the boss.</span>You&rsquo;re running three AI tools.<br>You&rsquo;re still the one<br>copy-pasting between them.</h1>
     <p class="hsub">COMMAND is the coordination layer above your AI tools &mdash; one dashboard to see, route, and hand off work across every agent you&rsquo;re running. <strong>Bring your own agents. We coordinate them.</strong></p>
+    <div class="nosetup-strip">
+      <span class="nosetup-pill">✓ No OpenClaw required</span>
+      <span class="nosetup-pill">✓ No terminal. No install.</span>
+      <span class="nosetup-pill">✓ Works with tools you already pay for</span>
+      <span class="nosetup-pill">✓ No developer needed</span>
+    </div>
     <div class="hproof">
       <div class="hpi"><div class="hpn">~30%</div><div class="hpl">AI time lost<br>to manual relay</div></div>
       <div class="hpi"><div class="hpn">$0</div><div class="hpl">Funded rivals<br>at this layer</div></div>
@@ -424,6 +433,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <div class="sey">MVP Features &mdash; Phase 1</div>
   <h2 class="sh2">Three features.<br>One command center.</h2>
   <p class="ssub">No feature bloat. No long onboarding. COMMAND ships exactly what boutique operators need to stop acting as the bridge between their own agents.</p>
+  <p class="ssub" style="font-size:14px;margin-top:-28px;margin-bottom:32px;">Works with the AI tools you already pay for &mdash; Claude, ChatGPT, Perplexity, Cursor. No new agents to build. No frameworks to install. Connect what you have.</p>
   <div class="fgrid">
     <div class="fc"><div class="ficon">&#128225;</div><div class="fnum">Feature 01</div><div class="ftitle">Agent Status Dashboard</div><div class="fdesc">See every agent &mdash; active, idle, stalled, or in warning &mdash; from a single real-time view. Know what is running and what is stuck before anyone has to ask.</div><span class="ftag">Live in Phase 1</span></div>
     <div class="fc"><div class="ficon">&#9889;</div><div class="fnum">Feature 02</div><div class="ftitle">Task Router</div><div class="fdesc">Assign work from one place. Queue tasks to the right agent, track them to completion, and know exactly what each agent is working on &mdash; without running it all from memory.</div><span class="ftag">Live in Phase 1</span></div>
@@ -491,7 +501,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
   <div style="background:rgba(240,160,48,0.07);border:1px solid rgba(240,160,48,0.35);border-radius:10px;padding:18px 22px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
     <div>
       <div style="color:#F0A030;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Founding Member — 12 slots left</div>
-      <div style="color:#e2e8f0;font-family:monospace;font-size:13px;font-weight:600;margin-bottom:2px;">$99/mo locked for life &mdash; closes April&nbsp;14</div>
+      <div style="color:#e2e8f0;font-family:monospace;font-size:13px;font-weight:600;margin-bottom:2px;">$99/mo locked for life &mdash; closes Sep 30, 2026</div>
       <div style="color:#9DA8B5;font-family:monospace;font-size:11px;">Pro plan features. Price never increases. First 12 operators only.</div>
     </div>
     <button type="button" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')" style="background:#F0A030;color:#080B11;border:none;border-radius:6px;padding:10px 20px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">Claim your slot &rarr;</button>
@@ -572,7 +582,7 @@ footer{border-top:1px solid var(--brd);padding:26px 64px;display:flex;justify-co
 
 <div class="ctasec">
   <div class="ctah2">Your agents are running.<br><span style="color:var(--amber)">Time to take command.</span></div>
-  <p class="ctasub">14-day free pilot. No credit card. No sales call. Log in, connect your agents, and see every agent from one place &mdash; in minutes.</p>
+  <p class="ctasub">14-day free pilot. No credit card. No sales call. No OpenClaw. No terminal. No developer. Connect the tools you already use.</p>
   <div class="ctarow">
     <button type="button" class="btn-p" data-testid="cta-pilot-footer" onclick="window.open('https://buy.stripe.com/7sY3cxbcgbl42OoeNt9k401','_blank')">Start 14-Day Free Pilot &mdash; $149/mo after <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button type="button" class="btn-s" data-testid="nav-demo-footer" onclick="window.open('https://command.globalinkservices.io/demo.html','_blank')">Watch live demo</button>
@@ -604,12 +614,60 @@ setTimeout(function(){
   bars.forEach(function(b){var el=document.getElementById(b[0]);if(el){el.style.transition='width 1.4s ease';el.style.width=b[1];}});
 },500);
 </script>
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){
-  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "w35dn6egp4");
+<!-- ══════════════════════════════════════
+     COOKIE CONSENT BANNER (GDPR / LGPD)
+     Clarity only loads after acceptance.
+     Consent stored in localStorage: gl_cookie_consent
+══════════════════════════════════════ -->
+<div id="gl-cookie-banner" role="dialog" aria-label="Cookie consent" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0D1117;border-top:1px solid #1C2333;padding:14px 24px;align-items:center;gap:16px;flex-wrap:wrap">
+  <p style="flex:1;font-size:12px;color:#9DA8B5;margin:0;min-width:220px;line-height:1.6;font-family:'Inter',sans-serif">
+    We use essential cookies and, with your consent, Microsoft Clarity for analytics (session recordings, heatmaps).
+    <a href="https://app.command.globalinkservices.io/privacy" target="_blank" rel="noopener noreferrer" style="color:#F0A030;text-decoration:none">Privacy Policy</a>.
+    Your rights under GDPR and LGPD apply.
+  </p>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button id="gl-consent-decline" style="padding:7px 16px;background:transparent;border:1px solid #1C2333;border-radius:4px;color:#9DA8B5;font-size:12px;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:.04em">Essential Only</button>
+    <button id="gl-consent-accept" style="padding:7px 16px;background:#F0A030;border:none;border-radius:4px;color:#080B11;font-size:12px;font-weight:700;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:.04em">Accept Analytics</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var CONSENT_KEY='gl_cookie_consent';
+  var CLARITY_ID='w35dn6egp4';
+
+  function loadClarity(){
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,'clarity','script',CLARITY_ID);
+  }
+
+  var stored=localStorage.getItem(CONSENT_KEY);
+
+  if(stored==='accepted'){
+    loadClarity();
+    return;
+  }
+
+  if(!stored){
+    var banner=document.getElementById('gl-cookie-banner');
+    if(banner) banner.style.display='flex';
+
+    document.getElementById('gl-consent-accept').addEventListener('click',function(){
+      localStorage.setItem(CONSENT_KEY,'accepted');
+      banner.style.display='none';
+      loadClarity();
+    });
+
+    document.getElementById('gl-consent-decline').addEventListener('click',function(){
+      localStorage.setItem(CONSENT_KEY,'declined');
+      banner.style.display='none';
+    });
+  }
+  // stored==='declined': do nothing, Clarity never loads
+})();
 </script>
 <script data-cfasync="false">
 var mo=[49,149,349,799],an=[39,119,279,639],isA=false;

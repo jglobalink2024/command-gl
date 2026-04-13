@@ -411,6 +411,53 @@
       .problem-copy { gap: 34px; }
       .foot { gap: 12px; }
     }
+
+    /* Anti-confusion strip — Beta_v1 */
+    .nosetup-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+    .nosetup-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border: 0.5px solid rgba(34,211,238,0.2);
+      border-radius: 20px;
+      background: rgba(34,211,238,0.08);
+      font-size: 11px;
+      color: #22D3EE;
+      letter-spacing: 0.04em;
+      font-family: "JetBrains Mono", monospace;
+    }
+    .byoa-confirm {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: rgba(34,211,238,0.06);
+      border: 0.5px solid rgba(34,211,238,0.2);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .byoa-line {
+      font-size: 12px;
+      color: #22D3EE;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.5;
+    }
+    .byoa-line::before {
+      content: '→';
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -430,11 +477,18 @@
       <div class="eyebrow mono">// agent operations center</div>
       <h1>Stop being the bridge.<br />Start being the boss.</h1>
       <p class="hero-sub">Your agents are running. None of them know what the others are doing. You are the only connection. COMMAND ends that.</p>
+      <div class="nosetup-strip">
+        <span class="nosetup-pill">✓ No OpenClaw required</span>
+        <span class="nosetup-pill">✓ No terminal. No install.</span>
+        <span class="nosetup-pill">✓ Works with tools you already pay for</span>
+        <span class="nosetup-pill">✓ No developer needed</span>
+      </div>
       <div class="cta-row">
-        <a href="https://app.command.globalinkservices.io" class="btn btn-blue">Start 14-day trial →</a>
+        <a href="https://app.command.globalinkservices.io" class="btn btn-blue">Start 14-day pilot →</a>
         <a href="https://go.command.globalinkservices.io/beta-signup" style="display:inline-block;background:#F0A030;color:#080B11;font-family:'Space Mono',monospace;padding:14px 28px;border-radius:6px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:0.02em;transition:opacity 0.2s ease;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">Join the pilot →</a>
         <a class="ghost-link mono" href="/cdn-cgi/l/email-protection#1973786a7677597e75767b78757077726a7c6b6f707a7c6a377076"><span class="__cf_email__" data-cfemail="eb818a988485ab8c8784898a87828580988e999d82888e98c58284">[email&#160;protected]</span></a>
       </div>
+      <p class="muted" style="font-size:12px;margin-top:12px;letter-spacing:0.01em;">No OpenClaw. No terminal. No developer. Connect the tools you already use.</p>
     </div>
   </section>
 
@@ -505,6 +559,7 @@
       <div class="eyebrow mono">// the solution</div>
       <h2 class="headline">One interface.<br />All agents.</h2>
       <p class="lead">Bring your own agents. COMMAND wrangles them. Model-agnostic. Protocol-agnostic. Built for the operator, not the engine.</p>
+      <p class="lead" style="font-size:14px;margin-top:-12px;margin-bottom:32px;">Works with the AI tools you already pay for — Claude, ChatGPT, Perplexity, Cursor. No new agents to build. No frameworks to install.</p>
       <div class="cards-3">
         <article class="card feature-card">
           <h4>Agent Status Dashboard</h4>
@@ -554,6 +609,11 @@
         <article class="card grid-card"><h4>Single-Vendor Native</h4><p>Claude Projects · ChatGPT Teams · Gemini Workspace<br /><br />✕ Locked to one model — cannot solve multi-model<br />✕ Cannot coordinate across vendors structurally<br />✕ Single-instance only</p></article>
         <article class="card grid-card"><h4>COMMAND</h4><p>Boutique Operator Layer — Unaddressed<br /><br />✓ No-code. Register any agent in 2 minutes.<br />✓ Model-agnostic. Claude + GPT + Perplexity simultaneously.<br />✓ Built for 1-15 person owner-led firms.</p></article>
       </div>
+      <div class="byoa-confirm">
+        <div class="byoa-line">Connect Claude, ChatGPT, Perplexity, Cursor — any combination</div>
+        <div class="byoa-line">No new agents to build. Use what you already have.</div>
+        <div class="byoa-line">20 minutes from signup to live dashboard</div>
+      </div>
     </div>
   </section>
 
@@ -596,7 +656,7 @@
           </article>
         </div>
       </div>
-      <div class="trial-note mono">OK · 14-day trial · no_credit_card · no_freemium</div>
+      <div class="trial-note mono">OK · 14-day pilot · no_credit_card · no_freemium</div>
     </div>
   </section>
 
