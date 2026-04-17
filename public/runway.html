@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUNWAY — AI Primer for Founders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ──────────────────────────────────────────────────── */
+:root {
+  --bg:           #080B11;
+  --surface:      #0D1117;
+  --surface-2:    #111620;
+  --border:       #21262D;
+  --border-dim:   #161B22;
+  --amber:        #F0A030;
+  --amber-hover:  #D4853A;
+  --amber-dim:    rgba(240,160,48,0.10);
+  --amber-glow:   rgba(240,160,48,0.20);
+  --text:         #C9D1D9;
+  --muted:        #9DA8B5;
+  --faint:        #6E7681;
+  --green:        #3FB950;
+  --red:          #F85149;
+  --claude-col:   #F0A030;
+  --perp-col:     #3FB950;
+  --chatgpt-col:  #10A37F;
+  --gemini-col:   #8AB4F8;
+  --r:            8px;
+  --r-sm:         5px;
+  --nav-h:        52px;
+}
+
+/* ── RESET ───────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ─────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:200;background:var(--surface);border-bottom:1px solid var(--border);height:var(--nav-h);display:flex;align-items:center;padding:0 20px;gap:16px}
+.nav-wordmark{font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;flex-shrink:0}
+.nav-acts{display:flex;gap:4px;flex:1;justify-content:center}
+.nav-act{font-size:.72rem;font-weight:500;color:var(--muted);padding:4px 12px;border-radius:20px;cursor:pointer;transition:all .15s;border:1px solid transparent;text-decoration:none;white-space:nowrap}
+.nav-act:hover{color:var(--text);border-color:var(--border)}
+.nav-act.active{background:var(--amber-dim);color:var(--amber);border-color:var(--amber-glow)}
+.nav-progress{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.nav-progress span{color:var(--amber)}
+
+/* ── PROGRESS BAR ────────────────────────────────────────────── */
+.progress-rail{height:2px;background:var(--border-dim);position:sticky;top:var(--nav-h);z-index:199}
+.progress-fill{height:100%;width:0%;background:var(--amber);transition:width .4s ease}
+
+/* ── HERO ────────────────────────────────────────────────────── */
+.hero{padding:72px 24px 60px;text-align:center;max-width:680px;margin:0 auto}
+.hero-meta{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;font-family:'Space Mono',monospace}
+.hero h1{font-family:'Space Mono',monospace;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;color:var(--text);line-height:1.25;margin-bottom:18px}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.65;max-width:480px;margin:0 auto 28px}
+.hero-sub em{font-style:normal;color:var(--amber);font-weight:500}
+.hero-rule{width:40px;height:2px;background:var(--amber);margin:0 auto}
+
+/* ── LAYOUT ──────────────────────────────────────────────────── */
+.wrap{max-width:740px;margin:0 auto;padding:0 20px}
+
+/* ── ACT HEADER ──────────────────────────────────────────────── */
+.act-section{padding:48px 0 8px}
+.act-label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.act-title{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.act-sub{font-size:.9rem;color:var(--muted);line-height:1.6;max-width:560px}
+
+/* ── CARD ────────────────────────────────────────────────────── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin:20px 0;overflow:hidden;transition:border-color .2s}
+.card.complete{border-color:rgba(63,185,80,0.35)}
+.card.complete .card-header{border-bottom-color:rgba(63,185,80,0.2)}
+
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.card-num{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--faint);flex-shrink:0;margin-top:2px;min-width:22px}
+.card-title-col{flex:1;min-width:0}
+.card-title{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+.tag-solo{background:rgba(157,168,181,0.1);color:var(--muted);border:1px solid rgba(157,168,181,0.2)}
+.tag-combo{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-glow)}
+.tag-multi{background:rgba(248,81,73,0.08);color:var(--red);border:1px solid rgba(248,81,73,0.2)}
+.tag-tool{padding:2px 9px;border-radius:20px;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.tag-claude{background:rgba(240,160,48,0.1);color:var(--claude-col);border:1px solid rgba(240,160,48,0.25)}
+.tag-perplexity{background:rgba(63,185,80,0.1);color:var(--perp-col);border:1px solid rgba(63,185,80,0.25)}
+.tag-chatgpt{background:rgba(16,163,127,0.1);color:var(--chatgpt-col);border:1px solid rgba(16,163,127,0.25)}
+.tag-gemini{background:rgba(138,180,248,0.1);color:var(--gemini-col);border:1px solid rgba(138,180,248,0.25)}
+.tag-opus{background:rgba(248,81,73,0.1);color:#FF8080;border:1px solid rgba(248,81,73,0.25)}
+
+.card-check-wrap{flex-shrink:0;margin-top:2px}
+.card-check{width:18px;height:18px;appearance:none;-webkit-appearance:none;border:1.5px solid var(--border);border-radius:4px;cursor:pointer;background:transparent;transition:all .15s;position:relative;display:block}
+.card-check:checked{background:var(--green);border-color:var(--green)}
+.card-check:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);font-size:.65rem;color:#080B11;font-weight:800}
+.card-check:hover:not(:checked){border-color:var(--amber)}
+
+/* ── TOOL SEQUENCE BAR ───────────────────────────────────────── */
+.tool-seq{padding:10px 18px;background:var(--border-dim);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tool-seq-label{font-size:.65rem;color:var(--faint);font-weight:500;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+.tool-seq-pills{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tool-seq-arrow{color:var(--faint);font-size:.7rem}
+.tool-seq-note{font-size:.73rem;color:var(--muted);font-style:italic;flex-basis:100%;margin-top:2px}
+
+/* ── CARD BODY ───────────────────────────────────────────────── */
+.card-body{padding:18px}
+
+/* ── QUESTION FLOW ───────────────────────────────────────────── */
+.qflow{margin-bottom:16px}
+.qflow-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.q-row{margin-bottom:10px}
+.q-row label{display:block;font-size:.78rem;font-weight:500;color:var(--muted);margin-bottom:5px}
+.q-row label span{color:var(--faint);font-size:.72rem;font-weight:400}
+.q-row input,.q-row textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 10px;font-size:.83rem;color:var(--text);font-family:'Inter',sans-serif;transition:border-color .15s;resize:vertical;line-height:1.5}
+.q-row textarea{min-height:58px}
+.q-row input:focus,.q-row textarea:focus{outline:none;border-color:var(--amber)}
+.q-row input::placeholder,.q-row textarea::placeholder{color:var(--faint)}
+
+/* ── PROMPT STEP ─────────────────────────────────────────────── */
+.prompt-step{margin-bottom:14px}
+.prompt-step-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.prompt-step-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.prompt-step-label span{display:inline-block;background:var(--amber-dim);color:var(--amber);padding:1px 7px;border-radius:10px;margin-right:6px;font-size:.62rem}
+.prompt-preview{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;font-family:'JetBrains Mono','Courier New',monospace;font-size:.73rem;color:var(--muted);line-height:1.65;min-height:100px;resize:vertical;transition:border-color .2s}
+.prompt-preview.has-content{border-color:rgba(240,160,48,0.3);color:var(--text)}
+.prompt-preview:focus{outline:none;border-color:var(--amber)}
+
+/* ── COPY / ACTION BUTTONS ───────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;font-size:.74rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;line-height:1.4;font-family:'Inter',sans-serif}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-copy{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(240,160,48,0.25)}
+.btn-copy:hover:not(:disabled){background:var(--amber-glow);border-color:var(--amber)}
+.btn-copy.copied{background:rgba(63,185,80,0.15);color:var(--green);border-color:rgba(63,185,80,0.35)}
+.btn-sm{padding:4px 11px;font-size:.68rem}
+
+.card-actions{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.friction-note{font-size:.76rem;color:var(--amber);font-style:italic;flex:1;min-width:200px}
+
+/* ── OPUS NOTE ───────────────────────────────────────────────── */
+.opus-note{background:rgba(248,81,73,0.06);border:1px solid rgba(248,81,73,0.2);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:14px;font-size:.8rem;color:var(--muted);line-height:1.55}
+.opus-note b{color:#FF8080}
+
+/* ── ADJUSTABLE PROMPT (card 13) ─────────────────────────────── */
+.adj-note{font-size:.76rem;color:var(--amber);margin-bottom:8px;font-style:italic}
+
+/* ── ACT 1 COMPLETE ──────────────────────────────────────────── */
+.act-complete{display:none;background:var(--surface);border:1px solid rgba(63,185,80,0.35);border-radius:var(--r);padding:28px 24px;margin:20px 0;text-align:center}
+.act-complete.show{display:block;animation:fadeIn .4s ease}
+.act-complete-check{font-size:2rem;color:var(--green);margin-bottom:12px}
+.act-complete-title{font-family:'Space Mono',monospace;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px}
+.act-complete-body{font-size:.88rem;color:var(--muted);line-height:1.6;max-width:480px;margin:0 auto 16px}
+.act-complete-nudge{font-size:.78rem;color:var(--amber);font-family:'Space Mono',monospace}
+
+/* ── HANDOFF COUNTER ─────────────────────────────────────────── */
+.handoff-counter{background:var(--surface);border:1px solid var(--amber);border-radius:var(--r);padding:24px 28px;margin:28px 0}
+.hc-title{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+.hc-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.hc-row{display:flex;align-items:baseline;gap:12px}
+.hc-dot{color:var(--amber);font-size:.9rem;flex-shrink:0}
+.hc-text{font-size:.88rem;color:var(--muted)}
+.hc-num{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--amber)}
+.hc-label{font-size:.78rem;color:var(--muted)}
+.hc-note{font-size:.83rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:16px;margin-top:4px}
+.hc-cta{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--amber);margin-top:10px}
+
+/* ── THE REALIZATION ─────────────────────────────────────────── */
+.realization{background:var(--surface);border:2px solid var(--amber);border-radius:var(--r);padding:36px 32px;margin:36px 0}
+.real-header{font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:24px;line-height:1.4}
+.real-rows{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.real-row{font-family:'Space Mono',monospace;font-size:.83rem;color:var(--muted);display:flex;gap:10px}
+.real-row .real-n{color:var(--amber);font-size:1rem;font-weight:700;min-width:28px}
+.real-bridge{font-size:.95rem;color:var(--text);line-height:1.7;border-top:1px solid var(--border);padding-top:20px;margin-top:4px;margin-bottom:24px}
+.real-bridge b{color:var(--text)}
+.real-url{font-family:'Space Mono',monospace;font-size:.88rem;color:var(--amber);letter-spacing:.04em}
+.real-url-label{font-size:.65rem;color:var(--faint);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+
+/* ── FOOTER ──────────────────────────────────────────────────── */
+.footer{text-align:center;padding:40px 20px 32px;font-size:.73rem;color:var(--faint);border-top:1px solid var(--border);margin-top:60px}
+.footer a{color:var(--faint);text-decoration:none}
+
+/* ── ANIMATIONS ──────────────────────────────────────────────── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media(max-width:640px){
+  .nav-acts{display:none}
+  .nav-wordmark{font-size:.78rem}
+  .hero{padding:48px 20px 40px}
+  .hero h1{font-size:1.3rem}
+  .card-header{flex-wrap:wrap;gap:8px}
+  .handoff-counter{padding:18px 16px}
+  .realization{padding:24px 18px}
+  .real-header{font-size:.88rem}
+  .act-section{padding:32px 0 8px}
+}
+@media(max-width:400px){
+  .real-row{flex-direction:column;gap:2px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-wordmark">RUNWAY</span>
+  <div class="nav-acts">
+    <a class="nav-act" href="#act1">Act 1 · Solo</a>
+    <a class="nav-act" href="#act2">Act 2 · Combo</a>
+    <a class="nav-act" href="#act3">Act 3 · Multi</a>
+  </div>
+  <div class="nav-progress"><span id="np-done">0</span> of 15 complete</div>
+</nav>
+<div class="progress-rail"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- HERO -->
+<div class="wrap">
+<div class="hero">
+  <div class="hero-meta">Prepared by GlobaLink · For founders, not engineers</div>
+  <h1>Your AI gets smarter every time you use it.</h1>
+  <p class="hero-sub">Start here. Three acts. Fifteen prompts. <em>One realization.</em></p>
+  <div class="hero-rule"></div>
+</div>
+</div>
+
+<!-- ═══════════════ ACT 1 ═══════════════ -->
+<div class="wrap">
+<section id="act1">
+  <div class="act-section">
+    <div class="act-label">Act 1 — Solo</div>
+    <div class="act-title">One tool. One task. Ten minutes. Your first AI win.</div>
+    <p class="act-sub">No setup. No plugins. Just Claude and a well-formed prompt. Answer three questions on each card — the prompt builds itself.</p>
+  </div>
+
+  <!-- CARD 1 -->
+  <div class="card" id="card-1">
+    <div class="card-header">
+      <span class="card-num">01</span>
+      <div class="card-title-col">
+        <div class="card-title">LinkedIn Bio</div>
+        <div class="card-tags">
+          <span class="tag tag-solo">Solo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-1" data-card="c1"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — What's your role, or what does your business do?</label>
+          <input type="text" id="c1-q1" placeholder="e.g. I help early-stage startups register as government contractors" oninput="buildC1()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who are you trying to reach? <span>(customers, investors, or partners)</span></label>
+          <input type="text" id="c1-q2" placeholder="e.g. Federal agency procurement officers and small business owners" oninput="buildC1()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — One word that describes your professional tone</label>
+          <input type="text" id="c1-q3" placeholder="e.g. direct, warm, confident, bold" oninput="buildC1()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c1-preview" readonly rows="9"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c1-copy" onclick="copyPreview('c1-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card" id="card-2">
+    <div class="card-header">
+      <span class="card-num">02</span>
+      <div class="card-title-col">
+        <div class="card-title">Cold Outreach Email</div>
+        <div class="card-tags">
+          <span class="tag tag-solo">Solo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-2" data-card="c2"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — Who are you reaching out to and what do they do?</label>
+          <input type="text" id="c2-q1" placeholder="e.g. Procurement officer at a mid-sized federal agency" oninput="buildC2()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What do you want them to do?</label>
+          <input type="text" id="c2-q2" placeholder="e.g. Reply to schedule a 20-minute call" oninput="buildC2()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What's the one thing you can offer that's genuinely useful to them?</label>
+          <input type="text" id="c2-q3" placeholder="e.g. A free capability review before they submit their first proposal" oninput="buildC2()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c2-preview" readonly rows="10"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c2-copy" onclick="copyPreview('c2-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card" id="card-3">
+    <div class="card-header">
+      <span class="card-num">03</span>
+      <div class="card-title-col">
+        <div class="card-title">Discovery Call Script</div>
+        <div class="card-tags">
+          <span class="tag tag-solo">Solo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-3" data-card="c3"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — What problem does your business solve?</label>
+          <input type="text" id="c3-q1" placeholder="e.g. Most founders miss contracts because their paperwork isn't compliant" oninput="buildC3()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who is your ideal customer in one specific sentence?</label>
+          <input type="text" id="c3-q2" placeholder="e.g. Solo founders with under 10 employees registering as government contractors" oninput="buildC3()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What's the one thing you most need to learn from a first call?</label>
+          <input type="text" id="c3-q3" placeholder="e.g. Whether they've already attempted SAM.gov and why they stalled" oninput="buildC3()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c3-preview" readonly rows="12"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c3-copy" onclick="copyPreview('c3-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- ACT 1 COMPLETE -->
+  <div class="act-complete" id="act1-complete">
+    <div class="act-complete-check">✓</div>
+    <div class="act-complete-title">Act 1 complete.</div>
+    <p class="act-complete-body">You just used AI to do in 10 minutes what used to take 2 hours. A bio, an outreach email, and a call script — from scratch. Act 2 is where it gets interesting.</p>
+    <div class="act-complete-nudge">↓ Keep going</div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT 2 ═══════════════ -->
+<section id="act2">
+  <div class="act-section">
+    <div class="act-label">Act 2 — Combo</div>
+    <div class="act-title">Two tools. One output.</div>
+    <p class="act-sub">This is how advanced operators work — and why it's starting to feel like a lot of tabs. Each card shows you the tool sequence. Run them in order.</p>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card" id="card-4">
+    <div class="card-header">
+      <span class="card-num">04</span>
+      <div class="card-title-col">
+        <div class="card-title">Market Research Summary</div>
+        <div class="card-tags">
+          <span class="tag tag-combo">Combo</span>
+          <span class="tag tag-tool tag-perplexity">Perplexity</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-4" data-card="c4"
+          data-switches="1" data-repastes="1" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-perplexity">Perplexity</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+      </div>
+      <span class="tool-seq-note">Run Perplexity first. Paste its output into Claude.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — What industry or category does your business operate in?</label>
+          <input type="text" id="c4-q1" placeholder="e.g. Government contracting and procurement consulting" oninput="buildC4()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who are 2–3 businesses already doing something similar?</label>
+          <input type="text" id="c4-q2" placeholder="e.g. Acquisition.gov consultants, SBA resource partners, GovCon advisors" oninput="buildC4()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What geography or segment are you targeting first?</label>
+          <input type="text" id="c4-q3" placeholder="e.g. Minority-owned small businesses in the Southeast U.S." oninput="buildC4()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — What's the biggest unmet need you believe your customer has?</label>
+          <input type="text" id="c4-q4" placeholder="e.g. Step-by-step registration help without expensive lawyers" oninput="buildC4()">
+        </div>
+      </div>
+
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 1 · Perplexity</span>Run this first</span>
+        </div>
+        <textarea class="prompt-preview" id="c4-p1" readonly rows="7"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 2 · Claude Sonnet</span>Paste Perplexity output, then add this</span>
+        </div>
+        <textarea class="prompt-preview" id="c4-p2" readonly rows="10"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span class="friction-note">You just ran two AI tools to do one job. Notice anything?</span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c4-copy1" onclick="copyPreview('c4-p1',this)" disabled>Copy Step 1</button>
+        <button class="btn btn-copy btn-sm" id="c4-copy2" onclick="copyPreview('c4-p2',this)" disabled>Copy Step 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="card" id="card-5">
+    <div class="card-header">
+      <span class="card-num">05</span>
+      <div class="card-title-col">
+        <div class="card-title">Competitive Analysis</div>
+        <div class="card-tags">
+          <span class="tag tag-combo">Combo</span>
+          <span class="tag tag-tool tag-perplexity">Perplexity</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-5" data-card="c5"
+          data-switches="1" data-repastes="1" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-perplexity">Perplexity</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+      </div>
+      <span class="tool-seq-note">Find competitor intel in Perplexity first. Then synthesize in Claude.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — Competitor 1 name</label>
+          <input type="text" id="c5-q1" placeholder="e.g. Winvale Group" oninput="buildC5()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Competitor 2 name</label>
+          <input type="text" id="c5-q2" placeholder="e.g. Centurion Research Solutions" oninput="buildC5()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — Competitor 3 name</label>
+          <input type="text" id="c5-q3" placeholder="e.g. OST Global Solutions" oninput="buildC5()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — What does your business do differently?</label>
+          <input type="text" id="c5-q4" placeholder="e.g. We focus exclusively on first-time registrants with no prior contracts" oninput="buildC5()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 1 · Perplexity</span>Run this first</span>
+        </div>
+        <textarea class="prompt-preview" id="c5-p1" readonly rows="7"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 2 · Claude Sonnet</span>Paste Perplexity output, then add this</span>
+        </div>
+        <textarea class="prompt-preview" id="c5-p2" readonly rows="10"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span class="friction-note">Different tool. Same context. You typed your business twice.</span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c5-copy1" onclick="copyPreview('c5-p1',this)" disabled>Copy Step 1</button>
+        <button class="btn btn-copy btn-sm" id="c5-copy2" onclick="copyPreview('c5-p2',this)" disabled>Copy Step 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card" id="card-6">
+    <div class="card-header">
+      <span class="card-num">06</span>
+      <div class="card-title-col">
+        <div class="card-title">Customer Persona — ICP Definition</div>
+        <div class="card-tags">
+          <span class="tag tag-combo">Combo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+          <span class="tag tag-tool tag-chatgpt">ChatGPT</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-6" data-card="c6"
+          data-switches="1" data-repastes="1" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-chatgpt">ChatGPT</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+      </div>
+      <span class="tool-seq-note">Claude drafts. ChatGPT critiques. Claude revises.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — Describe your ideal customer in one specific sentence <span>(not "small businesses" — something real)</span></label>
+          <input type="text" id="c6-q1" placeholder='e.g. "Solo veteran founders in mid-sized cities seeking their first federal contract"' oninput="buildC6()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What does their day look like before they find you?</label>
+          <textarea id="c6-q2" placeholder="e.g. They're running their business alone, Googling SAM.gov instructions at night, confused by acronyms, unsure if they're even eligible" oninput="buildC6()"></textarea>
+        </div>
+        <div class="q-row">
+          <label>Q3 — What are they currently doing to solve the problem you solve?</label>
+          <input type="text" id="c6-q3" placeholder="e.g. Hiring expensive lawyers, asking friends, reading forums, doing nothing" oninput="buildC6()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — What would make them switch to you immediately?</label>
+          <input type="text" id="c6-q4" placeholder="e.g. A guide that gets them registered in one week without a lawyer" oninput="buildC6()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 1 · Claude Sonnet</span>Build the persona</span>
+        </div>
+        <textarea class="prompt-preview" id="c6-p1" readonly rows="12"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 2 · ChatGPT</span>Paste your Claude output, then ask this</span>
+        </div>
+        <textarea class="prompt-preview" id="c6-p2" readonly rows="4"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span class="friction-note">Three tools. One persona. You managed the handoff. How long did that take?</span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c6-copy1" onclick="copyPreview('c6-p1',this)" disabled>Copy Step 1</button>
+        <button class="btn btn-copy btn-sm" id="c6-copy2" onclick="copyPreview('c6-p2',this)" disabled>Copy Step 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 7 -->
+  <div class="card" id="card-7">
+    <div class="card-header">
+      <span class="card-num">07</span>
+      <div class="card-title-col">
+        <div class="card-title">Pitch Deck Outline</div>
+        <div class="card-tags">
+          <span class="tag tag-combo">Combo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+          <span class="tag tag-tool tag-gemini">Gemini</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-7" data-card="c7"
+          data-switches="1" data-repastes="1" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-gemini">Gemini</span>
+      </div>
+      <span class="tool-seq-note">Claude builds the structure. Gemini finds the gaps.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — What does your business do in one plain sentence?</label>
+          <input type="text" id="c7-q1" placeholder="e.g. We help first-time founders register as government contractors in 30 days" oninput="buildC7()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who is your customer and what problem do you solve for them?</label>
+          <input type="text" id="c7-q2" placeholder="e.g. Solo founders who can't navigate federal procurement paperwork alone" oninput="buildC7()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — How does your business make money?</label>
+          <input type="text" id="c7-q3" placeholder="e.g. Fixed-fee consulting packages, from $500 for a registration review to $3,000 for full-service" oninput="buildC7()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 1 · Claude Sonnet</span>Build the outline</span>
+        </div>
+        <textarea class="prompt-preview" id="c7-p1" readonly rows="14"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Step 2 · Gemini</span>Paste your full Claude outline, then ask this</span>
+        </div>
+        <textarea class="prompt-preview" id="c7-p2" readonly rows="4"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span class="friction-note">Fourth tool introduced. Still going well — but you're doing all the connecting.</span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c7-copy1" onclick="copyPreview('c7-p1',this)" disabled>Copy Step 1</button>
+        <button class="btn btn-copy btn-sm" id="c7-copy2" onclick="copyPreview('c7-p2',this)" disabled>Copy Step 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 8 -->
+  <div class="card" id="card-8">
+    <div class="card-header">
+      <span class="card-num">08</span>
+      <div class="card-title-col">
+        <div class="card-title">One-Pager / Executive Summary</div>
+        <div class="card-tags">
+          <span class="tag tag-combo">Combo</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-8" data-card="c8"
+          data-switches="1" data-repastes="1" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-claude">Claude (Session 1)</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Claude (Session 2)</span>
+      </div>
+      <span class="tool-seq-note">Same tool, two sessions. Most people don't know you can use Claude twice on the same document. This is how professionals edit.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — Who is this one-pager for?</label>
+          <input type="text" id="c8-q1" placeholder="e.g. A potential investor at a pitch competition" oninput="buildC8()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What's the single most important thing they should believe after reading it?</label>
+          <input type="text" id="c8-q2" placeholder="e.g. This market is underserved and this founder knows exactly how to serve it" oninput="buildC8()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What evidence do you have that the problem is real?</label>
+          <input type="text" id="c8-q3" placeholder="e.g. 3 paying clients in first 60 days, all referrals, average $1,200 per engagement" oninput="buildC8()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — What is your ask or next step?</label>
+          <input type="text" id="c8-q4" placeholder="e.g. A 30-minute conversation to explore a pilot partnership" oninput="buildC8()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 1 · Draft</span>Build the one-pager</span>
+        </div>
+        <textarea class="prompt-preview" id="c8-p1" readonly rows="11"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 2 · Compress</span>New Claude conversation — paste Session 1 output, then add this</span>
+        </div>
+        <textarea class="prompt-preview" id="c8-p2" readonly rows="7"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span class="friction-note">New session. Context gone. You explained your business again.</span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c8-copy1" onclick="copyPreview('c8-p1',this)" disabled>Copy Session 1</button>
+        <button class="btn btn-copy btn-sm" id="c8-copy2" onclick="copyPreview('c8-p2',this)" disabled>Copy Session 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HANDOFF COUNTER -->
+  <div class="handoff-counter" id="handoff-counter">
+    <div class="hc-title">The Handoff Counter</div>
+    <div class="hc-rows">
+      <div class="hc-row">
+        <span class="hc-dot">·</span>
+        <span class="hc-text">AI tools switched:</span>
+        <span class="hc-num" id="hc-switches">0</span>
+        <span class="hc-label">times</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-dot">·</span>
+        <span class="hc-text">Context copy-pasted between sessions:</span>
+        <span class="hc-num" id="hc-repastes">0</span>
+        <span class="hc-label">times</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-dot">·</span>
+        <span class="hc-text">Times you re-explained your business to a new AI:</span>
+        <span class="hc-num" id="hc-reintros">0</span>
+        <span class="hc-label">times</span>
+      </div>
+    </div>
+    <p class="hc-note">This is normal. This is also the problem.</p>
+    <p class="hc-cta">Keep going. Act 3 is where it clicks.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT 3 ═══════════════ -->
+<section id="act3">
+  <div class="act-section">
+    <div class="act-label">Act 3 — Multi</div>
+    <div class="act-title">Harder tasks. More context.</div>
+    <p class="act-sub">You're running multiple sessions now. Pay attention to what it costs you.</p>
+  </div>
+
+  <!-- CARD 9 -->
+  <div class="card" id="card-9">
+    <div class="card-header">
+      <span class="card-num">09</span>
+      <div class="card-title-col">
+        <div class="card-title">Business Plan</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-opus">Claude Opus</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-9" data-card="c9"
+          data-switches="0" data-repastes="0" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="opus-note">
+        <b>Why Opus?</b> This task needs depth and judgment, not speed. Opus costs more per prompt. It is worth it exactly once — for your business plan. Open Claude and select Opus from the model picker before you paste.
+      </div>
+      <div class="qflow">
+        <div class="qflow-label">Answer these five questions</div>
+        <div class="q-row">
+          <label>Q1 — What does your business do in one plain sentence?</label>
+          <input type="text" id="c9-q1" placeholder="e.g. We help first-time founders become registered government contractors" oninput="buildC9()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who is your exact customer?</label>
+          <input type="text" id="c9-q2" placeholder="e.g. Minority-owned businesses in the South with under 10 employees, no prior federal contracts" oninput="buildC9()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What problem does it solve and how do customers cope without you?</label>
+          <textarea id="c9-q3" placeholder="e.g. Federal procurement is confusing. Without us, founders either pay lawyers $5,000+ or give up" oninput="buildC9()"></textarea>
+        </div>
+        <div class="q-row">
+          <label>Q4 — How does the business make money? <span>(price, model, frequency)</span></label>
+          <input type="text" id="c9-q4" placeholder="e.g. Fixed-fee packages: $500 audit, $1,500 registration, $3,000 full-service — one-time" oninput="buildC9()">
+        </div>
+        <div class="q-row">
+          <label>Q5 — What is your honest 12-month goal?</label>
+          <input type="text" id="c9-q5" placeholder="e.g. 20 clients, $40,000 revenue, 3 five-star reviews, 1 agency relationship established" oninput="buildC9()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Opus</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c9-preview" readonly rows="16"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c9-copy" onclick="copyPreview('c9-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 10 -->
+  <div class="card" id="card-10">
+    <div class="card-header">
+      <span class="card-num">10</span>
+      <div class="card-title-col">
+        <div class="card-title">Financial Model — Revenue, Costs, Runway</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-10" data-card="c10"
+          data-switches="1" data-repastes="1" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-claude">Structure</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Narrative</span>
+      </div>
+      <span class="tool-seq-note">AI can't know your numbers. You provide them. AI structures them and tells you what they mean.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — What's your primary revenue source and price?</label>
+          <input type="text" id="c10-q1" placeholder="e.g. Consulting packages — average $1,500 per client" oninput="buildC10()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What are your top 3 monthly costs right now?</label>
+          <input type="text" id="c10-q2" placeholder="e.g. Tools $200, marketing $300, contractor help $500" oninput="buildC10()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — How many clients do you need per month to cover your costs?</label>
+          <input type="text" id="c10-q3" placeholder="e.g. 2 clients at $1,500 covers everything" oninput="buildC10()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — Current runway in months <span>(cash ÷ monthly burn)</span></label>
+          <input type="text" id="c10-q4" placeholder="e.g. 8 months" oninput="buildC10()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 1 · Structure</span>Build the model</span>
+        </div>
+        <textarea class="prompt-preview" id="c10-p1" readonly rows="11"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 2 · Narrative</span>New conversation — paste the model, then add this</span>
+        </div>
+        <textarea class="prompt-preview" id="c10-p2" readonly rows="7"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c10-copy1" onclick="copyPreview('c10-p1',this)" disabled>Copy Session 1</button>
+        <button class="btn btn-copy btn-sm" id="c10-copy2" onclick="copyPreview('c10-p2',this)" disabled>Copy Session 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 11 -->
+  <div class="card" id="card-11">
+    <div class="card-header">
+      <span class="card-num">11</span>
+      <div class="card-title-col">
+        <div class="card-title">Pricing Sheet</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-11" data-card="c11"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — What are you selling? <span>(product, service, subscription, or project)</span></label>
+          <input type="text" id="c11-q1" placeholder="e.g. Fixed-fee consulting service, one-time per project" oninput="buildC11()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Who are 2–3 closest competitors and what do they charge?</label>
+          <input type="text" id="c11-q2" placeholder="e.g. GovCon attorneys $5,000+; SBA SCORE (free but slow); online guides $97 one-time" oninput="buildC11()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — What's the one thing your offering does that theirs doesn't?</label>
+          <input type="text" id="c11-q3" placeholder="e.g. We deliver a complete registration in 30 days with a money-back guarantee" oninput="buildC11()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — What's the customer's alternative if they don't buy from you?</label>
+          <input type="text" id="c11-q4" placeholder="e.g. They do it themselves and take 6 months, or pay a lawyer 5x the price" oninput="buildC11()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c11-preview" readonly rows="13"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c11-copy" onclick="copyPreview('c11-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 12 -->
+  <div class="card" id="card-12">
+    <div class="card-header">
+      <span class="card-num">12</span>
+      <div class="card-title-col">
+        <div class="card-title">SOP — First 3 Processes</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-12" data-card="c12"
+          data-switches="1" data-repastes="1" data-reintros="1" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="tool-seq">
+      <span class="tool-seq-label">Sequence</span>
+      <div class="tool-seq-pills">
+        <span class="tag tag-tool tag-claude">Draft SOP</span>
+        <span class="tool-seq-arrow">→</span>
+        <span class="tag tag-tool tag-claude">Stress Test</span>
+      </div>
+      <span class="tool-seq-note">Your first SOPs tell you what you actually do — not what you think you do.</span>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these four questions</div>
+        <div class="q-row">
+          <label>Q1 — What type of business is this?</label>
+          <input type="text" id="c12-q1" placeholder="e.g. Government contracting consulting firm, solo operator" oninput="buildC12()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — Walk me through the most important process you do step by step</label>
+          <textarea id="c12-q2" placeholder="e.g. Client intake: they email me, I send a questionnaire, I review their existing docs, I do a 30-min call, I send a proposal within 48 hours" oninput="buildC12()"></textarea>
+        </div>
+        <div class="q-row">
+          <label>Q3 — What is the name of that process?</label>
+          <input type="text" id="c12-q3" placeholder="e.g. Client Intake and Proposal Process" oninput="buildC12()">
+        </div>
+        <div class="q-row">
+          <label>Q4 — Where does it usually slow down or go wrong?</label>
+          <input type="text" id="c12-q4" placeholder="e.g. The questionnaire — clients send incomplete answers and I have to follow up twice" oninput="buildC12()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 1 · Draft</span>Build the SOP</span>
+        </div>
+        <textarea class="prompt-preview" id="c12-p1" readonly rows="13"></textarea>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Session 2 · Stress Test</span>New conversation — paste your SOP, then add this</span>
+        </div>
+        <textarea class="prompt-preview" id="c12-p2" readonly rows="6"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-copy btn-sm" id="c12-copy1" onclick="copyPreview('c12-p1',this)" disabled>Copy Session 1</button>
+        <button class="btn btn-copy btn-sm" id="c12-copy2" onclick="copyPreview('c12-p2',this)" disabled>Copy Session 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 13 -->
+  <div class="card" id="card-13">
+    <div class="card-header">
+      <span class="card-num">13</span>
+      <div class="card-title-col">
+        <div class="card-title">Entity Formation Checklist</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-13" data-card="c13"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="adj-note">Edit the bracketed fields before copying. This prompt is intentionally adjustable.</p>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Edit then copy</span>
+        </div>
+        <textarea class="prompt-preview has-content" id="c13-preview" rows="16">I am forming a business entity in [STATE]. The business is [TYPE — e.g. service, product, marketplace]. I am the solo founder.
+I expect to earn [REVENUE RANGE] in year 1.
+
+Give me:
+(1) The recommended entity type (LLC, S-Corp, C-Corp) and why,
+(2) Step-by-step formation checklist for my state,
+(3) What I must do in the first 90 days after formation,
+(4) What I should NOT do that first-time founders get wrong.
+
+Flag anything that requires a lawyer or CPA — do not skip those flags.</textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" onclick="copyPreview('c13-preview',this)">Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 14 -->
+  <div class="card" id="card-14">
+    <div class="card-header">
+      <span class="card-num">14</span>
+      <div class="card-title-col">
+        <div class="card-title">Org Chart — Even If It's Just You</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-14" data-card="c14"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — What does your business do and what stage is it at?</label>
+          <input type="text" id="c14-q1" placeholder="e.g. Pre-revenue GovCon consulting firm, founder-only, first client expected this month" oninput="buildC14()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What are the 3–5 functions the business needs to run?</label>
+          <input type="text" id="c14-q2" placeholder="e.g. Sales, client delivery, compliance research, bookkeeping, marketing" oninput="buildC14()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — Who else is involved, even part-time or as a contractor?</label>
+          <input type="text" id="c14-q3" placeholder="e.g. Just me right now, but considering a part-time virtual assistant" oninput="buildC14()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c14-preview" readonly rows="12"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c14-copy" onclick="copyPreview('c14-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- CARD 15 -->
+  <div class="card" id="card-15">
+    <div class="card-header">
+      <span class="card-num">15</span>
+      <div class="card-title-col">
+        <div class="card-title">Unit Economics One-Pager</div>
+        <div class="card-tags">
+          <span class="tag tag-multi">Multi</span>
+          <span class="tag tag-tool tag-claude">Claude Sonnet</span>
+        </div>
+      </div>
+      <div class="card-check-wrap">
+        <input type="checkbox" class="card-check" id="check-15" data-card="c15"
+          data-switches="0" data-repastes="0" data-reintros="0" onchange="onCheck(this)">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qflow">
+        <div class="qflow-label">Answer these three questions</div>
+        <div class="q-row">
+          <label>Q1 — What do you charge per customer? <span>(per month, per project, or per transaction)</span></label>
+          <input type="text" id="c15-q1" placeholder="e.g. $1,500 per project, one-time" oninput="buildC15()">
+        </div>
+        <div class="q-row">
+          <label>Q2 — What does it cost you to acquire one customer?</label>
+          <input type="text" id="c15-q2" placeholder="e.g. $200 in ads plus about 3 hours of my time" oninput="buildC15()">
+        </div>
+        <div class="q-row">
+          <label>Q3 — How long does a typical customer stay, or how often do they come back?</label>
+          <input type="text" id="c15-q3" placeholder="e.g. One project, but 60% refer someone else within 90 days" oninput="buildC15()">
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="prompt-step-header">
+          <span class="prompt-step-label"><span>Claude Sonnet</span>Your prompt</span>
+        </div>
+        <textarea class="prompt-preview" id="c15-preview" readonly rows="13"></textarea>
+      </div>
+    </div>
+    <div class="card-actions">
+      <span></span>
+      <button class="btn btn-copy" id="c15-copy" onclick="copyPreview('c15-preview',this)" disabled>Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- THE REALIZATION -->
+  <div class="realization" id="realization">
+    <div class="real-header">You just ran 15 AI prompts across 5 tools.</div>
+    <div class="real-rows">
+      <div class="real-row">
+        <span class="real-n" id="real-switches">—</span>
+        <span>times you switched between AI tools.</span>
+      </div>
+      <div class="real-row">
+        <span class="real-n" id="real-repastes">—</span>
+        <span>times you copy-pasted context between sessions.</span>
+      </div>
+      <div class="real-row">
+        <span class="real-n" id="real-reintros">—</span>
+        <span>times you re-explained your business to a new AI.</span>
+      </div>
+    </div>
+    <div class="real-bridge">
+      That's not an AI problem. That's a coordination problem.<br>
+      The tools are getting smarter. The gap between them isn't.
+    </div>
+    <div class="real-url-label">When you're ready to close that gap</div>
+    <div class="real-url">command.globalinkservices.io</div>
+  </div>
+</section>
+
+<div class="footer">
+  <p>Prepared by <strong style="color:var(--muted)">GlobaLink</strong> &nbsp;·&nbsp; globalinkservices.io</p>
+</div>
+</div><!-- /wrap -->
+
+<script>
+// ── PROMPT TEMPLATES ──────────────────────────────────────────
+function buildC1(){
+  var r=v('c1-q1'),a=v('c1-q2'),t=v('c1-q3');
+  var p='Write a LinkedIn bio for a founder with the following specifics:\n'
+    +'Role/business: '+(r||'{ROLE}')+'\n'
+    +'Target audience: '+(a||'{AUDIENCE}')+'\n'
+    +'Tone: '+(t||'{TONE}')+'\n\n'
+    +'Make it 3 sentences. First sentence: what I do and who I serve.\n'
+    +'Second: what makes my approach different.\n'
+    +'Third: a subtle CTA. No buzzwords. No "passionate about."\n'
+    +'Write in first person.';
+  set('c1-preview',p); setBtn('c1-copy',r&&a&&t);
+}
+
+function buildC2(){
+  var r=v('c2-q1'),g=v('c2-q2'),val=v('c2-q3');
+  var p='Write a cold outreach email with these specifics:\n'
+    +'Recipient: '+(r||'{RECIPIENT}')+'\n'
+    +'Goal: '+(g||'{GOAL}')+'\n'
+    +'Value offer: '+(val||'{VALUE}')+'\n\n'
+    +'Rules: Under 100 words. Open with their world, not yours.\n'
+    +'No "I hope this finds you well." No "I wanted to reach out."\n'
+    +'One clear ask at the end. Peer-level tone — not salesy.';
+  set('c2-preview',p); setBtn('c2-copy',r&&g&&val);
+}
+
+function buildC3(){
+  var p=v('c3-q1'),c=v('c3-q2'),l=v('c3-q3');
+  var t='Write a 20-minute discovery call script for a founder with these specifics:\n'
+    +'Problem solved: '+(p||'{PROBLEM}')+'\n'
+    +'Ideal customer: '+(c||'{CUSTOMER}')+'\n'
+    +'Key learning goal: '+(l||'{LEARNING}')+'\n\n'
+    +'Structure: 2-min intro, 10-min open questions to understand their situation,\n'
+    +'5-min deeper on their biggest constraint, 3-min close.\n'
+    +'Do NOT pitch the product. The goal is listening and learning.\n'
+    +'Include exact questions to ask, not just topics.';
+  set('c3-preview',t); setBtn('c3-copy',p&&c&&l);
+}
+
+function buildC4(){
+  var ind=v('c4-q1'),comp=v('c4-q2'),seg=v('c4-q3'),hyp=v('c4-q4');
+  var ok=ind&&comp&&seg&&hyp;
+  var p1='Search for recent market data on '+(ind||'{INDUSTRY}')+' in '+(seg||'{SEGMENT}')+'.\n'
+    +'Find: (1) market size estimates, (2) recent trends (last 12 months),\n'
+    +'(3) how '+(comp||'{COMPETITORS}')+' are positioned. Cite sources.';
+  var p2='Using the market research below, write a 1-page market research summary\n'
+    +'for a founder entering '+(ind||'{INDUSTRY}')+' targeting '+(seg||'{SEGMENT}')+'.\n'
+    +'Their hypothesis: '+(hyp||'{HYPOTHESIS}')+'\n\n'
+    +'Cover: market size, key trends, competitive landscape, verdict on\n'
+    +'the hypothesis. Be direct. Use real numbers. Flag assumptions.\n\n'
+    +'[PASTE PERPLEXITY OUTPUT HERE]';
+  set('c4-p1',p1); set('c4-p2',p2);
+  setBtn('c4-copy1',ok); setBtn('c4-copy2',ok);
+}
+
+function buildC5(){
+  var c1=v('c5-q1'),c2=v('c5-q2'),c3=v('c5-q3'),d=v('c5-q4');
+  var ok=c1&&c2&&c3&&d;
+  var p1='Find recent information on '+(c1||'{COMPETITOR_1}')+', '+(c2||'{COMPETITOR_2}')+', and\n'
+    +(c3||'{COMPETITOR_3}')+'.\n'
+    +'For each: pricing, target customer, main product features,\n'
+    +'recent news, and biggest weaknesses based on reviews.';
+  var p2='Using the competitive research below, write a competitive analysis for\n'
+    +'a founder building '+(d||'{DIFFERENTIATOR}')+'.\n\n'
+    +'Format: one paragraph per competitor (strengths + weaknesses +\n'
+    +'positioning gap), then a "Where we win" section that is brutally honest.\n'
+    +'No filler. If we don\'t win somewhere, say so.\n\n'
+    +'[PASTE PERPLEXITY OUTPUT HERE]';
+  set('c5-p1',p1); set('c5-p2',p2);
+  setBtn('c5-copy1',ok); setBtn('c5-copy2',ok);
+}
+
+function buildC6(){
+  var icp=v('c6-q1'),day=v('c6-q2'),wk=v('c6-q3'),sw=v('c6-q4');
+  var ok=icp&&day&&wk&&sw;
+  var p1='Write a customer persona for a founder with this ICP:\n'
+    +(icp||'{ICP_DESCRIPTION}')+'\n\n'
+    +'Their current day: '+(day||'{DAY}')+'\n'
+    +'Current workaround: '+(wk||'{WORKAROUND}')+'\n'
+    +'Switch trigger: '+(sw||'{SWITCH_TRIGGER}')+'\n\n'
+    +'Format: Name the persona (make it real, not "Persona A").\n'
+    +'Include: demographics, goals, frustrations, how they make decisions,\n'
+    +'what they read, who they trust. 1 page. Make it specific enough\n'
+    +'that I could recognize this person at a conference.';
+  var p2='Does this persona feel real or like a marketing exercise?\n'
+    +'What\'s missing that would make this feel like a real person?\n\n'
+    +'[PASTE YOUR CLAUDE OUTPUT ABOVE THIS LINE]';
+  set('c6-p1',p1); set('c6-p2',p2);
+  setBtn('c6-copy1',ok); setBtn('c6-copy2',ok);
+}
+
+function buildC7(){
+  var w=v('c7-q1'),wp=v('c7-q2'),m=v('c7-q3');
+  var ok=w&&wp&&m;
+  var p1='Write a 9-slide pitch deck outline for a founder with these specifics:\n'
+    +'Business: '+(w||'{WHAT}')+'\n'
+    +'Customer + problem: '+(wp||'{WHO_PROBLEM}')+'\n'
+    +'Business model: '+(m||'{MODEL}')+'\n\n'
+    +'Slide order: (1) The problem, (2) Why now, (3) The solution,\n'
+    +'(4) How it works, (5) Market size, (6) Business model,\n'
+    +'(7) Traction or validation, (8) Team, (9) Ask.\n\n'
+    +'For each slide: title, 3 bullet points of content, and one\n'
+    +'question the slide must answer for the audience.\n'
+    +'No generic filler. Be specific to this business.';
+  var p2='What is missing from this pitch that an investor would\n'
+    +'immediately notice? Where is the logic weakest?\n\n'
+    +'[PASTE YOUR FULL CLAUDE OUTLINE ABOVE THIS LINE]';
+  set('c7-p1',p1); set('c7-p2',p2);
+  setBtn('c7-copy1',ok); setBtn('c7-copy2',ok);
+}
+
+function buildC8(){
+  var aud=v('c8-q1'),bel=v('c8-q2'),ev=v('c8-q3'),ask=v('c8-q4');
+  var ok=aud&&bel&&ev&&ask;
+  var p1='Write a one-page executive summary for '+(aud||'{AUDIENCE}')+'.\n'
+    +'Core belief to create: '+(bel||'{BELIEF}')+'\n'
+    +'Evidence the problem is real: '+(ev||'{EVIDENCE}')+'\n'
+    +'Ask: '+(ask||'{ASK}')+'\n\n'
+    +'Structure: problem (1 paragraph), solution (1 paragraph),\n'
+    +'why us (1 paragraph), ask (1 sentence).\n'
+    +'Be specific. No generic startup language.';
+  var p2='Take the executive summary below and compress it by 40%\n'
+    +'without losing any of the key evidence or the ask.\n\n'
+    +'Cut adjectives first. Cut any sentence that doesn\'t add\n'
+    +'new information. Keep the most specific fact in every paragraph.\n\n'
+    +'[PASTE SESSION 1 OUTPUT HERE]';
+  set('c8-p1',p1); set('c8-p2',p2);
+  setBtn('c8-copy1',ok); setBtn('c8-copy2',ok);
+}
+
+function buildC9(){
+  var w=v('c9-q1'),cu=v('c9-q2'),pr=v('c9-q3'),mo=v('c9-q4'),go=v('c9-q5');
+  var ok=w&&cu&&pr&&mo&&go;
+  var p='Write a business plan for a startup with the following specifics:\n'
+    +'Business: '+(w||'{WHAT}')+'\n'
+    +'Customer: '+(cu||'{CUSTOMER}')+'\n'
+    +'Problem + current workaround: '+(pr||'{PROBLEM}')+'\n'
+    +'Revenue model: '+(mo||'{MODEL}')+'\n'
+    +'12-month goal: '+(go||'{GOAL}')+'\n\n'
+    +'Structure: (1) Executive summary, (2) Problem + market,\n'
+    +'(3) Solution, (4) Business model, (5) Go-to-market,\n'
+    +'(6) Financial projections Year 1, (7) Risks + mitigations.\n\n'
+    +'Use real numbers wherever possible.\n'
+    +'Write as if a serious operator will read it — not an investor.\n'
+    +'No generic filler. Every section specific to this business.';
+  set('c9-preview',p); setBtn('c9-copy',ok);
+}
+
+function buildC10(){
+  var r=v('c10-q1'),c=v('c10-q2'),b=v('c10-q3'),rw=v('c10-q4');
+  var ok=r&&c&&b&&rw;
+  var p1='Build a 12-month financial model structure for a startup with:\n'
+    +'Revenue: '+(r||'{REVENUE_SOURCE}')+'\n'
+    +'Top costs: '+(c||'{COSTS}')+'\n'
+    +'Break-even point: '+(b||'{BREAKEVEN}')+' customers\n'
+    +'Current runway: '+(rw||'{RUNWAY}')+' months\n\n'
+    +'Show: monthly revenue projection (conservative, base, optimistic),\n'
+    +'cost structure, cumulative burn, break-even month.\n'
+    +'Use a table format. Flag every assumption explicitly.';
+  var p2='Using the financial model below, write a 1-paragraph CFO-level\n'
+    +'narrative that explains what the numbers mean for this business:\n'
+    +'what the break-even tells us, what the biggest risk is,\n'
+    +'and what would need to be true for the optimistic case.\n\n'
+    +'[PASTE MODEL HERE]';
+  set('c10-p1',p1); set('c10-p2',p2);
+  setBtn('c10-copy1',ok); setBtn('c10-copy2',ok);
+}
+
+function buildC11(){
+  var ty=v('c11-q1'),comp=v('c11-q2'),diff=v('c11-q3'),alt=v('c11-q4');
+  var ok=ty&&comp&&diff&&alt;
+  var p='Design a pricing strategy and pricing sheet for a '+(ty||'{TYPE}')+' with:\n'
+    +'Competitors + pricing: '+(comp||'{COMPETITORS}')+'\n'
+    +'Key differentiator: '+(diff||'{DIFFERENTIATOR}')+'\n'
+    +'Customer\'s alternative: '+(alt||'{ALTERNATIVE}')+'\n\n'
+    +'Recommend: (1) pricing model (flat, tiered, usage, value-based),\n'
+    +'(2) 2-3 pricing tiers with names and price points,\n'
+    +'(3) what goes in each tier,\n'
+    +'(4) the anchor price and why.\n'
+    +'Be specific. Show the math behind the recommendation.';
+  set('c11-preview',p); setBtn('c11-copy',ok);
+}
+
+function buildC12(){
+  var bt=v('c12-q1'),steps=v('c12-q2'),name=v('c12-q3'),fail=v('c12-q4');
+  var ok=bt&&steps&&name&&fail;
+  var p1='Write a standard operating procedure for the following process\n'
+    +'in a '+(bt||'{BUSINESS_TYPE}')+' business:\n'
+    +'Process name: '+(name||'{PROCESS_NAME}')+'\n'
+    +'Process steps: '+(steps||'{PROCESS_STEPS}')+'\n'
+    +'Common failure point: '+(fail||'{FAILURE}')+'\n\n'
+    +'Format: title, purpose (1 sentence), trigger (what starts this),\n'
+    +'steps (numbered, specific enough for a new hire),\n'
+    +'quality check (how do you know it was done right),\n'
+    +'owner (who does this).\n'
+    +'Write it as if you\'re handing this off to someone tomorrow.';
+  var p2='Read this SOP and identify:\n'
+    +'(1) What step is most likely to be skipped under pressure?\n'
+    +'(2) What\'s missing that a new person would get wrong?\n'
+    +'(3) What assumption does this SOP make that isn\'t stated?\n\n'
+    +'[PASTE SOP HERE]';
+  set('c12-p1',p1); set('c12-p2',p2);
+  setBtn('c12-copy1',ok); setBtn('c12-copy2',ok);
+}
+
+function buildC14(){
+  var s=v('c14-q1'),f=v('c14-q2'),p=v('c14-q3');
+  var ok=s&&f&&p;
+  var t='Design an org chart for '+(s||'{STAGE business}')+' that does.\n'
+    +'Functions needed: '+(f||'{FUNCTIONS}')+'\n'
+    +'Current people: '+(p||'{PEOPLE}')+'\n\n'
+    +'Show: (1) org chart as a text hierarchy,\n'
+    +'(2) which functions are currently done by the founder,\n'
+    +'(3) which function should be the first hire or first delegation,\n'
+    +'(4) what the org looks like at 5 people and at 10 people.\n'
+    +'Be specific. Label every box with a job title, not a person\'s name.';
+  set('c14-preview',t); setBtn('c14-copy',ok);
+}
+
+function buildC15(){
+  var r=v('c15-q1'),c=v('c15-q2'),l=v('c15-q3');
+  var ok=r&&c&&l;
+  var p='Calculate and explain the unit economics for a business with:\n'
+    +'Revenue per customer: '+(r||'{REVENUE}')+'\n'
+    +'Customer acquisition cost: '+(c||'{CAC}')+'\n'
+    +'Average customer lifetime / return frequency: '+(l||'{LIFETIME}')+'\n\n'
+    +'Show:\n'
+    +'(1) LTV (lifetime value) calculation with formula,\n'
+    +'(2) LTV:CAC ratio and what it means,\n'
+    +'(3) Payback period,\n'
+    +'(4) What needs to be true for this business to be profitable,\n'
+    +'(5) One lever the founder should pull first to improve these numbers.\n\n'
+    +'Write it as if explaining to a smart non-financial founder.';
+  set('c15-preview',p); setBtn('c15-copy',ok);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────
+function v(id){ var el=document.getElementById(id); return el?(el.value||el.textContent||'').trim():''; }
+function set(id,text){
+  var el=document.getElementById(id); if(!el) return;
+  el.value=text;
+  el.classList.toggle('has-content', text.indexOf('{')===- 1 || text.replace(/\{[A-Z_]+\}/g,'').length > 40);
+}
+function setBtn(id,enabled){
+  var el=document.getElementById(id); if(!el) return;
+  el.disabled=!enabled; el.style.opacity=enabled?'1':'0.4';
+}
+
+function copyPreview(id,btn){
+  var el=document.getElementById(id); if(!el) return;
+  var text=(el.value||el.textContent||'').trim(); if(!text) return;
+  var done=function(){ var o=btn.innerHTML; btn.innerHTML='Copied ✓'; btn.classList.add('copied');
+    setTimeout(function(){ btn.innerHTML=o; btn.classList.remove('copied'); },1500); };
+  if(navigator.clipboard){ navigator.clipboard.writeText(text).then(done).catch(done); return; }
+  var t=document.createElement('textarea'); t.value=text; t.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done();
+}
+
+// ── COUNTER STATE ─────────────────────────────────────────────
+var counter={switches:0,repastes:0,reintros:0};
+
+function loadCounter(){
+  try{ var s=JSON.parse(localStorage.getItem('rw_counter')||'{}');
+    counter.switches=s.switches||0; counter.repastes=s.repastes||0; counter.reintros=s.reintros||0;
+  }catch(e){}
+  renderCounter();
+}
+function saveCounter(){ try{localStorage.setItem('rw_counter',JSON.stringify(counter));}catch(e){} }
+function renderCounter(){
+  setText('hc-switches',counter.switches); setText('hc-repastes',counter.repastes); setText('hc-reintros',counter.reintros);
+  setText('real-switches',counter.switches); setText('real-repastes',counter.repastes); setText('real-reintros',counter.reintros);
+}
+function setText(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
+
+// ── CHECKBOX HANDLER ──────────────────────────────────────────
+function onCheck(cb){
+  var sw=parseInt(cb.dataset.switches||0), rp=parseInt(cb.dataset.repastes||0), ri=parseInt(cb.dataset.reintros||0);
+  if(cb.checked){ counter.switches+=sw; counter.repastes+=rp; counter.reintros+=ri; }
+  else{ counter.switches=Math.max(0,counter.switches-sw); counter.repastes=Math.max(0,counter.repastes-rp); counter.reintros=Math.max(0,counter.reintros-ri); }
+  saveCounter(); renderCounter();
+  var num=parseInt(cb.id.replace('check-',''));
+  var card=document.getElementById('card-'+num);
+  if(card) card.classList.toggle('complete',cb.checked);
+  updateProgress();
+  checkAct1Complete();
+  saveChecks();
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────
+function updateProgress(){
+  var all=document.querySelectorAll('.card-check'), done=[].filter.call(all,function(c){return c.checked;}).length;
+  var pct=Math.round(done/15*100);
+  var pf=document.getElementById('progress-fill'); if(pf) pf.style.width=pct+'%';
+  var np=document.getElementById('np-done'); if(np) np.textContent=done;
+  // update nav act pills
+  ['1','2','3'].forEach(function(a){
+    var start=a==='1'?1:a==='2'?4:9, end=a==='1'?3:a==='2'?8:15, cnt=0;
+    for(var i=start;i<=end;i++){ var cb=document.getElementById('check-'+i); if(cb&&cb.checked) cnt++; }
+  });
+}
+
+// ── ACT 1 COMPLETE ────────────────────────────────────────────
+function checkAct1Complete(){
+  var done=[1,2,3].every(function(i){ var c=document.getElementById('check-'+i); return c&&c.checked; });
+  var el=document.getElementById('act1-complete');
+  if(!el) return;
+  if(done&&!el.classList.contains('show')){ el.classList.add('show'); setTimeout(function(){ el.scrollIntoView({behavior:'smooth',block:'nearest'}); },200); }
+  else if(!done){ el.classList.remove('show'); }
+}
+
+// ── PERSISTENCE ───────────────────────────────────────────────
+function saveChecks(){
+  var s={}; document.querySelectorAll('.card-check').forEach(function(cb){ if(cb.id) s[cb.id]=cb.checked; });
+  try{localStorage.setItem('rw_checks',JSON.stringify(s));}catch(e){}
+}
+function loadChecks(){
+  var s; try{s=JSON.parse(localStorage.getItem('rw_checks')||'{}');}catch(e){s={};}
+  document.querySelectorAll('.card-check').forEach(function(cb){
+    if(cb.id&&s[cb.id]){
+      cb.checked=true;
+      var num=parseInt(cb.id.replace('check-',''));
+      var card=document.getElementById('card-'+num); if(card) card.classList.add('complete');
+    }
+  });
+  updateProgress(); checkAct1Complete();
+}
+
+// ── NAV HIGHLIGHT ─────────────────────────────────────────────
+function updateNav(){
+  var acts=['act1','act2','act3']; var cur=null;
+  acts.forEach(function(id){ var el=document.getElementById(id); if(el&&el.getBoundingClientRect().top<80) cur=id; });
+  document.querySelectorAll('.nav-act').forEach(function(a){
+    var href=a.getAttribute('href'); a.classList.toggle('active', href==='#'+cur);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',function(){
+  loadChecks(); loadCounter();
+  // initialize all prompt previews
+  [buildC1,buildC2,buildC3,buildC4,buildC5,buildC6,buildC7,buildC8,
+   buildC9,buildC10,buildC11,buildC12,buildC14,buildC15].forEach(function(f){f();});
+  window.addEventListener('scroll',updateNav,{passive:true});
+  updateNav();
+});
+</script>
+</body>
+</html>
