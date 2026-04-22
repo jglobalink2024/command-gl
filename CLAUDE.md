@@ -1,6 +1,6 @@
 # CLAUDE.md — command-gl
 # GlobaLink LLC | COMMAND | Public Repo
-# Last updated: April 6, 2026
+# Last updated: April 13, 2026
 
 ## REPO IDENTITY
 
@@ -117,6 +117,16 @@ git push origin main
 ```
 
 Vercel auto-deploys on push to main. Deploy time ~60 seconds.
+
+---
+
+## GIT DISCIPLINE
+
+- **Never use `git add .` or `git add -A`** — always stage specific files by name
+- Run `git status` before staging to catch modifications from other sessions
+- Run `git diff --staged` before every commit to confirm scope
+- **This repo is PUBLIC** — before every commit, verify no secrets, tokens, or internal references are in staged files
+- When in doubt about a file: do not stage it
 
 ---
 
