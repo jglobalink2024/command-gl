@@ -157,6 +157,25 @@ GitHub: jglobalink2024
 
 ---
 
+## BRAIN — SESSION CLOSE
+
+After every session where code changed, a decision was made, or a file shipped:
+
+1. Update: `C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\globalink-brain\command\state.md`
+   Add entry at top of "Active Fixes" section: `YYMMDD — [what changed]`
+2. Commit the brain:
+   ```
+   cd C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\globalink-brain
+   git add command/state.md
+   git commit -m "brain: [description] [via: CC]"
+   git push
+   ```
+3. Confirm clean tree in both repos before signing off.
+
+Never write brain entries to phase-line-brain or hearth-brain from this repo.
+
+---
+
 ## Skills Stack — GlobaLink LLC (260409)
 
 ### Installed tools
